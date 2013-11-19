@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
+
+	
+
+	<!-- User Service Declaration -->
+	
+	<bean id="CategoriaService" class="org.ruqu.ras.service.CategoriaService">
+		<property name="CategoriaDAO" ref="CategoriaDAO" />
+	</bean>
+	<bean id="EquipoService" class="org.ruqu.ras.service.EquipoService">
+		<property name="EquipoDAO" ref="EquipoDAO" />
+	</bean>
+	<bean id="ProyectoService" class="org.ruqu.ras.service.ProyectoService">
+		<property name="ProyectoDAO" ref="ProyectoDAO" />
+	</bean>
+	<bean id="CompraService" class="org.ruqu.ras.service.CompraService">
+		<property name="CompraDAO" ref="CompraDAO" />
+	</bean>
+	<bean id="DetalleCompraService" class="org.ruqu.ras.service.DetalleCompraService">
+		<property name="DetallecompraDAO" ref="DetalleCompraDAO" />
+	</bean>
+	<bean id="UsuarioService" class="org.ruqu.ras.service.UsuarioService">
+		<property name="UsuarioDAO" ref="UsuarioDAO" />
+	</bean>
+	
+	<bean id="RolService" class="org.ruqu.ras.service.RolService">
+		<property name="RolDAO" ref="RolDAO" />
+	</bean>
+			
+	<!-- User DAO Declaration -->
+	
+	<bean id="CategoriaDAO" class="org.ruqu.ras.dao.CategoriaDao">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+	<bean id="EquipoDAO" class="org.ruqu.ras.dao.EquipoDao">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+	<bean id="ProyectoDAO" class="org.ruqu.ras.dao.ProyectoDao">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+	<bean id="CompraDAO" class="org.ruqu.ras.dao.CompraDao">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+	<bean id="DetalleCompraDAO" class="org.ruqu.ras.dao.DetalleCompraDao">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+	<bean id="UsuarioDAO" class="org.ruqu.ras.dao.UsuarioDao">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+	
+	<bean id="RolDAO" class="org.ruqu.ras.dao.RolDao">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+	
+
+	<!-- Data Source Declaration -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/ras" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+	</bean>
+
+	<!-- Session Factory Declaration -->
+	<bean id="SessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="annotatedClasses">
+			<list>				
+				 <value>org.ruqu.ras.domain.Categoria</value>
+				 <value>org.ruqu.ras.domain.Compra</value>
+				 <value>org.ruqu.ras.domain.Detallecompra</value>
+				 <value>org.ruqu.ras.domain.Equipo</value>
+				 <value>org.ruqu.ras.domain.Distrito</value>				 
+				 <value>org.ruqu.ras.domain.Logconsulta</value>
+				 <value>org.ruqu.ras.domain.Opcion</value>
+				 <value>org.ruqu.ras.domain.Otrogasto</value>
+				 <value>org.ruqu.ras.domain.Personal</value>
+				 <value>org.ruqu.ras.domain.Personalasignado</value>
+				 <value>org.ruqu.ras.domain.Proveedor</value>
+				 <value>org.ruqu.ras.domain.Proyecto</value>
+				 <value>org.ruqu.ras.domain.Rol</value>
+				 <value>org.ruqu.ras.domain.Usuario</value>				
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+							
+				
+			</props>
+		</property>
+	</bean>
+
+	<!-- Enable the configuration of transactional behavior based on annotations -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!-- Transaction Manager is defined -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+
+
+</beans>

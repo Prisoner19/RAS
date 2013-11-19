@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+  <table-filter match-catalog="ras" match-name="categoria"/>
+  <table-filter match-catalog="ras" match-name="compra"/>
+  <table-filter match-catalog="ras" match-name="detallecompra"/>
+  <table-filter match-catalog="ras" match-name="distrito"/>
+  <table-filter match-catalog="ras" match-name="equipo"/>
+  <table-filter match-catalog="ras" match-name="equipoasignado"/>
+  <table-filter match-catalog="ras" match-name="logconsulta"/>
+  <table-filter match-catalog="ras" match-name="opcion"/>
+  <table-filter match-catalog="ras" match-name="opcionasignadas"/>
+  <table-filter match-catalog="ras" match-name="otrogasto"/>
+  <table-filter match-catalog="ras" match-name="personal"/>
+  <table-filter match-catalog="ras" match-name="personalasignado"/>
+  <table-filter match-catalog="ras" match-name="proveedor"/>
+  <table-filter match-catalog="ras" match-name="proyecto"/>
+  <table-filter match-catalog="ras" match-name="rol"/>
+  <table-filter match-catalog="ras" match-name="usuario"/>
+</hibernate-reverse-engineering>

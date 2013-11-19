@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<h:head>
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/resources/tema.css" />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/resources/css/estiloMant.css" />
+</h:head>
+
+<h:body>
+	<h:form id="form">
+
+		<p:growl id="growl" showDetail="true" life="3000" />
+
+		<!-- EQUIPO -->
+		<p:dialog id="dialog" header="Nuevo" widgetVar="dialog"
+			resizable="false" width="400" height="200" showEffect="clip"
+			hideEffect="fold" modal="true">
+
+			<h:panelGrid id="display" columns="2" cellpadding="4">
+				<h:outputText value="Id:" rendered="#{EquipoBean.accionEditar}" />
+				<h:outputText value="#{EquipoBean.equipo.idEquipo}"
+					rendered="#{EquipoBean.accionEditar}" />
+				
+				<h:outputText value="Codigo de equipo:" />
+				<p:inputText value="#{EquipoBean.equipo.codigo}" />
+					
+				<h:outputText value="Categoria:" />
+				<p:selectOneMenu widgetVar="categoria" value="#{EquipoBean.equipo.categoria}" converter="omnifaces.SelectItemsConverter"  >
+					<f:selectItem itemLabel="Seleccione uno" itemValue="#{null}" noSelectionOption="true" /> 
+					<f:selectItems value="#{EquipoBean.categorias}" var="cat" itemLabel="#{cat.nombre}" itemValue="#{cat}" /> 
+				</p:selectOneMenu>
+				
+				<h:outputText value="Nombre de equipo:" />
+				<p:inputText value="#{EquipoBean.equipo.nombre}" />
+
+				<h:outputText value="Descripcion:" />
+				<p:inputText value="#{EquipoBean.equipo.descripcion}" />
+				
+				<h:outputText value="Costo:" />
+				<p:inputText value="#{EquipoBean.equipo.costo}" />
+				
+				<h:outputText value="Stock:" />
+				<p:inputText value="#{EquipoBean.equipo.stock}" />
+				
+				<p:commandButton value="#{EquipoBean.etiBotonDialog()}"
+					actionListener="#{EquipoBean.procesarDialog}"
+					update=":form:datatablecampana, growl" oncomplete="dialog.hide();" />
+
+			</h:panelGrid>
+		</p:dialog>
+
+		<p:panel>
+
+			<f:facet name="header">
+
+				<p:commandButton styleClass="back" value="Regresar"	icon="ui-icon-circle-arrow-w" action="menuPrincipal" ajax="false" />
+				<p id="par">Mantenimiento de Equipos</p>
+
+				<div id="reloj">
+					<p:clock pattern="HH:mm:ss - dd / MM / yyyy" />
+				</div>
+			</f:facet>
+
+			<div id="cuerpo">
+
+				<p:dataTable id="datatablecampana" var="c" widgetVar="dt"
+					value="#{EquipoBean.equipos}" rowKey="#{c.idEquipo}"
+					selection="#{EquipoBean.equipoNuevo}" selectionMode="single"
+					styleClass="datatable_style_general" editable="true" paginator="true" rows="10"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="2,5,10">
+
+					<f:facet name="header">
+
+						<p:commandButton id="viewNuevo" styleClass="botonPeque"
+							value="Nuevo" icon="ui-icon-document" update=":form:display"
+							oncomplete="dialog.show()"
+							actionListener="#{EquipoBean.nuevoEvent}" />
+
+						<p:commandButton id="viewEditar" styleClass="botonPeque"
+							value="Editar" icon="ui-icon-search"
+							update=":form:display, :form:growl"
+							actionListener="#{EquipoBean.editarEvent}" />
+
+						<p:commandButton id="EliminarRegistro" styleClass="botonPeque"
+							value="Eliminar" icon="ui-icon-closethick"
+							update=":form:display, :form:growl"
+							actionListener="#{EquipoBean.eliminarEvent}" />
+
+					</f:facet>
+					
+					<p:ajax event="rowEdit" listener="#{EquipoBean.onEdit}" update=":form:growl" />  
+        			<p:ajax event="rowEditCancel" listener="#{EquipoBean.onCancel}" update=":form:growl" /> 
+
+					<p:column styleClass="columna" headerText="Codigo de Equipo"
+						filterBy="#{c.codigo}" footerText="codigo">
+						<p:cellEditor>
+							<f:facet name="output" >
+								<h:outputText value="#{c.codigo}" />
+							</f:facet>
+							<f:facet name="input" >
+								<p:inputText value="#{c.codigo}" style="width:100%"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column styleClass="columna" headerText="Categoria"
+						filterBy="#{c.categoria}" footerText="categoria">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{c.categoria.nombre}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:selectOneMenu widgetVar="categoria" value="#{c.categoria}" converter="omnifaces.SelectItemsConverter" >
+									<f:selectItem itemLabel="Seleccione uno" itemValue="#{null}" noSelectionOption="true" /> 
+									<f:selectItems value="#{EquipoBean.categorias}" var="cat" itemLabel="#{cat.nombre}" itemValue="#{cat}" /> 
+								</p:selectOneMenu>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					
+					<p:column styleClass="columna" headerText="Nombre"
+						filterBy="#{c.nombre}" footerText="nombre">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{c.nombre}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{c.nombre}" style="width:100%"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					
+					<p:column styleClass="columna" headerText="Descripcion" filterBy="#{c.descripcion}"
+						footerText="descripcion">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{c.descripcion}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{c.descripcion}" style="width:100%"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					
+					<p:column styleClass="columna" headerText="Costo" filterBy="#{c.costo}"
+						footerText="costo">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{c.costo}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{c.costo}" style="width:100%"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					
+					<p:column styleClass="columna" headerText="Stock" filterBy="#{c.stock}"
+						footerText="stock">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{c.stock}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{c.stock}" style="width:100%"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					
+					<p:column style="width:6%">
+						<f:facet name="header">
+							<h:panelGrid columns="2">
+						    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonPeque" update=":form:display" oncomplete="dialog.show()" actionListener="#{EquipoBean.nuevoEvent}"/>
+						    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonPeque" update=":form:display, :form:growl" actionListener="#{EquipoBean.eliminarEvent}"/>
+							</h:panelGrid>
+						</f:facet>
+						
+						<p:rowEditor />
+					</p:column>
+					
+					<f:facet name="footer">
+					</f:facet>
+				</p:dataTable>
+			</div>
+
+		</p:panel>
+
+		<p:dialog id="modalDialog" header="CONFIRMACION" widgetVar="dlg2"
+			modal="true" height="150" width="400" closable="false"
+			resizable="false">
+			<p:messages id="messages" showDetail="true" autoUpdate="true"
+				closable="false" />
+			<p:commandButton value="OK" onclick="dlg2.hide()" />
+		</p:dialog>
+
+		<p:confirmDialog id="confirmDialog"
+			message="¿Esta seguro de esta accion?" header="Eliminar Registro"
+			severity="alert" widgetVar="confirmation">
+
+			<p:commandButton id="confirm" value="Si"
+				update=":form:datatablecampana, growl"
+				oncomplete="confirmation.hide()"
+				actionListener="#{EquipoBean.validarEliminar}" />
+			<p:commandButton id="decline" value="No"
+				onclick="confirmation.hide()" type="button" />
+
+		</p:confirmDialog>
+
+	</h:form>
+
+
+</h:body>
+
+
+</html>
