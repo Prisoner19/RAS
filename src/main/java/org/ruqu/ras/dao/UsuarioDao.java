@@ -51,4 +51,15 @@ public class UsuarioDao implements IUsuarioDao{
 		
 		return list;
 	}
+
+    @Override
+    public Usuario getByUsuario(String username) {
+        @SuppressWarnings("unchecked")
+        List<Usuario> list = sessionFactory.getCurrentSession()
+                .createQuery("from Usuario where login=?").setParameter(0, username).list();
+        Usuario u = list.get(0);
+
+
+        return u ;
+    }
 }

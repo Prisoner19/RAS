@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.ruqu.ras.domain.Opcion;
+import org.ruqu.ras.domain.Rol;
 
 public class OpcionDao implements IOpcionDao{
 
@@ -53,4 +54,42 @@ public class OpcionDao implements IOpcionDao{
 		}
 		return list;
 	}
+
+    @Override
+    public List<Opcion> getSubOpcions() {
+        @SuppressWarnings("unchecked")
+        List<Opcion> list = sessionFactory.getCurrentSession()
+                .createQuery("from Opcion where id_menu_padre is null").list();
+		/*for(Opcion m:list){
+			Hibernate.initialize(m.getOpcions());
+		}*/
+
+        return list;
+    }
+
+    @Override
+    public List<Opcion> getSubOpcionsByPadre(List<Rol> roles, int id_padre) {
+        @SuppressWarnings("unchecked")
+        List<Opcion> list = sessionFactory.getCurrentSession()
+                .createQuery("Select m from Opcion as m "
+                        + "inner join m.rols as rol "
+                        + "where rol in :roles and m.opcion.id=:padre").
+                        setParameterList("roles", roles).setParameter("padre", id_padre).list();
+
+
+        return list;
+    }
+
+    @Override
+    public List<Opcion> getAllSubOpcionsByPadre(int id_padre) {
+        @SuppressWarnings("unchecked")
+        List<Opcion> list = sessionFactory.getCurrentSession()
+                .createQuery("Select m from Opcion as m "
+                        + "where m.opcion.idOpcion=:padre").
+                        setParameter("padre", id_padre).list();
+
+
+
+        return list;
+    }
 }

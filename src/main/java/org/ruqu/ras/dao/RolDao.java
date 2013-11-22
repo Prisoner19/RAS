@@ -47,10 +47,36 @@ public class RolDao implements IRolDao{
 	public List<Rol> getRols() {
 		@SuppressWarnings("unchecked")
 		List<Rol> list=getSessionFactory().getCurrentSession()
-				.createQuery("from Rol where eliminacion=1").list();
+				.createQuery("from Rol where vigencia=1").list();
 		for(Rol l:list){
 			Hibernate.initialize(l.getOpcions());
 		}
 		return list;
 	}
+
+    @Override
+    public List<Rol> getRolesUserbyId(int id){
+        @SuppressWarnings("unchecked")
+        List<Rol> list = sessionFactory.getCurrentSession()
+                .createQuery("select new Rol(r.id,concat('ROLE_',r.descripcion)) from Usuario as ur "
+                        + "inner join ur.rol as r "
+                        + "where ur.id=? ").
+                        setParameter(0, id).list();
+
+        return list;
+    }
+
+    @Override
+    public List<String> getRolesMenuByRuta(String ruta){
+        @SuppressWarnings("unchecked")
+        List<String> list = sessionFactory.getCurrentSession()
+                .createQuery("select concat('ROLE_',r.descripcion) "
+                        + "from Opcion as op "
+                        + "inner join op.rols as r "
+                        + "where op.descripcion=? "
+                        ).
+                        setParameter(0, ruta).list();
+
+        return list;
+    }
 }

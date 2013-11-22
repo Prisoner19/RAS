@@ -32,6 +32,11 @@ public class Rol implements java.io.Serializable {
 	public Rol() {
 	}
 
+    public Rol(Integer id, String descripcion) {
+        this.idRol = id;
+        this.descripcion = descripcion;
+    }
+
 	public Rol(boolean vigencia) {
 		this.vigencia = vigencia;
 	}

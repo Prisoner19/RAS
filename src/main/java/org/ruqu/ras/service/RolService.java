@@ -46,4 +46,14 @@ public class RolService implements IRolService{
 	public void setRolDAO(IRolDao RolDAO) {
 		this.RolDAO = RolDAO;
 	}
+
+    @Override
+    public List<Rol> getRolesUserbyId(int id) {
+        return getRolDAO().getRolesUserbyId(id);
+
+    }
+    @Override
+    public List<String> getRolesMenuByRuta(String ruta){
+        return getRolDAO().getRolesMenuByRuta(ruta);
+    }
 }
