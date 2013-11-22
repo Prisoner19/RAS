@@ -69,3 +69,11 @@ f:facet div{
 .ui-icon-disk {
 	background-image: url("#{resource['images:icono.png']"}) !important;
 }
+
+body { 
+		background: url(../images/bg2.png);
+		font: 14px/21px "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+		color: #444; 
+		-webkit-font-smoothing: antialiased; /* Fix for webkit rendering */
+		-webkit-text-size-adjust: none;
+ }
