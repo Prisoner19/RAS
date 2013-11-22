@@ -1,9 +1,17 @@
 @CHARSET "ISO-8859-1";
 
+body{
+	 
+	 
+      font-size: 0.7em;
+}
+
+
 #form{
-	margin:auto;
+	margin:10 px;
 	padding: 5px;
-	width:1000px;
+	width:auto;
+	
 }
 
 .botonPeque, .ui-widget-content .botonPeque{
@@ -26,39 +34,41 @@
     padding: 0;
 }
 
-.ui-state-hover,
-.ui-widget-content .ui-state-hover,
-.ui-widget-header .ui-state-hover,
-.ui-state-focus,
-.ui-widget-content .ui-state-focus,
-.ui-widget-header .ui-state-focus {
-	border: 1px solid #0e0e0e;
-	background: #c5c592 url(images/ui-bg_diagonals-small_75_c5c592_40x40.png) 50% 50% repeat;
-	font-weight: bold;
-	color: #663037;
-}
-
 f:facet div{
 	display:block;
 	background-color:red;
 }
 #reloj{
-	margin-top:20px;
+	margin-top:5px;
 	margin-right:20px;
-	float:right;
-	
+	float:right;	
 }
 
-.columna{
-	font-family:candara;
-	font-size:16px;
-	
-}
+
 
 #par{
-	display:inline-block;
-	margin-left:220px;
+			
 	font-family:candara;
+	vertical-align:middle;
+}
+
+#header_table{
+	text-align: center;	
+	vertical-align:middle;
+	
+	
+}
+
+.paneMantenimiento{
+	background-size: 100% auto;
+}
+
+
+.paneMantenimiento .ui-panel-titlebar{
+	width:auto;
+	margin-left:14px;
+	margin-right: 14px;
+	margin-top: 10px;
 }
 
 
@@ -70,6 +80,7 @@ f:facet div{
 	background-image: url("#{resource['images:icono.png']"}) !important;
 }
 
+<<<<<<< HEAD
 body { 
 		background: url(../images/bg2.png);
 		font: 14px/21px "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -77,3 +88,35 @@ body {
 		-webkit-font-smoothing: antialiased; /* Fix for webkit rendering */
 		-webkit-text-size-adjust: none;
  }
+=======
+.rowActivo {
+	background-color: yellow;
+}
+
+
+.customFieldSet .ui-fieldset-legend.ui-corner-all.ui-state-default{
+	background: none !important;
+	border: hidden !important;
+	
+}
+
+.panelGridNoBorder td{
+	border-style: none !important;	
+}
+
+.textoRojoOscuro {
+	color: #B013B;
+}
+
+.floatRight {
+	float: right;
+}
+
+.anchoTotal {
+	width: 100%;
+}
+
+.wizardNoBorder .ui-wizard-content .ui-panel {
+	border:none;
+}
+>>>>>>> cd7e850f7fdae16c385728086713571001157819

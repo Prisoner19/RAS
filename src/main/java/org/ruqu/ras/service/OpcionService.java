@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.ruqu.ras.dao.IOpcionDao;
 import org.ruqu.ras.domain.Opcion;
+import org.ruqu.ras.domain.Rol;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly = true)
@@ -46,4 +47,19 @@ public class OpcionService implements IOpcionService{
 	public void setOpcionDAO(IOpcionDao OpcionDAO) {
 		this.OpcionDAO = OpcionDAO;
 	}
+
+    @Override
+    public List<Opcion> getSubOpcionsByPadre(List<Rol> roles, int id_padre){
+        return this.OpcionDAO.getSubOpcionsByPadre(roles,id_padre);
+    }
+
+    @Override
+    public List<Opcion> getAllSubOpcionsByPadre(int id_padre){
+        return this.OpcionDAO.getAllSubOpcionsByPadre(id_padre);
+    }
+
+    @Override
+    public List<Opcion> getSubOpcions(){
+        return this.OpcionDAO.getSubOpcions();
+    }
 }

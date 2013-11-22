@@ -15,5 +15,6 @@ public interface IUsuarioDao {
 	public Usuario getUsuarioById(int id);
 
 	public List<Usuario> getUsuarios();
-	
+
+    public Usuario getByUsuario(String username);
 }

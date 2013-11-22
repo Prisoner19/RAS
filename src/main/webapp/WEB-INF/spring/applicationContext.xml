@@ -26,6 +26,10 @@
 	<bean id="UsuarioService" class="org.ruqu.ras.service.UsuarioService">
 		<property name="UsuarioDAO" ref="UsuarioDAO" />
 	</bean>
+
+    <bean id="OpcionService" class="org.ruqu.ras.service.OpcionService">
+        <property name="OpcionDAO" ref="OpcionDAO" />
+    </bean>
 	
 	<bean id="RolService" class="org.ruqu.ras.service.RolService">
 		<property name="RolDAO" ref="RolDAO" />
@@ -51,11 +55,19 @@
 	<bean id="UsuarioDAO" class="org.ruqu.ras.dao.UsuarioDao">
 		<property name="sessionFactory" ref="SessionFactory" />
 	</bean>
+
+    <bean id="OpcionDAO" class="org.ruqu.ras.dao.OpcionDao">
+        <property name="sessionFactory" ref="SessionFactory" />
+    </bean>
 	
 	<bean id="RolDAO" class="org.ruqu.ras.dao.RolDao">
 		<property name="sessionFactory" ref="SessionFactory" />
 	</bean>
-	
+
+    <bean id="userDetailsService" class="org.ruqu.ras.service.UserDetailsServiceImpl">
+        <property name="usuarioDao" ref="UsuarioDAO" />
+        <property name="rolDao" ref="RolDAO" />
+    </bean>
 
 	<!-- Data Source Declaration -->
 	<bean id="dataSource"

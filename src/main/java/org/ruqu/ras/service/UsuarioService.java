@@ -46,4 +46,9 @@ public class UsuarioService implements IUsuarioService{
 	public void setUsuarioDAO(IUsuarioDao UsuarioDAO) {
 		this.UsuarioDAO = UsuarioDAO;
 	}
+
+    @Override
+    public Usuario getByUsuario(String username){
+        return this.UsuarioDAO.getByUsuario(username);
+    }
 }
