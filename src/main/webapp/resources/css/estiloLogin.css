@@ -1,38 +1,39 @@
-#loginForm table{
-	display: block;
-	position: absolute;
-	margin: 0 auto;
-	top: 30%;
-	left: 50%;
-	margin-left: -209px;
+#loginForm table {
+    display: block;
+    position: absolute;
+    margin: 0 auto;
+    top: 30%;
+    left: 50%;
+    margin-left: -209px;
 }
 
-.aCenter{
-	text-align: center;
-	font-size: 18px;
-} 
+.aCenter {
+    text-align: center;
+    font-size: 18px;
+}
 
-#loginForm table .ui-widget-header{
-	height: 37px;
+#loginForm table .ui-widget-header {
+    height: 37px;
 }
 
 #loginForm table tbody tr {
-   border: 0px important;
+    border: 0px important;
 }
 
-.tituloLogin{
-	font-size: 19px;
-}
-body{
-	font-size: 14px;
+.tituloLogin {
+    font-size: 19px;
 }
 
-#login{
-	height: 28px;
+body {
+    font-size: 14px;
 }
 
-#login span{
-	font-size: 15px !important;
-	height: 18px !important;
-	margin-top: -4px !important;
+#login {
+    height: 28px;
+}
+
+#login span {
+    font-size: 15px !important;
+    height: 18px !important;
+    margin-top: -4px !important;
 }

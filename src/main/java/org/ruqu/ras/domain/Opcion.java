@@ -2,10 +2,9 @@ package org.ruqu.ras.domain;
 
 // Generated 14-nov-2013 0:10:23 by Hibernate Tools 4.0.0
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -16,46 +15,47 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "Opcion", catalog = "ras")
 public class Opcion implements java.io.Serializable {
 
-	private Integer idOpcion;
-	private String descripcion;
+    public static final String WELCOME_VIEW = "Inicio";
+    private Integer idOpcion;
+    private String descripcion;
     private Opcion opcion;
     private String ruta;
-	private boolean vigencia;
+    private boolean vigencia;
     private Set<Opcion> opciones = new HashSet<Opcion>(0);
-	private Set<Rol> rols = new HashSet<Rol>(0);
+    private Set<Rol> rols = new HashSet<Rol>(0);
 
-	public Opcion() {
-	}
+    public Opcion() {
+    }
 
-	public Opcion(boolean vigencia) {
-		this.vigencia = vigencia;
-	}
+    public Opcion(boolean vigencia) {
+        this.vigencia = vigencia;
+    }
 
-	public Opcion(String descripcion, boolean vigencia, Set<Rol> rols) {
-		this.descripcion = descripcion;
-		this.vigencia = vigencia;
-		this.rols = rols;
-	}
+    public Opcion(String descripcion, boolean vigencia, Set<Rol> rols) {
+        this.descripcion = descripcion;
+        this.vigencia = vigencia;
+        this.rols = rols;
+    }
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "idOpcion", unique = true, nullable = false)
-	public Integer getIdOpcion() {
-		return this.idOpcion;
-	}
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "idOpcion", unique = true, nullable = false)
+    public Integer getIdOpcion() {
+        return this.idOpcion;
+    }
 
-	public void setIdOpcion(Integer idOpcion) {
-		this.idOpcion = idOpcion;
-	}
+    public void setIdOpcion(Integer idOpcion) {
+        this.idOpcion = idOpcion;
+    }
 
-	@Column(name = "Descripcion", length = 45)
-	public String getDescripcion() {
-		return this.descripcion;
-	}
+    @Column(name = "Descripcion", length = 45)
+    public String getDescripcion() {
+        return this.descripcion;
+    }
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_menu_padre")
@@ -77,23 +77,23 @@ public class Opcion implements java.io.Serializable {
     }
 
     @Column(name = "Vigencia", nullable = false)
-	public boolean isVigencia() {
-		return this.vigencia;
-	}
+    public boolean isVigencia() {
+        return this.vigencia;
+    }
 
-	public void setVigencia(boolean vigencia) {
-		this.vigencia = vigencia;
-	}
+    public void setVigencia(boolean vigencia) {
+        this.vigencia = vigencia;
+    }
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "OpcionAsignadas", catalog = "ras", joinColumns = { @JoinColumn(name = "Opcion_idOpcion", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "Rol_idRol", nullable = false, updatable = false) })
-	public Set<Rol> getRols() {
-		return this.rols;
-	}
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "OpcionAsignadas", catalog = "ras", joinColumns = {@JoinColumn(name = "Opcion_idOpcion", nullable = false, updatable = false)}, inverseJoinColumns = {@JoinColumn(name = "Rol_idRol", nullable = false, updatable = false)})
+    public Set<Rol> getRols() {
+        return this.rols;
+    }
 
-	public void setRols(Set<Rol> rols) {
-		this.rols = rols;
-	}
+    public void setRols(Set<Rol> rols) {
+        this.rols = rols;
+    }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "opcion")
     public Set<Opcion> getMenus() {

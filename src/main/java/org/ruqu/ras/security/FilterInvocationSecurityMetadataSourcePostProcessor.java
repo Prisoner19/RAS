@@ -10,7 +10,7 @@ public class FilterInvocationSecurityMetadataSourcePostProcessor implements Bean
 
     public Object postProcessAfterInitialization(Object bean, String name) {
         if (bean instanceof FilterSecurityInterceptor) {
-            ((FilterSecurityInterceptor)bean).setSecurityMetadataSource(securityMetadataSource);
+            ((FilterSecurityInterceptor) bean).setSecurityMetadataSource(securityMetadataSource);
         }
         return bean;
     }
