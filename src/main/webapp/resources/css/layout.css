@@ -12,23 +12,10 @@
 /* #Page Styles
 ================================================== */
 
-	.encabezado{
-		font-family:calibri;
-		font-size:20px;
-		color:#8D9694;
-		margin-left:15px;
-	}
-	
-	.recuerda{
-		font-family:candara;
-		font-size:14px;
-		color:#8D9694;
-	}
-
 	.notice {
 		width: 100%;
 		background: #fff;
-		border-bottom: 4px solid #eaeff3;
+		border-bottom: 4px solid #95A18F;
 		color: #e34848;
 		position: fixed;
 		top: 0;
@@ -132,31 +119,6 @@
 		vertical-align: middle;
 	}
 	
-	
-	button {
-		background:url(../images/login.png) no-repeat;
-		width:82px;
-		height:32px;
-		border:0px;
-		float: right;
-		margin-right: 24px;
-	}
-	
-	button:hover {
-		background:url(../images/login_hover.png) no-repeat;
-		width:82px;
-		height:32px;
-		border:0px;
-	}
-	
-	button:active {
-		background:url(../images/login_active.png) no-repeat;
-		width:82px;
-		height:32px;
-		border:0px;
-	}	
-	
-	
 	label {
 		display: inline;
 		margin-left: 24px;
@@ -192,31 +154,6 @@
 		color: #65c4e5;
 	}
 
-	
-
-/* #Media Queries
-================================================== */
-	
-	/* iPad Portrait/Browser */
-	@media only screen and (min-width: 768px) and (max-width: 991px) {}
-	
-	/* Mobile/Browser */
-	@media only screen and (max-width: 767px) {}
-	
-	/* Mobile Landscape/Browser */
-	@media only screen and (min-width: 480px) and (max-width: 767px) {}
-	
-	/* Anything smaller than standard 960 */
-	@media only screen and (max-width: 959px) {}
-	
-	/* iPad Portrait Only */
-	@media only screen and (min-width: 768px) and (max-width: 991px) and (max-device-width: 1000px) {}
-	
-	/* Mobile Only */
-	@media only screen and (max-width: 767px) and (max-device-width: 1000px) {}
-	
-	/* Mobile Landscape Only */
-	@media only screen and (min-width: 480px) and (max-width: 767px) and (max-device-width: 1000px) {}
 	
 
 /* #Font-Face

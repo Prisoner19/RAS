@@ -17,24 +17,21 @@
 		
 			<p:growl id="messages"/>  
 		 
-		   <h3>SGA</h3>  
-		   <p:menubar model="#{menuBean.model}">		   
-		 	
-		 		  		
-		       <f:facet name="options">				
-				
-				<div id="reloj">
+			<div class="notice">
+				<div class="logout">
+					<p:commandButton styleClass="botonLogout" value="Cerrar Sesión" actionListener="#{loginBean.logout}"
+					icon="ui-icon-circle-arrow-w" action="menuPrincipal" ajax="false"  />
+				</div>
+				<p class="titulo">ACTIVA BUILDING CONTROL</p>
+				<div class="reloj">
 					<p:clock pattern="HH:mm:ss - dd / MM / yyyy" />
 				</div>
 				
-				<p:commandButton value="Logout" actionListener="#{loginBean.logout}"
-					icon="ui-icon-circle-arrow-w" action="menuPrincipal" ajax="false" 
-					styleClass="back" />
-		
-			</f:facet> 
-		
-		   </p:menubar> 	    
 				
+			</div>
+		 
+		 
+		 
 		</h:form>
 	
 	</h:body>		

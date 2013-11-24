@@ -1,17 +1,85 @@
 @CHARSET "ISO-8859-1";
 
-body{
-	 
-	 
-      font-size: 0.7em;
+
+body { 
+		background: url(../images/bgMant.png);
+		font: 14px/21px "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+		color: #444; 
+		-webkit-font-smoothing: antialiased; /* Fix for webkit rendering */
+		-webkit-text-size-adjust: none;
+ }
+	
+
+.ui-state-highlight,.ui-widget-content .ui-state-highlight,.ui-widget-header .ui-state-highlight
+	{
+	color: #ffffff;
+	text-decoration: none;
+	background-position: 0px;
+	background-image: linear-gradient(to bottom, #8D9694, #8D9694);
+	opacity:0.8;
+	margin-top:50px;
+	font-family:candara;
 }
 
-
 #form{
-	margin:10 px;
+	margin:auto;
 	padding: 5px;
-	width:auto;
+	width:1000px;
+	margin-top:50px;
+}
+
+.logout{
+	margin-left:40px;
+	margin-top:5px;
+	display:inline;
 	
+}
+
+.opciones{
+	border: 0px solid #88A1B5;
+}
+
+.tablaGeneral{
+	
+}
+
+.botonLogout{
+	font-family:candara;
+	font-size:14px;
+	background-color:#D6BFB4;
+}
+
+.notice {
+		width: 100%;
+		background: #fff;
+		border-bottom: 4px solid #95A18F;
+		color: #e34848;
+		position: fixed;
+		top: 0;
+		font-size: 14px;
+		font-weight: bold;
+		height: 45px;
+		-moz-box-shadow:0px 0px 3px 1px rgba(0,0,0,0.3);
+		-webkit-box-shadow:0px 0px 3px 1px rgba(0,0,0,0.3);
+		box-shadow:0px 0px 3px 1px rgba(0,0,0,0.3);
+	}
+	
+.notice p.titulo {
+		text-align: center;
+		line-height: 45px;
+		font-size : 14px;
+		font-family:candara;
+		font-weight:normal;
+		display:inline;
+		margin-left:695px;
+	}
+
+.mantenimiento{
+	font-family:candara;	
+	font-size:16px;
+	font-weight:normal;
+	color:#53768C;
+	padding-bottom:10px;
 }
 
 .botonPeque, .ui-widget-content .botonPeque{
@@ -30,6 +98,16 @@ body{
 	color: #ffffff;
 }
 
+.ui-row-editor{
+	text-align:center;
+}
+
+.ui-clock {
+	font-family: verdana;
+	font-weight: lighter;
+	font-size: 11px;
+}
+
 .ui-panel .ui-panel-titlebar {
     padding: 0;
 }
@@ -38,31 +116,23 @@ f:facet div{
 	display:block;
 	background-color:red;
 }
-#reloj{
-	margin-top:5px;
-	margin-right:20px;
-	float:right;	
+
+.reloj{
+	margin-top:13px;
+	margin-right:40px;
+	display:inline;
+	float:right;
 }
 
-
-
-#par{
-			
-	font-family:candara;
-	vertical-align:middle;
-}
-
-#header_table{
-	text-align: center;	
-	vertical-align:middle;
-	
-	
+.columna{
+	font-family:"candara";
+	font-weight:lighter;
+	font-size:13px;
 }
 
 .paneMantenimiento{
 	background-size: 100% auto;
 }
-
 
 .paneMantenimiento .ui-panel-titlebar{
 	width:auto;
@@ -74,6 +144,7 @@ f:facet div{
 
 #cuerpo{
 	display:block;
+	border: 1px solid #88A1B5;
 }
 
 .ui-icon-disk {

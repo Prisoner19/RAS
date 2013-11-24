@@ -9,27 +9,56 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 	<h:head>
 	
-	 	  <link type="text/css" rel="stylesheet"
-			href="#{request.contextPath}/resources/bootstrap.css" />
-			
-		  <link type="text/css" rel="stylesheet"
-			href="#{request.contextPath}/resources/css/estiloLogin.css" />		
-		
+		<link type="text/css" rel="stylesheet"
+			href="#{request.contextPath}/resources/css/estiloLogin.css" />	
 			
 	 	  <script type="text/javascript" src="#{request.contextPath}/resources/js/calendar-es.js"></script>
 		
 	</h:head>
 	
 	<h:body>
-	
 		<f:view>
-				<h:form
-					id="loginForm"
-					prependId="false">
-					<p:outputLabel value="#{loginBean.username}" ></p:outputLabel>
-					<p:growl autoUpdate="true" life="3000" showDetail="true"></p:growl>
-					<p:panelGrid >  
-					   <f:facet name="header"> 			
+			<h:form
+				id="loginForm"
+				prependId="false">
+				
+				<div class="notice">
+					<p class="titulo">ACTIVA BUILDING CONTROL</p>
+				</div>
+				
+				<!-- 
+				<p:outputLabel value="#{loginBean.username}" ></p:outputLabel>
+				<-->
+				<p:growl autoUpdate="true" life="3000" showDetail="true"></p:growl>
+				
+				<div class="container">
+					
+					<div class="form-bg">
+						<h2 class="encabezado">LOGIN</h2>
+									
+						<p><p:inputText id="j_username" placeholder="Username" required="true"/></p>
+						<p><p:password id="j_password" placeholder="Password" required="true" /></p>
+						
+						<h:selectBooleanCheckbox styleClass="checkbox" id="_spring_security_remember_me" />			 		 
+						<h:outputLabel class="recuerda" for="_spring_security_remember_me" value="Recuérdame en esta PC" /> 
+						
+						
+						<p:commandButton styleClass="botonLogin" type="submit" id="login" ajax="false" 
+						action="#{loginBean.doLogin}" value="Entrar"/>
+
+					</div>
+					
+					<div class="logo">	
+						<img src="#{request.contextPath}/resources/images/ruquLogo.png"/>
+					</div>
+				</div>
+				
+				
+				
+				
+				<p:panelGrid >  
+					<!-- 
+						<f:facet name="header"> 			
 							<p:row styleClass="titHeaderLogin" >  
 					            <p:column colspan="2" styleClass="aCenter tituloLogin" >Login  </p:column>
 					        </p:row>
@@ -60,7 +89,7 @@
 				            	<h:selectBooleanCheckbox id="_spring_security_remember_me" />
 						    </p:column>    
 				        </p:row>
-				        
+			
 			            <f:facet name="footer"> 
 				            <p:row>  
 					            <p:column > </p:column>
@@ -71,9 +100,11 @@
 							    </p:column>    
 					         </p:row>
 						</f:facet> 
-								
+						 
+					-->			
 					</p:panelGrid>
-				</h:form>
+				
+			</h:form>
 			
 		</f:view>
 	</h:body>
