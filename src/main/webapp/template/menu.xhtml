@@ -1,4 +1,5 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
+<<<<<<< HEAD
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -36,5 +37,46 @@
 	
 	</h:body>		
 		
+=======
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+        >
+
+
+    <h:head>
+
+
+    </h:head>
+
+    <h:body>
+        <h:form id="menu">
+
+            <p:growl id="messages"/>
+
+            <h3>SGA</h3>
+            <p:menubar model="#{menuBean.model}">
+
+
+                <f:facet name="options">
+
+                    <div id="reloj">
+                        <p:clock pattern="HH:mm:ss - dd / MM / yyyy"/>
+                    </div>
+
+                    <p:commandButton value="Logout" actionListener="#{loginBean.logout}"
+                                     icon="ui-icon-circle-arrow-w" action="menuPrincipal" ajax="false"
+                                     styleClass="back"/>
+
+                </f:facet>
+
+            </p:menubar>
+
+        </h:form>
+
+    </h:body>
+
+>>>>>>> 032dfb2109646dba78143aa2c1ee6fc5e58af177
 </ui:composition>
 	

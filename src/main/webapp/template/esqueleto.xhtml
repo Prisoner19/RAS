@@ -1,6 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
+<<<<<<< HEAD
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -30,9 +32,39 @@
          <div id="content">      
             <br/>                                                                        
                <ui:insert name="content"/>                     
+=======
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+        >
+
+<f:view>
+    <h:head>
+
+        <link type="text/css" rel="stylesheet"
+              href="#{request.contextPath}/resources/bootstrap.css"/>
+
+
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/calendar-es.js"></script>
+
+    </h:head>
+
+    <h:body>
+
+        <div id="heading">
+            <ui:insert name="heading">
+                <ui:include src="/template/menu.xhtml"/>
+            </ui:insert>
+        </div>
+
+
+        <div id="content">
+>>>>>>> 032dfb2109646dba78143aa2c1ee6fc5e58af177
             <br/>
-         </div>    
-         
-      </h:body>      
-   </f:view>
+            <ui:insert name="content"/>
+            <br/>
+        </div>
+
+    </h:body>
+</f:view>
 </html>

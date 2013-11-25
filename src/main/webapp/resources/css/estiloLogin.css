@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 body { 
 	background: url(../images/bg.jpg);
 	font: 14px/21px "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -89,6 +90,24 @@ input[type="checkbox"] {
 
 .logo{
 	float:right;
+=======
+#loginForm table {
+    display: block;
+    position: absolute;
+    margin: 0 auto;
+    top: 30%;
+    left: 50%;
+    margin-left: -209px;
+}
+
+.aCenter {
+    text-align: center;
+    font-size: 18px;
+}
+
+#loginForm table .ui-widget-header {
+    height: 37px;
+>>>>>>> 032dfb2109646dba78143aa2c1ee6fc5e58af177
 }
 
 .botonLogin{
@@ -99,9 +118,10 @@ input[type="checkbox"] {
 
 
 #loginForm table tbody tr {
-   border: 0px important;
+    border: 0px important;
 }
 
+<<<<<<< HEAD
 .titulo{
 	margin-top:0px;
 }
@@ -253,3 +273,22 @@ input[type="checkbox"] {
 	font-family:candara;
 }
 	
+=======
+.tituloLogin {
+    font-size: 19px;
+}
+
+body {
+    font-size: 14px;
+}
+
+#login {
+    height: 28px;
+}
+
+#login span {
+    font-size: 15px !important;
+    height: 18px !important;
+    margin-top: -4px !important;
+}
+>>>>>>> 032dfb2109646dba78143aa2c1ee6fc5e58af177
