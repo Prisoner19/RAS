@@ -49,7 +49,7 @@ public class MenuBean implements Serializable {
 
     public void initModel() {
         /*
-		CustomUserDetails user = (CustomUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        CustomUserDetails user = (CustomUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
 
 		model = new DefaultMenuModel();
