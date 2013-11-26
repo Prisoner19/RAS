@@ -46,8 +46,22 @@ body {
 .botonLogout{
 	font-family:candara;
 	font-size:14px;
-	background-color:#D6BFB4;
 }
+
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover {
+    color: #333333;
+    text-decoration: none;
+    background-color: #D6BFB4;
+    *background-color: #d9d9d9;
+    /* Buttons in IE7 don't get borders, so darken on hover */
+    background-position: 0 -5px;
+    -webkit-transition: background-position 0.1s linear;
+    -moz-transition: background-position 0.1s linear;
+    -ms-transition: background-position 0.1s linear;
+    -o-transition: background-position 0.1s linear;
+    transition: background-position 0.1s linear;
+}
+
 
 .notice {
 		width: 100%;
@@ -155,7 +169,6 @@ f:facet div{
 	background-image: url("#{resource['images:icono.png']"}) !important;
 }
 
-<<<<<<< HEAD
 body { 
 		background: url(../images/bg2.png);
 		font: 14px/21px "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -163,7 +176,7 @@ body {
 		-webkit-font-smoothing: antialiased; /* Fix for webkit rendering */
 		-webkit-text-size-adjust: none;
  }
-=======
+ 
 .rowActivo {
 	background-color: yellow;
 }
@@ -194,4 +207,3 @@ body {
 .wizardNoBorder .ui-wizard-content .ui-panel {
 	border:none;
 }
->>>>>>> cd7e850f7fdae16c385728086713571001157819
