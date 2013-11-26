@@ -37,16 +37,16 @@
 			</h:panelGrid>
 		</p:dialog>
 
-		<p:panel>
-
+		<p:panel styleClass="panel">
+			<span class="mantenimiento">CATEGORÍA</span>
 			<div id="cuerpo">
 
 				<p:dataTable id="datatablecampana" var="c" widgetVar="dt"
 					value="#{CategoriaBean.categorias}" rowKey="#{c.idCategoria}"
 					selection="#{CategoriaBean.categoriaNuevo}" selectionMode="single"
-					styleClass="datatable_style_general" editable="true" paginator="true" rows="10"
+					styleClass="tablaGeneral" editable="true" paginator="true"  rows="10"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					rowsPerPageTemplate="2,5,10">
+					rowsPerPageTemplate="2,5,10" paginatorPosition="bottom">
 
 					<f:facet name="header">
 
@@ -70,8 +70,19 @@
 					<p:ajax event="rowEdit" listener="#{CategoriaBean.onEdit}" update=":form:growl" />  
         			<p:ajax event="rowEditCancel" listener="#{CategoriaBean.onCancel}" update=":form:growl" /> 
 					
-					<p:column styleClass="columna" headerText="Nombre"
-						filterBy="#{c.nombre}" footerText="nombre">
+					<p:column style="width:6%;">
+						<f:facet name="header">
+							<h:panelGrid class="opciones" columns="2">
+						    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonOpcion" update=":form:display" oncomplete="dialog.show()" actionListener="#{CategoriaBean.nuevoEvent}"/>
+						    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonOpcion" update=":form:display, :form:growl" actionListener="#{CategoriaBean.eliminarEvent}"/>
+							</h:panelGrid>
+						</f:facet>
+						
+						<p:rowEditor />
+					</p:column>
+					
+					<p:column styleClass="columna" headerText="NOMBRE"
+						filterBy="#{c.nombre}">
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{c.nombre}" />
@@ -82,8 +93,7 @@
 						</p:cellEditor>
 					</p:column>
 					
-					<p:column styleClass="columna" headerText="Descripcion" filterBy="#{c.descripcion}"
-						footerText="descripcion">
+					<p:column styleClass="columna" headerText="DESCRIPCIÓN" filterBy="#{c.descripcion}">
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{c.descripcion}" />
@@ -94,19 +104,9 @@
 						</p:cellEditor>
 					</p:column>
 					
-					<p:column style="width:6%">
-						<f:facet name="header">
-							<h:panelGrid columns="2">
-						    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonPeque" update=":form:display" oncomplete="dialog.show()" actionListener="#{CategoriaBean.nuevoEvent}"/>
-						    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonPeque" update=":form:display, :form:growl" actionListener="#{CategoriaBean.eliminarEvent}"/>
-							</h:panelGrid>
-						</f:facet>
-						
-						<p:rowEditor />
-					</p:column>
 					
-					<f:facet name="footer">
-					</f:facet>
+					
+
 				</p:dataTable>
 			</div>
 

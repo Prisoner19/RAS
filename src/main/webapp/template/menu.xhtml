@@ -1,4 +1,43 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
+<<<<<<< HEAD
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	
+	
+	<h:head>
+	
+		 
+	</h:head>
+
+	<h:body>
+		<h:form id="menu">
+		
+			<p:growl id="messages"/>  
+		 
+			<div class="notice">
+				<div class="logout">
+					<p:commandButton styleClass="botonLogout" value="Cerrar Sesión" actionListener="#{loginBean.logout}"
+					icon="ui-icon-circle-arrow-w" action="menuPrincipal" ajax="false"  />
+				</div>
+				<p class="titulo">ACTIVA BUILDING CONTROL</p>
+				<div class="reloj">
+					<p:clock pattern="HH:mm:ss - dd / MM / yyyy" />
+				</div>
+				
+				
+			</div>
+		 
+		 
+		 
+		</h:form>
+	
+	</h:body>		
+		
+=======
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
@@ -38,5 +77,6 @@
 
     </h:body>
 
+>>>>>>> 032dfb2109646dba78143aa2c1ee6fc5e58af177
 </ui:composition>
 	
