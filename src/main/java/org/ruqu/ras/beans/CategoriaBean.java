@@ -81,7 +81,7 @@ public class CategoriaBean implements Serializable{
 		this.accionEditar = accionEditar;
 	}
 	
-/* CUSTOM LABELS  */
+    /* CUSTOM LABELS  */
 	
 	public String etiBotonDialog(){
 		if(accionEditar){

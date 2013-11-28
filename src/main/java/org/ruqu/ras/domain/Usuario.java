@@ -26,10 +26,11 @@ public class Usuario implements java.io.Serializable {
 	private Rol rol;
 	private String login;
 	private String password;
-	private boolean vigencia;
+	private boolean vigencia=true;
 	private Set<Logconsulta> logconsultas = new HashSet<Logconsulta>(0);
 
 	public Usuario() {
+
 	}
 
 	public Usuario(Rol rol, String login, String password, boolean vigencia) {

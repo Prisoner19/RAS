@@ -1,0 +1,138 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                template="/template/esqueleto.xhtml" >
+
+
+
+    <ui:define name="content">
+        <h:form id="form">
+
+            <p:growl id="growl" showDetail="true" life="3000" />
+
+            <!-- CATEGORIA -->
+            <p:dialog id="dialog" header="Nuevo" widgetVar="dialog"
+                      resizable="false" width="400" height="200" showEffect="clip"
+                      hideEffect="fold" modal="true">
+
+                <h:panelGrid id="display" columns="2" cellpadding="4">
+                    <h:outputText value="Id:" rendered="#{UsuarioBean.accionEditar}" />
+                    <h:outputText value="#{UsuarioBean.usuario.idUsuario}"
+                                  rendered="#{UsuarioBean.accionEditar}" />
+
+                    <h:outputText value="Nombre de Usuario:" />
+                    <p:inputText value="#{UsuarioBean.usuario.login}" />
+
+                    <h:outputText value="Password:" />
+                    <p:password value="#{UsuarioBean.usuario.password}" />
+
+                    <h:outputText value="Rol:" />
+                    <p:selectOneMenu converter="omnifaces.SelectItemsConverter" value="#{UsuarioBean.usuario.rol}" >
+                        <f:selectItem itemLabel="Seleccione uno" itemValue="#{null}" noSelectionOption="true" />
+                        <f:selectItems value="#{UsuarioBean.roles}" var="rol" itemLabel="#{rol.descripcion}" itemValue="#{rol}" />
+                    </p:selectOneMenu>
+
+                    <p:commandButton value="#{UsuarioBean.etiBotonDialog()}"
+                                     actionListener="#{UsuarioBean.procesarDialog}"
+                                     update=":form:datatablecampana, growl" oncomplete="dialog.hide();" />
+
+                </h:panelGrid>
+            </p:dialog>
+
+            <p:panel styleClass="panel">
+                <span class="mantenimiento">USUARIO</span>
+                <div id="cuerpo">
+
+                    <p:dataTable id="datatablecampana" var="c" widgetVar="dt"
+                                 value="#{UsuarioBean.usuarios}" rowKey="#{c.idUsuario}"  rowIndexVar="rowIndex"
+                                 selection="#{UsuarioBean.usuarioNuevo}" selectionMode="single"
+                                 styleClass="tablaGeneral" editable="true" paginator="true"  rows="10"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="2,5,10" paginatorPosition="bottom">
+
+                        <f:facet name="header">
+
+                            <p:commandButton id="viewNuevo" styleClass="botonPeque"
+                                             value="Nuevo" icon="ui-icon-document" update=":form:display"
+                                             oncomplete="dialog.show()"
+                                             actionListener="#{UsuarioBean.nuevoEvent}" />
+
+                            <p:commandButton id="viewEditar" styleClass="botonPeque"
+                                             value="Editar" icon="ui-icon-search"
+                                             update=":form:display, :form:growl"
+                                             actionListener="#{UsuarioBean.editarEvent}" />
+
+                            <p:commandButton id="EliminarRegistro" styleClass="botonPeque"
+                                             value="Eliminar" icon="ui-icon-closethick"
+                                             update=":form:datatablecampana, :form:growl"
+                                             actionListener="#{UsuarioBean.validarEliminar}" >
+                                <p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" icon="ui-icon-alert" />
+                            </p:commandButton>
+
+                        </f:facet>
+
+                        <p:ajax event="rowEdit" listener="#{UsuarioBean.onEdit}" update=":form:growl" />
+                        <p:ajax event="rowEditCancel" listener="#{UsuarioBean.onCancel}" update=":form:growl" />
+
+                        <p:column style="width:6%;">
+                            <f:facet name="header">
+                                <h:panelGrid class="opciones" columns="2">
+                                    <p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonOpcion" update=":form:display" oncomplete="dialog.show()" actionListener="#{UsuarioBean.nuevoEvent}"/>
+                                    <p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonOpcion" update=":form:display, :form:datatablecampana,:form:growl" actionListener="#{UsuarioBean.validarEliminar}" >
+                                        <p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" icon="ui-icon-alert" />
+                                    </p:commandButton>
+                                </h:panelGrid>
+                            </f:facet>
+
+                            <p:rowEditor />
+                        </p:column>
+
+                        <p:column styleClass="columna" headerText="USUARIO"
+                                  filterBy="#{c.login}">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <div onclick="selectCurrentRow_paginator(dt,#{rowIndex})">
+                                        <h:outputText value="#{c.login}" />
+                                    </div>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText value="#{c.login}" style="width:100%"/>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column styleClass="columna" headerText="PASSWORD">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <div onclick="selectCurrentRow_paginator(dt,#{rowIndex})">
+                                        <p:outputLabel value="*****"/>
+                                    </div>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText value="#{c.password}" type="password"
+                                                 style="width:100%"/>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                    </p:dataTable>
+                </div>
+
+            </p:panel>
+
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+            </p:confirmDialog>
+
+        </h:form>
+
+    </ui:define>
+
+
+</ui:composition>

@@ -12,7 +12,10 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.RowEditEvent;
+import org.ruqu.ras.domain.Rol;
 import org.ruqu.ras.domain.Usuario;
+import org.ruqu.ras.service.IRolService;
 import org.ruqu.ras.service.IUsuarioService;
 
 @ManagedBean(name="UsuarioBean")
@@ -27,68 +30,18 @@ public class UsuarioBean implements Serializable{
 	
 	@ManagedProperty(value="#{UsuarioService}")
 	IUsuarioService usuarioService;
+
+    @ManagedProperty(value="#{RolService}")
+    IRolService rolService;
 	
-	List<Usuario> usuarios;
-	
-	Usuario usuario=new Usuario();
-	Usuario usuarioNuevo=new Usuario();
+	private List<Usuario> usuarios;
+    private List<Rol> roles;
+
+	private Usuario usuario;
+	private Usuario usuarioNuevo;
 	
 	private boolean accionEditar = true;
 
-
-	/* SETTER AND GETTERS
-	*  ==================
-	*/
-	
-	public IUsuarioService getUsuarioService() {
-		return usuarioService;
-	}
-
-	public void setUsuarioService(IUsuarioService usuarioService) {
-		this.usuarioService = usuarioService;
-	}
-
-	public List<Usuario> getUsuarios() {
-		return usuarios;
-	}
-
-	public void setUsuarios(List<Usuario> usuarios) {
-		this.usuarios = usuarios;
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
-	public Usuario getUsuarioNuevo() {
-		return usuarioNuevo;
-	}
-
-	public void setUsuarioNuevo(Usuario usuarioNuevo) {
-		this.usuarioNuevo = usuarioNuevo;
-	}
-
-	public boolean isAccionEditar() {
-		return accionEditar;
-	}
-
-	public void setAccionEditar(boolean accionEditar) {
-		this.accionEditar = accionEditar;
-	}
-	
-/* CUSTOM LABELS  */
-	
-	public String etiBotonDialog(){
-		if(accionEditar){
-			return "Editar";
-		}else{
-			return "Nuevo";
-		}
-	}
 
 
  	/* CONSTRUCTOR AND POSTCONSTRUCT 
@@ -97,11 +50,14 @@ public class UsuarioBean implements Serializable{
 	
 	public UsuarioBean(){
 		usuarios=new ArrayList<Usuario>();
+        usuario = new Usuario();
+        usuarioNuevo = new Usuario();
 	}
 	
 	@PostConstruct
 	public void init(){
 		usuarios=getUsuarioService().getUsuarios();
+        roles = rolService.getRols();
 	}
 	
 	/* AJAX BUTTON EVENTS  
@@ -231,6 +187,33 @@ public class UsuarioBean implements Serializable{
         FacesContext.getCurrentInstance().addMessage(null, msg);  
         context.addCallbackParam("eliminado", eliminado);  
 	}
+
+    /*
+	*	ON CELL EDIT
+	*	===================
+    */
+    
+    public void onEdit(RowEditEvent event) {
+        Usuario c=(Usuario)event.getObject();
+        setUsuario(usuarioService.getUsuarioById(c.getIdUsuario()));
+
+        getUsuario().setLogin(c.getLogin());
+        getUsuario().setPassword(c.getPassword());
+
+        System.out.println(c.getLogin());
+        validarEditar();
+
+        FacesMessage msg = new FacesMessage("Usuario Editado", ((Usuario) event.getObject()).getLogin());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void onCancel(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("Usuario Cancelado", ((Usuario) event.getObject()).getLogin());
+
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+    
+    
 	/*
 	*	RUTINAS ADICIONALES
 	*	===================
@@ -248,4 +231,74 @@ public class UsuarioBean implements Serializable{
 		setUsuarios(getUsuarioService().getUsuarios());
 		
 	}
+
+    /* CUSTOM LABELS  */
+
+    public String etiBotonDialog(){
+        if(accionEditar){
+            return "Editar";
+        }else{
+            return "Nuevo";
+        }
+    }
+
+    /* SETTER AND GETTERS
+	*  ==================
+	*/
+
+    public IRolService getRolService() {
+        return rolService;
+    }
+
+    public void setRolService(IRolService rolService) {
+        this.rolService = rolService;
+    }
+
+    public List<Rol> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Rol> roles) {
+        this.roles = roles;
+    }
+
+    public IUsuarioService getUsuarioService() {
+        return usuarioService;
+    }
+
+    public void setUsuarioService(IUsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
+    }
+
+    public List<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(List<Usuario> usuarios) {
+        this.usuarios = usuarios;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Usuario getUsuarioNuevo() {
+        return usuarioNuevo;
+    }
+
+    public void setUsuarioNuevo(Usuario usuarioNuevo) {
+        this.usuarioNuevo = usuarioNuevo;
+    }
+
+    public boolean isAccionEditar() {
+        return accionEditar;
+    }
+
+    public void setAccionEditar(boolean accionEditar) {
+        this.accionEditar = accionEditar;
+    }
 }

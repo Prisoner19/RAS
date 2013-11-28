@@ -83,7 +83,7 @@ public class Rol implements java.io.Serializable {
     }
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "opcionasignadas", catalog = "ras", joinColumns = {@JoinColumn(name = "Rol_idRol", nullable = false, updatable = false)}, inverseJoinColumns = {@JoinColumn(name = "Opcion_idOpcion", nullable = false, updatable = false)})
+    @JoinTable(name = "OpcionAsignadas", catalog = "ras", joinColumns = {@JoinColumn(name = "Rol_idRol", nullable = false, updatable = false)}, inverseJoinColumns = {@JoinColumn(name = "Opcion_idOpcion", nullable = false, updatable = false)})
     public Set<Opcion> getOpcions() {
         return this.opcions;
     }
@@ -92,4 +92,25 @@ public class Rol implements java.io.Serializable {
         this.opcions = opcions;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Rol rol = (Rol) o;
+
+        if (!idRol.equals(rol.idRol)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return idRol.hashCode();
+    }
+
+    @Override
+    public String toString(){
+        return Integer.toString(idRol);
+    }
 }

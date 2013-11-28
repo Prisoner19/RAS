@@ -2,6 +2,7 @@ package org.ruqu.ras.dao;
 
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.ruqu.ras.domain.Usuario;
 
@@ -34,13 +35,14 @@ public class UsuarioDao implements IUsuarioDao{
 
 	@Override
 	public Usuario getUsuarioById(int id) {
-		@SuppressWarnings("unchecked")
-		List<Usuario> list=getSessionFactory().getCurrentSession()
+
+		Usuario user= (Usuario)getSessionFactory().getCurrentSession()
 				.createQuery("from Usuario where id=? and Vigencia=1")
-				.setParameter(0, id).list();
-		
+				.setParameter(0, id).uniqueResult();
+        if(user!=null)
+            Hibernate.initialize(user.getRol());
 		//Hibernate.initialize(list.get(0).getLogconsultas());
-		return (Usuario) list.get(0);
+		return user;
 	}
 
 	@Override
@@ -48,7 +50,7 @@ public class UsuarioDao implements IUsuarioDao{
 		@SuppressWarnings("unchecked")
 		List<Usuario> list=getSessionFactory().getCurrentSession()
 				.createQuery("from Usuario where Vigencia=1").list();
-		
+
 		return list;
 	}
 
