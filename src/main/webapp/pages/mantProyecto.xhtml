@@ -1,0 +1,189 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                template="/template/esqueleto.xhtml" >
+
+
+
+    <ui:define name="content">
+    <h:form id="form">
+
+		<p:growl id="growl" showDetail="true" life="3000" />
+
+		<!-- Proyecto -->
+		<p:dialog id="dialog" header="Nuevo" widgetVar="dialog"
+			resizable="false" width="400" height="200" showEffect="clip"
+			hideEffect="fold" modal="true">
+
+			<h:panelGrid id="display" columns="2" cellpadding="4">
+				<h:outputText value="Id:" rendered="#{ProyectoBean.accionEditar}" />
+				<h:outputText value="#{ProyectoBean.proyecto.idProyecto}"
+					rendered="#{ProyectoBean.accionEditar}" />
+				
+				<h:outputText value="Nombre de Proyecto:" />
+				<p:inputText value="#{ProyectoBean.proyecto.nombre}" />
+
+				<h:outputText value="Descripcion:" />
+				<p:inputText value="#{ProyectoBean.proyecto.descripcion}" />
+				
+				<h:outputText value="Fecha de Inicio:" />
+				<p:calendar value="#{ProyectoBean.proyecto.inicio}" id="calendarNuevo" 
+					navigator="true" display="inline" effect="slide" yearRange="c-100:c-0"/>
+				
+				<p:commandButton value="Continuar" id="botonContinuar"
+						oncomplete="dialog.hide();"  onclick="PF('dialogPresupuesto').show()"/>
+
+			</h:panelGrid>
+		</p:dialog>
+		
+		<p:dialog id="dialogPresupuesto" header="Presupuesto Estimado" widgetVar="dialogPresupuesto"
+			resizable="false" width="400" height="200" showEffect="clip"
+			hideEffect="fold">
+			
+			<h:panelGrid id="displayPresupuesto" columns="2" cellpadding="4">
+				
+				<h:outputText value="Costo de Personal:" />
+				<p:inputText value="#{ProyectoBean.proyecto.costoPersonal}" />
+				
+				<h:outputText value="Costo de Equipos:" />
+				<p:inputText value="#{ProyectoBean.proyecto.costoEquipo}" />
+				
+				<h:outputText value="Otros Gastos:" />
+				<p:inputText value="#{ProyectoBean.proyecto.costoOtros}" />
+			
+				<p:commandButton value="#{ProyectoBean.etiBotonDialog()}"
+					actionListener="#{ProyectoBean.procesarDialog}"
+					update=":form:datatablecampana, growl" oncomplete="dialogPresupuesto.hide();"/>
+				
+				<p:commandButton value="Regresar" id="botonRegresar"
+						oncomplete="dialogPresupuesto.hide();"  onclick="PF('dialog').show()"/>
+						
+			</h:panelGrid>
+		</p:dialog>
+		
+		<p:panel>
+
+			<div id="cuerpo">
+
+				<p:dataTable id="datatablecampana" var="c" widgetVar="dt"
+					value="#{ProyectoBean.proyectos}" rowKey="#{c.idProyecto}"
+					selection="#{ProyectoBean.proyectoNuevo}" selectionMode="single" rowIndexVar="index"
+					styleClass="datatable_style_general" editable="true" paginator="true" rows="10"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="2,5,10">
+
+					<f:facet name="header">
+
+						<p:commandButton id="viewDetalle" styleClass="botonPeque"
+							value="Ver Detalle de Proyecto" icon="ui-icon-document" 
+							action="detalleProyecto" ajax="false"/>
+
+						<p:commandButton id="viewEditarPresupuesto" styleClass="botonPeque"
+							value="Editar Presupuesto" icon="ui-icon-search"
+							update=":form:display, :form:growl"
+							actionListener="#{ProyectoBean.editarEvent}" />
+
+					</f:facet>
+					
+					<p:ajax event="rowEdit" listener="#{ProyectoBean.onEdit}" update=":form:growl" />  
+        			<p:ajax event="rowEditCancel" listener="#{ProyectoBean.onCancel}" update=":form:growl" /> 
+					
+					<p:column styleClass="columna" headerText="Nombre"
+						filterBy="#{c.nombre}" footerText="nombre">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{c.nombre}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{c.nombre}" style="width:100%"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					
+					<p:column styleClass="columna" headerText="Descripcion" filterBy="#{c.descripcion}"
+						footerText="descripcion">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{c.descripcion}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{c.descripcion}" style="width:100%"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					
+					<p:column styleClass="columna" headerText="Fecha de Inicio" filterBy="#{c.descripcion}"
+						footerText="inicio">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{c.inicio}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:calendar value="#{c.inicio}" id="calendarEditar" 
+									navigator="true" display="inline" effect="slide" yearRange="c-100:c-0"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					
+					<p:column styleClass="columna" headerText="Cierre de Proyecto" sortBy="#{c.cierre}" >
+						<div style="text-align: center;">
+
+							<p:selectBooleanButton value="#{c.cierre}" styleClass="toggle"  onLabel="SÍ" offLabel="NO" 
+													onIcon="ui-icon-check" offIcon="ui-icon-close"
+													>  
+								<p:ajax  listener="#{ProyectoBean.toggle(index)}"/>  
+					            
+					        </p:selectBooleanButton>  
+
+					    </div>
+					</p:column>
+							
+					<p:column style="width:6%">
+						<f:facet name="header">
+							<h:panelGrid columns="2">
+						    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonPeque" update=":form:display" oncomplete="dialog.show()" actionListener="#{ProyectoBean.nuevoEvent}"/>
+						    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonPeque" update=":form:display, :form:growl" actionListener="#{ProyectoBean.eliminarEvent}"/>
+							</h:panelGrid>
+						</f:facet>
+						
+						<p:rowEditor />
+					</p:column>
+					
+					<f:facet name="footer">
+					</f:facet>
+				</p:dataTable>
+			</div>
+
+		</p:panel>
+
+		<p:dialog id="modalDialog" header="CONFIRMACION" widgetVar="dlg2"
+			modal="true" height="150" width="400" closable="false"
+			resizable="false">
+			<p:messages id="messages" showDetail="true" autoUpdate="true"
+				closable="false" />
+			<p:commandButton value="OK" onclick="dlg2.hide()" />
+		</p:dialog>
+
+		<p:confirmDialog id="confirmDialog"
+			message="¿Esta seguro de esta accion?" header="Eliminar Registro"
+			severity="alert" widgetVar="confirmation">
+
+			<p:commandButton id="confirm" value="Si"
+				update=":form:datatablecampana, growl"
+				oncomplete="confirmation.hide()"
+				actionListener="#{ProyectoBean.validarEliminar}" />
+			<p:commandButton id="decline" value="No"
+				onclick="confirmation.hide()" type="button" />
+
+		</p:confirmDialog>
+
+	</h:form>
+
+ </ui:define>
+
+
+</ui:composition>

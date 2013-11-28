@@ -34,7 +34,27 @@
 	<bean id="RolService" class="org.ruqu.ras.service.RolService">
 		<property name="RolDAO" ref="RolDAO" />
 	</bean>
+	
+	<bean id="PersonalService" class="org.ruqu.ras.service.PersonalService">
+		<property name="PersonalDAO" ref="PersonalDAO" />
+	</bean>
+	
+	<bean id="OtrogastoService" class="org.ruqu.ras.service.OtrogastoService">
+		<property name="OtrogastoDAO" ref="OtrogastoDAO" />
+	</bean>
 			
+	<bean id="DistritoService" class="org.ruqu.ras.service.DistritoService">
+		<property name="DistritoDAO" ref="DistritoDAO" />
+	</bean>
+	
+	<bean id="ProveedorService" class="org.ruqu.ras.service.ProveedorService">
+		<property name="ProveedorDAO" ref="ProveedorDAO" />
+	</bean>
+	
+	<bean id="PersonalasignadoService" class="org.ruqu.ras.service.PersonalasignadoService">
+		<property name="PersonalasignadoDAO" ref="PersonalasignadoDAO" />
+	</bean>
+				
 	<!-- User DAO Declaration -->
 	
 	<bean id="CategoriaDAO" class="org.ruqu.ras.dao.CategoriaDao">
@@ -63,7 +83,27 @@
 	<bean id="RolDAO" class="org.ruqu.ras.dao.RolDao">
 		<property name="sessionFactory" ref="SessionFactory" />
 	</bean>
+	
+	<bean id="PersonalDAO" class="org.ruqu.ras.dao.PersonalDao">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+	
+	<bean id="OtrogastoDAO" class="org.ruqu.ras.dao.OtrogastoDao">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+	
+	<bean id="DistritoDAO" class="org.ruqu.ras.dao.DistritoDao">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
 
+	<bean id="ProveedorDAO" class="org.ruqu.ras.dao.ProveedorDao">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+	
+	<bean id="PersonalasignadoDAO" class="org.ruqu.ras.dao.PersonalasignadoDao">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+	
     <bean id="userDetailsService" class="org.ruqu.ras.service.UserDetailsServiceImpl">
         <property name="usuarioDao" ref="UsuarioDAO" />
         <property name="rolDao" ref="RolDAO" />

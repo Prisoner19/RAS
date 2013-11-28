@@ -12,7 +12,14 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.RowEditEvent;
+import org.ruqu.ras.domain.Equipo;
+import org.ruqu.ras.domain.Otrogasto;
+import org.ruqu.ras.domain.Personalasignado;
 import org.ruqu.ras.domain.Proyecto;
+import org.ruqu.ras.service.IEquipoService;
+import org.ruqu.ras.service.IOtrogastoService;
+import org.ruqu.ras.service.IPersonalasignadoService;
 import org.ruqu.ras.service.IProyectoService;
 
 @ManagedBean (name="ProyectoBean")
@@ -28,12 +35,24 @@ public class ProyectoBean implements Serializable{
 	@ManagedProperty(value="#{ProyectoService}")
 	IProyectoService proyectoService;
 	
+	@ManagedProperty(value="#{PersonalasignadoService}")
+	IPersonalasignadoService personalasignadoService;
+	
+	@ManagedProperty(value="#{EquipoService}")
+	IEquipoService equipoService;
+	
+	@ManagedProperty(value="#{OtrogastoService}")
+	IOtrogastoService otrogastoService;
+	
 	List<Proyecto> proyectos;
+	List<Personalasignado> personalasignados;
+	List<Equipo> equipos;
+	List<Otrogasto> otrogastos;
 	
 	Proyecto proyecto=new Proyecto();
 	Proyecto proyectoNuevo=new Proyecto();
 	
-	private boolean accionEditar = true;
+	private boolean accionEditar = false;
 
 
 	/* SETTER AND GETTERS
@@ -42,6 +61,55 @@ public class ProyectoBean implements Serializable{
 	
 	public IProyectoService getProyectoService() {
 		return proyectoService;
+	}
+
+	public IPersonalasignadoService getPersonalasignadoService() {
+		return personalasignadoService;
+	}
+
+	public void setPersonalasignadoService(
+			IPersonalasignadoService personalasignadoService) {
+		this.personalasignadoService = personalasignadoService;
+	}
+
+	public IEquipoService getEquipoService() {
+		return equipoService;
+	}
+
+	public void setEquipoService(IEquipoService equipoService) {
+		this.equipoService = equipoService;
+	}
+
+	public IOtrogastoService getOtrogastoService() {
+		return otrogastoService;
+	}
+
+	public void setOtrogastoService(IOtrogastoService otrogastoService) {
+		this.otrogastoService = otrogastoService;
+	}
+
+	public List<Personalasignado> getPersonalasignados() {
+		return personalasignados;
+	}
+
+	public void setPersonalasignados(List<Personalasignado> personalasignados) {
+		this.personalasignados = personalasignados;
+	}
+
+	public List<Equipo> getEquipos() {
+		return equipos;
+	}
+
+	public void setEquipos(List<Equipo> equipos) {
+		this.equipos = equipos;
+	}
+
+	public List<Otrogasto> getOtrogastos() {
+		return otrogastos;
+	}
+
+	public void setOtrogastos(List<Otrogasto> otrogastos) {
+		this.otrogastos = otrogastos;
 	}
 
 	public void setProyectoService(IProyectoService proyectoService) {
@@ -108,6 +176,12 @@ public class ProyectoBean implements Serializable{
 	*  ==================
 	*/
 
+	public void toggle(String a){
+		int num = Integer.parseInt(a);
+		
+		Proyecto p=proyectos.get(num);
+		proyectoService.updateProyecto(p);
+	}
 	
 	public void nuevoEvent(){
 		accionEditar=false;
@@ -119,7 +193,7 @@ public class ProyectoBean implements Serializable{
 		try{
 			if(getProyectoNuevo()!=null){
 				setProyecto(getProyectoService().getProyectoById(getProyectoNuevo().getIdProyecto()));
-				RequestContext.getCurrentInstance().execute("dialog.show()");
+				RequestContext.getCurrentInstance().execute("dialogPresupuesto.show()");
 			}
 			else{
 				FacesMessage msg = null;  
@@ -143,6 +217,26 @@ public class ProyectoBean implements Serializable{
 		}
 	}
 	
+	public void onEdit(RowEditEvent event) {
+		Proyecto c=(Proyecto)event.getObject();
+		setProyecto(proyectoService.getProyectoById(c.getIdProyecto()));
+		
+		getProyecto().setNombre(c.getNombre());
+		getProyecto().setDescripcion(c.getDescripcion());
+		getProyecto().setInicio(c.getInicio());
+		
+		validarEditar();
+		
+        FacesMessage msg = new FacesMessage("Proyecto Editado", ((Proyecto) event.getObject()).getNombre());  
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }  
+      
+    public void onCancel(RowEditEvent event) {  
+        FacesMessage msg = new FacesMessage("Proyecto Cancelado", ((Proyecto) event.getObject()).getNombre());  
+  
+        FacesContext.getCurrentInstance().addMessage(null, msg);  
+    }
+    
 	//BOTON PROCESAR-DIALOG
 	public void procesarDialog(){
 		if(accionEditar){
