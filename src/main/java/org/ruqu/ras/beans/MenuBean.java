@@ -57,10 +57,10 @@ public class MenuBean implements Serializable {
 		try{
             List<Opcion> submenus = opcionService.getSubOpcions();
             for(Opcion m:submenus){
-                DefaultSubMenu submenu = new DefaultSubMenu(m.getDescripcion());
+                DefaultSubMenu submenu = new DefaultSubMenu(m.getTextoOpcion());
                 List<Opcion> hijos = opcionService.getSubOpcionsByPadre(user.getRoles(), m.getIdOpcion());
                 for(Opcion hijo:hijos){
-                    DefaultMenuItem item = new DefaultMenuItem(hijo.getDescripcion());
+                    DefaultMenuItem item = new DefaultMenuItem(hijo.getTextoOpcion());
                     item.setOutcome("/"+hijo.getRuta());
                     submenu.addElement(item);
                 }
