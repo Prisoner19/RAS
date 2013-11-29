@@ -50,7 +50,7 @@ public class MenuBean implements Serializable {
 
 
     public void initModel() {
-    	
+    	/*
         CustomUserDetails user = (CustomUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
 		model = new DefaultMenuModel();
@@ -71,7 +71,7 @@ public class MenuBean implements Serializable {
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
-		/*
+		*/
 
         model = new DefaultMenuModel();
         List<Opcion> submenus = opcionService.getSubOpcions();
@@ -93,7 +93,7 @@ public class MenuBean implements Serializable {
 
         }
 
-    	 */
+
     }
 
 

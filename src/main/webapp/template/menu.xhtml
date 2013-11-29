@@ -16,12 +16,8 @@
 		<h:form id="menu">
 		
 			<p:growl id="messages"/>  
-		 	<div class="notice">
-			
-				<p:menubar model="#{menuBean.model}" widgetVar="menuTree" >
-				
-				</p:menubar> 
-				
+		 
+			<div class="notice">
 				<div class="logout">
 					<p:commandButton styleClass="botonLogout" value="Cerrar Sesión" actionListener="#{loginBean.logout}"
 					icon="ui-icon-circle-arrow-w" action="menuPrincipal" ajax="false"  />
@@ -29,7 +25,8 @@
 				<p class="titulo">ACTIVA BUILDING CONTROL</p>
 				<div class="reloj">
 					<p:clock pattern="HH:mm:ss - dd / MM / yyyy" />
-				</div>				
+				</div>
+				
 				
 			</div>
 		 

@@ -15,14 +15,9 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "Opcion", catalog = "ras")
 public class Opcion implements java.io.Serializable {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	public static final String WELCOME_VIEW = "Inicio";
+    public static final String WELCOME_VIEW = "Inicio";
     private Integer idOpcion;
     private String descripcion;
-    private String textoOpcion;
     private Opcion opcion;
     private String ruta;
     private boolean vigencia;
@@ -61,17 +56,8 @@ public class Opcion implements java.io.Serializable {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    
-    @Column(name = "TextoOpcion", length = 45)
-    public String getTextoOpcion() {
-		return textoOpcion;
-	}
 
-	public void setTextoOpcion(String textoOpcion) {
-		this.textoOpcion = textoOpcion;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_menu_padre")
     public Opcion getOpcion() {
         return opcion;

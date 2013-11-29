@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `ras` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `ras`;
--- MySQL dump 10.13  Distrib 5.6.13, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.5.34, for debian-linux-gnu (x86_64)
 --
--- Host: localhost    Database: ras
+-- Host: 127.0.0.1    Database: ras
 -- ------------------------------------------------------
--- Server version	5.6.14
+-- Server version	5.5.34-0ubuntu0.13.10.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -18,38 +18,38 @@ USE `ras`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `categoria`
+-- Table structure for table `Categoria`
 --
 
-DROP TABLE IF EXISTS `categoria`;
+DROP TABLE IF EXISTS `Categoria`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `categoria` (
+CREATE TABLE `Categoria` (
   `idCategoria` int(11) NOT NULL AUTO_INCREMENT,
   `Nombre` varchar(45) DEFAULT NULL,
   `Descripcion` varchar(45) DEFAULT NULL,
   `Vigencia` tinyint(1) NOT NULL,
   PRIMARY KEY (`idCategoria`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `categoria`
+-- Dumping data for table `Categoria`
 --
 
-LOCK TABLES `categoria` WRITE;
-/*!40000 ALTER TABLE `categoria` DISABLE KEYS */;
-/*!40000 ALTER TABLE `categoria` ENABLE KEYS */;
+LOCK TABLES `Categoria` WRITE;
+/*!40000 ALTER TABLE `Categoria` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Categoria` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `compra`
+-- Table structure for table `Compra`
 --
 
-DROP TABLE IF EXISTS `compra`;
+DROP TABLE IF EXISTS `Compra`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `compra` (
+CREATE TABLE `Compra` (
   `idCompra` int(11) NOT NULL AUTO_INCREMENT,
   `Fecha` date DEFAULT NULL,
   `Total` decimal(10,2) DEFAULT NULL,
@@ -57,27 +57,27 @@ CREATE TABLE `compra` (
   `Proveedor_idProveedor` int(11) NOT NULL,
   PRIMARY KEY (`idCompra`),
   KEY `fk_Compra_Proveedor1_idx` (`Proveedor_idProveedor`),
-  CONSTRAINT `fk_Compra_Proveedor1` FOREIGN KEY (`Proveedor_idProveedor`) REFERENCES `proveedor` (`idProveedor`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_Compra_Proveedor1` FOREIGN KEY (`Proveedor_idProveedor`) REFERENCES `Proveedor` (`idProveedor`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `compra`
+-- Dumping data for table `Compra`
 --
 
-LOCK TABLES `compra` WRITE;
-/*!40000 ALTER TABLE `compra` DISABLE KEYS */;
-/*!40000 ALTER TABLE `compra` ENABLE KEYS */;
+LOCK TABLES `Compra` WRITE;
+/*!40000 ALTER TABLE `Compra` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Compra` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `detallecompra`
+-- Table structure for table `DetalleCompra`
 --
 
-DROP TABLE IF EXISTS `detallecompra`;
+DROP TABLE IF EXISTS `DetalleCompra`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `detallecompra` (
+CREATE TABLE `DetalleCompra` (
   `Compra_idCompra` int(11) NOT NULL,
   `Equipo_idEquipo` int(11) NOT NULL,
   `Cantidad` int(11) DEFAULT NULL,
@@ -85,28 +85,28 @@ CREATE TABLE `detallecompra` (
   PRIMARY KEY (`Compra_idCompra`,`Equipo_idEquipo`),
   KEY `fk_Compra_has_Equipo_Equipo1_idx` (`Equipo_idEquipo`),
   KEY `fk_Compra_has_Equipo_Compra1_idx` (`Compra_idCompra`),
-  CONSTRAINT `fk_Compra_has_Equipo_Compra1` FOREIGN KEY (`Compra_idCompra`) REFERENCES `compra` (`idCompra`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Compra_has_Equipo_Equipo1` FOREIGN KEY (`Equipo_idEquipo`) REFERENCES `equipo` (`idEquipo`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_Compra_has_Equipo_Compra1` FOREIGN KEY (`Compra_idCompra`) REFERENCES `Compra` (`idCompra`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Compra_has_Equipo_Equipo1` FOREIGN KEY (`Equipo_idEquipo`) REFERENCES `Equipo` (`idEquipo`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `detallecompra`
+-- Dumping data for table `DetalleCompra`
 --
 
-LOCK TABLES `detallecompra` WRITE;
-/*!40000 ALTER TABLE `detallecompra` DISABLE KEYS */;
-/*!40000 ALTER TABLE `detallecompra` ENABLE KEYS */;
+LOCK TABLES `DetalleCompra` WRITE;
+/*!40000 ALTER TABLE `DetalleCompra` DISABLE KEYS */;
+/*!40000 ALTER TABLE `DetalleCompra` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `distrito`
+-- Table structure for table `Distrito`
 --
 
-DROP TABLE IF EXISTS `distrito`;
+DROP TABLE IF EXISTS `Distrito`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `distrito` (
+CREATE TABLE `Distrito` (
   `idDistrito` int(11) NOT NULL AUTO_INCREMENT,
   `Distrito` varchar(45) DEFAULT NULL,
   `Vigencia` tinyint(1) NOT NULL,
@@ -115,22 +115,22 @@ CREATE TABLE `distrito` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `distrito`
+-- Dumping data for table `Distrito`
 --
 
-LOCK TABLES `distrito` WRITE;
-/*!40000 ALTER TABLE `distrito` DISABLE KEYS */;
-/*!40000 ALTER TABLE `distrito` ENABLE KEYS */;
+LOCK TABLES `Distrito` WRITE;
+/*!40000 ALTER TABLE `Distrito` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Distrito` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `equipo`
+-- Table structure for table `Equipo`
 --
 
-DROP TABLE IF EXISTS `equipo`;
+DROP TABLE IF EXISTS `Equipo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `equipo` (
+CREATE TABLE `Equipo` (
   `idEquipo` int(11) NOT NULL AUTO_INCREMENT,
   `Codigo` varchar(45) DEFAULT NULL,
   `Nombre` varchar(45) DEFAULT NULL,
@@ -141,54 +141,54 @@ CREATE TABLE `equipo` (
   `Categoria_idCategoria` int(11) NOT NULL,
   PRIMARY KEY (`idEquipo`),
   KEY `fk_Equipo_Categoria1_idx` (`Categoria_idCategoria`),
-  CONSTRAINT `fk_Equipo_Categoria1` FOREIGN KEY (`Categoria_idCategoria`) REFERENCES `categoria` (`idCategoria`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_Equipo_Categoria1` FOREIGN KEY (`Categoria_idCategoria`) REFERENCES `Categoria` (`idCategoria`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `equipo`
+-- Dumping data for table `Equipo`
 --
 
-LOCK TABLES `equipo` WRITE;
-/*!40000 ALTER TABLE `equipo` DISABLE KEYS */;
-/*!40000 ALTER TABLE `equipo` ENABLE KEYS */;
+LOCK TABLES `Equipo` WRITE;
+/*!40000 ALTER TABLE `Equipo` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Equipo` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `equipoasignado`
+-- Table structure for table `EquipoAsignado`
 --
 
-DROP TABLE IF EXISTS `equipoasignado`;
+DROP TABLE IF EXISTS `EquipoAsignado`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `equipoasignado` (
+CREATE TABLE `EquipoAsignado` (
   `Equipo_idEquipo` int(11) NOT NULL,
   `Proyecto_idProyecto` int(11) NOT NULL,
   PRIMARY KEY (`Equipo_idEquipo`,`Proyecto_idProyecto`),
   KEY `fk_Equipo_has_Proyecto_Proyecto1_idx` (`Proyecto_idProyecto`),
   KEY `fk_Equipo_has_Proyecto_Equipo1_idx` (`Equipo_idEquipo`),
-  CONSTRAINT `fk_Equipo_has_Proyecto_Equipo1` FOREIGN KEY (`Equipo_idEquipo`) REFERENCES `equipo` (`idEquipo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Equipo_has_Proyecto_Proyecto1` FOREIGN KEY (`Proyecto_idProyecto`) REFERENCES `proyecto` (`idProyecto`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_Equipo_has_Proyecto_Equipo1` FOREIGN KEY (`Equipo_idEquipo`) REFERENCES `Equipo` (`idEquipo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Equipo_has_Proyecto_Proyecto1` FOREIGN KEY (`Proyecto_idProyecto`) REFERENCES `Proyecto` (`idProyecto`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `equipoasignado`
+-- Dumping data for table `EquipoAsignado`
 --
 
-LOCK TABLES `equipoasignado` WRITE;
-/*!40000 ALTER TABLE `equipoasignado` DISABLE KEYS */;
-/*!40000 ALTER TABLE `equipoasignado` ENABLE KEYS */;
+LOCK TABLES `EquipoAsignado` WRITE;
+/*!40000 ALTER TABLE `EquipoAsignado` DISABLE KEYS */;
+/*!40000 ALTER TABLE `EquipoAsignado` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `logconsulta`
+-- Table structure for table `LogConsulta`
 --
 
-DROP TABLE IF EXISTS `logconsulta`;
+DROP TABLE IF EXISTS `LogConsulta`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `logconsulta` (
+CREATE TABLE `LogConsulta` (
   `idLogConsulta` int(11) NOT NULL AUTO_INCREMENT,
   `FechaConsulta` datetime DEFAULT NULL,
   `Usuario_idUsuario` int(11) NOT NULL,
@@ -200,88 +200,87 @@ CREATE TABLE `logconsulta` (
   KEY `fk_LogConsulta_Equipo1_idx` (`Equipo_idEquipo`),
   KEY `fk_LogConsulta_Compra1_idx` (`Compra_idCompra`),
   KEY `fk_LogConsulta_Proyecto1_idx` (`Proyecto_idProyecto`),
-  CONSTRAINT `fk_LogConsulta_Usuario1` FOREIGN KEY (`Usuario_idUsuario`) REFERENCES `usuario` (`idUsuario`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_LogConsulta_Equipo1` FOREIGN KEY (`Equipo_idEquipo`) REFERENCES `equipo` (`idEquipo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_LogConsulta_Compra1` FOREIGN KEY (`Compra_idCompra`) REFERENCES `compra` (`idCompra`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_LogConsulta_Proyecto1` FOREIGN KEY (`Proyecto_idProyecto`) REFERENCES `proyecto` (`idProyecto`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_LogConsulta_Usuario1` FOREIGN KEY (`Usuario_idUsuario`) REFERENCES `Usuario` (`idUsuario`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_LogConsulta_Equipo1` FOREIGN KEY (`Equipo_idEquipo`) REFERENCES `Equipo` (`idEquipo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_LogConsulta_Compra1` FOREIGN KEY (`Compra_idCompra`) REFERENCES `Compra` (`idCompra`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_LogConsulta_Proyecto1` FOREIGN KEY (`Proyecto_idProyecto`) REFERENCES `Proyecto` (`idProyecto`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `logconsulta`
+-- Dumping data for table `LogConsulta`
 --
 
-LOCK TABLES `logconsulta` WRITE;
-/*!40000 ALTER TABLE `logconsulta` DISABLE KEYS */;
-/*!40000 ALTER TABLE `logconsulta` ENABLE KEYS */;
+LOCK TABLES `LogConsulta` WRITE;
+/*!40000 ALTER TABLE `LogConsulta` DISABLE KEYS */;
+/*!40000 ALTER TABLE `LogConsulta` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `opcion`
+-- Table structure for table `Opcion`
 --
 
-DROP TABLE IF EXISTS `opcion`;
+DROP TABLE IF EXISTS `Opcion`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `opcion` (
+CREATE TABLE `Opcion` (
   `idOpcion` int(11) NOT NULL AUTO_INCREMENT,
   `Descripcion` varchar(45) DEFAULT NULL,
-  `TextoOpcion` varchar(45) DEFAULT NULL,
   `Ruta` varchar(45) DEFAULT NULL,
   `Vigencia` tinyint(1) NOT NULL,
   `id_menu_padre` int(11) DEFAULT NULL,
   PRIMARY KEY (`idOpcion`),
   KEY `fk_Opcion_Opcion1_idx` (`id_menu_padre`),
-  CONSTRAINT `fk_Opcion_Opcion1` FOREIGN KEY (`id_menu_padre`) REFERENCES `opcion` (`idOpcion`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+  CONSTRAINT `fk_Opcion_Opcion1` FOREIGN KEY (`id_menu_padre`) REFERENCES `Opcion` (`idOpcion`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `opcion`
+-- Dumping data for table `Opcion`
 --
 
-LOCK TABLES `opcion` WRITE;
-/*!40000 ALTER TABLE `opcion` DISABLE KEYS */;
-INSERT INTO `opcion` VALUES (1,'Compras','Compras',NULL,1,NULL),(2,'Inventario','Inventario',NULL,1,NULL),(3,'Personal','Personal',NULL,1,NULL),(4,'Proyecto','Proyecto',NULL,1,NULL),(5,'security','Seguridad',NULL,1,NULL),(6,'historialCompras','Historico','pages/Compras/historialCompras.xhtml',1,1),(7,'mantCompras','Detalle','pages/Compras/mantCompras.xhtml',1,1),(8,'mantProveedor','Proveedor','pages/Compras/mantProveedor.xhtml',1,1),(9,'mantCategoria','Categoria','pages/Inventario/mantCategoria.xhtml',1,2),(10,'mantEquipo','Detalle Equipo','pages/Inventario/mantEquipo.xhtml',1,2),(11,'mantPersonal','Detalle','pages/Personal/mantPersonal.xhtml',1,3),(12,'detalleProyecto','Detalle','pages/Proyecto/detalleProyecto.xhtml',1,4),(13,'mantProyecto','Gestion','pages/Proyecto/mantProyecto.xhtml',1,4),(14,'mantRoles','Gestion de Roles','pages/security/mantRoles.xhtml',1,5),(15,'Usuario','Usuario','pages/security/Usuario.xhtml',1,5);
-/*!40000 ALTER TABLE `opcion` ENABLE KEYS */;
+LOCK TABLES `Opcion` WRITE;
+/*!40000 ALTER TABLE `Opcion` DISABLE KEYS */;
+INSERT INTO `Opcion` VALUES (1,'mantCategoria','pages/mantCategoria.xhtml',1,3),(2,'mantEquipo','pages/mantEquipo.xhtml',1,3),(3,'pages','',1,NULL);
+/*!40000 ALTER TABLE `Opcion` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `opcionasignadas`
+-- Table structure for table `OpcionAsignadas`
 --
 
-DROP TABLE IF EXISTS `opcionasignadas`;
+DROP TABLE IF EXISTS `OpcionAsignadas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `opcionasignadas` (
+CREATE TABLE `OpcionAsignadas` (
   `Rol_idRol` int(11) NOT NULL,
   `Opcion_idOpcion` int(11) NOT NULL,
   PRIMARY KEY (`Rol_idRol`,`Opcion_idOpcion`),
   KEY `fk_Rol_has_Opcion_Opcion1_idx` (`Opcion_idOpcion`),
   KEY `fk_Rol_has_Opcion_Rol1_idx` (`Rol_idRol`),
-  CONSTRAINT `fk_Rol_has_Opcion_Rol1` FOREIGN KEY (`Rol_idRol`) REFERENCES `rol` (`idRol`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Rol_has_Opcion_Opcion1` FOREIGN KEY (`Opcion_idOpcion`) REFERENCES `opcion` (`idOpcion`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_Rol_has_Opcion_Rol1` FOREIGN KEY (`Rol_idRol`) REFERENCES `Rol` (`idRol`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Rol_has_Opcion_Opcion1` FOREIGN KEY (`Opcion_idOpcion`) REFERENCES `Opcion` (`idOpcion`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `opcionasignadas`
+-- Dumping data for table `OpcionAsignadas`
 --
 
-LOCK TABLES `opcionasignadas` WRITE;
-/*!40000 ALTER TABLE `opcionasignadas` DISABLE KEYS */;
-INSERT INTO `opcionasignadas` VALUES (1,1),(1,2),(1,3),(1,4),(1,5);
-/*!40000 ALTER TABLE `opcionasignadas` ENABLE KEYS */;
+LOCK TABLES `OpcionAsignadas` WRITE;
+/*!40000 ALTER TABLE `OpcionAsignadas` DISABLE KEYS */;
+INSERT INTO `OpcionAsignadas` VALUES (1,1),(1,2);
+/*!40000 ALTER TABLE `OpcionAsignadas` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `otrogasto`
+-- Table structure for table `OtroGasto`
 --
 
-DROP TABLE IF EXISTS `otrogasto`;
+DROP TABLE IF EXISTS `OtroGasto`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `otrogasto` (
+CREATE TABLE `OtroGasto` (
   `idOtroGasto` int(11) NOT NULL AUTO_INCREMENT,
   `Partida` varchar(45) DEFAULT NULL,
   `Descripcion` varchar(45) DEFAULT NULL,
@@ -291,27 +290,27 @@ CREATE TABLE `otrogasto` (
   `Proyecto_idProyecto` int(11) NOT NULL,
   PRIMARY KEY (`idOtroGasto`),
   KEY `fk_OtroGasto_Proyecto1_idx` (`Proyecto_idProyecto`),
-  CONSTRAINT `fk_OtroGasto_Proyecto1` FOREIGN KEY (`Proyecto_idProyecto`) REFERENCES `proyecto` (`idProyecto`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_OtroGasto_Proyecto1` FOREIGN KEY (`Proyecto_idProyecto`) REFERENCES `Proyecto` (`idProyecto`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `otrogasto`
+-- Dumping data for table `OtroGasto`
 --
 
-LOCK TABLES `otrogasto` WRITE;
-/*!40000 ALTER TABLE `otrogasto` DISABLE KEYS */;
-/*!40000 ALTER TABLE `otrogasto` ENABLE KEYS */;
+LOCK TABLES `OtroGasto` WRITE;
+/*!40000 ALTER TABLE `OtroGasto` DISABLE KEYS */;
+/*!40000 ALTER TABLE `OtroGasto` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `personal`
+-- Table structure for table `Personal`
 --
 
-DROP TABLE IF EXISTS `personal`;
+DROP TABLE IF EXISTS `Personal`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `personal` (
+CREATE TABLE `Personal` (
   `idPersonal` int(11) NOT NULL AUTO_INCREMENT,
   `Nombre` varchar(45) DEFAULT NULL,
   `Profesion` varchar(45) DEFAULT NULL,
@@ -324,22 +323,22 @@ CREATE TABLE `personal` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `personal`
+-- Dumping data for table `Personal`
 --
 
-LOCK TABLES `personal` WRITE;
-/*!40000 ALTER TABLE `personal` DISABLE KEYS */;
-/*!40000 ALTER TABLE `personal` ENABLE KEYS */;
+LOCK TABLES `Personal` WRITE;
+/*!40000 ALTER TABLE `Personal` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Personal` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `personalasignado`
+-- Table structure for table `PersonalAsignado`
 --
 
-DROP TABLE IF EXISTS `personalasignado`;
+DROP TABLE IF EXISTS `PersonalAsignado`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `personalasignado` (
+CREATE TABLE `PersonalAsignado` (
   `Proyecto_idProyecto` int(11) NOT NULL,
   `Personal_idPersonal` int(11) NOT NULL,
   `Pago` decimal(10,2) DEFAULT NULL,
@@ -349,28 +348,28 @@ CREATE TABLE `personalasignado` (
   PRIMARY KEY (`Proyecto_idProyecto`,`Personal_idPersonal`),
   KEY `fk_Proyecto_has_Personal_Personal1_idx` (`Personal_idPersonal`),
   KEY `fk_Proyecto_has_Personal_Proyecto1_idx` (`Proyecto_idProyecto`),
-  CONSTRAINT `fk_Proyecto_has_Personal_Proyecto1` FOREIGN KEY (`Proyecto_idProyecto`) REFERENCES `proyecto` (`idProyecto`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Proyecto_has_Personal_Personal1` FOREIGN KEY (`Personal_idPersonal`) REFERENCES `personal` (`idPersonal`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_Proyecto_has_Personal_Proyecto1` FOREIGN KEY (`Proyecto_idProyecto`) REFERENCES `Proyecto` (`idProyecto`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Proyecto_has_Personal_Personal1` FOREIGN KEY (`Personal_idPersonal`) REFERENCES `Personal` (`idPersonal`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `personalasignado`
+-- Dumping data for table `PersonalAsignado`
 --
 
-LOCK TABLES `personalasignado` WRITE;
-/*!40000 ALTER TABLE `personalasignado` DISABLE KEYS */;
-/*!40000 ALTER TABLE `personalasignado` ENABLE KEYS */;
+LOCK TABLES `PersonalAsignado` WRITE;
+/*!40000 ALTER TABLE `PersonalAsignado` DISABLE KEYS */;
+/*!40000 ALTER TABLE `PersonalAsignado` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `proveedor`
+-- Table structure for table `Proveedor`
 --
 
-DROP TABLE IF EXISTS `proveedor`;
+DROP TABLE IF EXISTS `Proveedor`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `proveedor` (
+CREATE TABLE `Proveedor` (
   `idProveedor` int(11) NOT NULL AUTO_INCREMENT,
   `Nombre` varchar(45) DEFAULT NULL,
   `Direccion` varchar(45) DEFAULT NULL,
@@ -379,27 +378,27 @@ CREATE TABLE `proveedor` (
   `Distrito_idDistrito` int(11) NOT NULL,
   PRIMARY KEY (`idProveedor`),
   KEY `fk_Proveedor_Distrito1_idx` (`Distrito_idDistrito`),
-  CONSTRAINT `fk_Proveedor_Distrito1` FOREIGN KEY (`Distrito_idDistrito`) REFERENCES `distrito` (`idDistrito`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_Proveedor_Distrito1` FOREIGN KEY (`Distrito_idDistrito`) REFERENCES `Distrito` (`idDistrito`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `proveedor`
+-- Dumping data for table `Proveedor`
 --
 
-LOCK TABLES `proveedor` WRITE;
-/*!40000 ALTER TABLE `proveedor` DISABLE KEYS */;
-/*!40000 ALTER TABLE `proveedor` ENABLE KEYS */;
+LOCK TABLES `Proveedor` WRITE;
+/*!40000 ALTER TABLE `Proveedor` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Proveedor` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `proyecto`
+-- Table structure for table `Proyecto`
 --
 
-DROP TABLE IF EXISTS `proyecto`;
+DROP TABLE IF EXISTS `Proyecto`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `proyecto` (
+CREATE TABLE `Proyecto` (
   `idProyecto` int(11) NOT NULL AUTO_INCREMENT,
   `Nombre` varchar(45) DEFAULT NULL,
   `Descripcion` varchar(145) DEFAULT NULL,
@@ -418,22 +417,22 @@ CREATE TABLE `proyecto` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `proyecto`
+-- Dumping data for table `Proyecto`
 --
 
-LOCK TABLES `proyecto` WRITE;
-/*!40000 ALTER TABLE `proyecto` DISABLE KEYS */;
-/*!40000 ALTER TABLE `proyecto` ENABLE KEYS */;
+LOCK TABLES `Proyecto` WRITE;
+/*!40000 ALTER TABLE `Proyecto` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Proyecto` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `rol`
+-- Table structure for table `Rol`
 --
 
-DROP TABLE IF EXISTS `rol`;
+DROP TABLE IF EXISTS `Rol`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `rol` (
+CREATE TABLE `Rol` (
   `idRol` int(11) NOT NULL AUTO_INCREMENT,
   `Descripcion` varchar(45) DEFAULT NULL,
   `Vigencia` tinyint(1) NOT NULL,
@@ -442,23 +441,23 @@ CREATE TABLE `rol` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `rol`
+-- Dumping data for table `Rol`
 --
 
-LOCK TABLES `rol` WRITE;
-/*!40000 ALTER TABLE `rol` DISABLE KEYS */;
-INSERT INTO `rol` VALUES (1,'Administrador',1);
-/*!40000 ALTER TABLE `rol` ENABLE KEYS */;
+LOCK TABLES `Rol` WRITE;
+/*!40000 ALTER TABLE `Rol` DISABLE KEYS */;
+INSERT INTO `Rol` VALUES (1,'administrador',1);
+/*!40000 ALTER TABLE `Rol` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `usuario`
+-- Table structure for table `Usuario`
 --
 
-DROP TABLE IF EXISTS `usuario`;
+DROP TABLE IF EXISTS `Usuario`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `usuario` (
+CREATE TABLE `Usuario` (
   `idUsuario` int(11) NOT NULL AUTO_INCREMENT,
   `Login` varchar(45) NOT NULL,
   `Password` varchar(45) NOT NULL,
@@ -466,18 +465,18 @@ CREATE TABLE `usuario` (
   `Rol_idRol` int(11) DEFAULT NULL,
   PRIMARY KEY (`idUsuario`),
   KEY `fk_Usuario_Rol1_idx` (`Rol_idRol`),
-  CONSTRAINT `fk_Usuario_Rol1` FOREIGN KEY (`Rol_idRol`) REFERENCES `rol` (`idRol`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_Usuario_Rol1` FOREIGN KEY (`Rol_idRol`) REFERENCES `Rol` (`idRol`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `usuario`
+-- Dumping data for table `Usuario`
 --
 
-LOCK TABLES `usuario` WRITE;
-/*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'admin','admin',1,NULL);
-/*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
+LOCK TABLES `Usuario` WRITE;
+/*!40000 ALTER TABLE `Usuario` DISABLE KEYS */;
+INSERT INTO `Usuario` VALUES (1,'admin','admin',1,1);
+/*!40000 ALTER TABLE `Usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -489,4 +488,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-11-29 15:56:22
+-- Dump completed on 2013-11-22  4:11:13
