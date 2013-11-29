@@ -1,6 +1,8 @@
 package org.ruqu.ras.security;
 
 import com.google.common.collect.Lists;
+
+
 import org.ruqu.ras.domain.Opcion;
 import org.ruqu.ras.domain.Rol;
 import org.ruqu.ras.helpers.utils.HttpRequestUtil;
@@ -12,8 +14,10 @@ import org.springframework.security.web.access.intercept.FilterInvocationSecurit
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 public class MyFilterSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
@@ -38,40 +42,45 @@ public class MyFilterSecurityMetadataSource implements FilterInvocationSecurityM
             listUrl = listUrl.subList(1, listUrl.size());
         listUrl = Lists.reverse(listUrl);
 
-        if (cache.containsKey(nombreVista)) {
-
-            return cache.get(nombreVista);
-        } else {
-            List<ConfigAttribute> lista_roles;
-            String[] roles = new String[0];
-            if (nombreVista.compareTo(Opcion.WELCOME_VIEW) == 0) {
-                roles = new String[1];
-                roles[0] = Rol.HOME;
-            } else {
-                try {
-                    for (String menu : listUrl) {
-                        roles = rolService.getRolesMenuByRuta(nombreVista).toArray(new String[0]);
-                        if (roles.length > 0)
-                            break;
-                    }
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
-
+ if(cache.containsKey(nombreVista)){
+        	
+        	return cache.get(nombreVista);
+        }else{
+        	List<ConfigAttribute> lista_roles;
+        	String[] roles=new String[0];
+            if(nombreVista.compareTo(Opcion.WELCOME_VIEW)==0){
+            	roles = new String[1];
+            	roles[0] = Rol.HOME;
+            	
+            }else{
+            	
+            	Set<String> temp = new HashSet<String>();
+            	for(String menu:listUrl){
+            		List<String> list = rolService.getRolesMenuByRuta(menu);
+            		if(list.size()>0){
+            			temp.addAll(list);       		
+            		}
+            	}
+            	if(temp.size()>0){
+            		roles = temp.toArray(new String[0]);
+            	}
+            	
             }
-
-            if (roles.length == 0) {
-                roles = new String[1];
-                roles[0] = Rol.NO_ROLS;
+            
+            if(roles.length==0){
+            	roles = new String[1];
+            	roles[0] = Rol.NO_ROLS;
             }
-            lista_roles = SecurityConfig.createList(roles);
+          
+           lista_roles= SecurityConfig.createList(roles);
+           
+           cache.put(nombreVista, lista_roles);
 
-            cache.put(nombreVista, lista_roles);
-
-            return lista_roles;
-
+    	   return lista_roles;
 
         }
+
+
 
     }
 
