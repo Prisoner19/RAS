@@ -207,3 +207,9 @@ body {
 .wizardNoBorder .ui-wizard-content .ui-panel {
 	border:none;
 }
+
+.construction{
+	font-family:verdana;
+	font-size:25px;
+	margin-left:370px;
+}

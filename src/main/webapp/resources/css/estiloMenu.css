@@ -8,10 +8,21 @@
 }
 
 .ui-dock-top{
-	
+
 }
 
 .ui-dock-container-top{
 	border-radius:9px;
 	background: url(../images/form-bg.png) top left;
+	display:inline;
+}
+
+.botonMenu{
+	font-family:candara;
+	font-size:16px;
+	font-weight:lighter;
+}
+
+.elijaOpcion{
+	display:inline;
 }
