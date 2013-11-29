@@ -5,7 +5,9 @@ import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.DefaultSubMenu;
 import org.primefaces.model.menu.MenuModel;
 import org.ruqu.ras.domain.Opcion;
+import org.ruqu.ras.security.CustomUserDetails;
 import org.ruqu.ras.service.IOpcionService;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -48,10 +50,9 @@ public class MenuBean implements Serializable {
 
 
     public void initModel() {
-        /*
+        
         CustomUserDetails user = (CustomUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
-
 		model = new DefaultMenuModel();
 		try{
             List<Opcion> submenus = opcionService.getSubOpcions();
@@ -70,8 +71,8 @@ public class MenuBean implements Serializable {
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
-		*/
-
+		
+/*
         model = new DefaultMenuModel();
         List<Opcion> submenus = opcionService.getSubOpcions();
 
@@ -91,7 +92,7 @@ public class MenuBean implements Serializable {
                 model.addElement(submenu);
 
         }
-
+*/
 
     }
 

@@ -1,57 +1,31 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+ <ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/template/esqueleto.xhtml">
+ 
+ 	<ui:define name="content">
+ 		<h:outputStylesheet library="css" name="estiloMenu.css"  /> 
+        <h:form id="formMenu">
+        <!-- 
+            <p:panel styleClass="panelMenu"> -->
+            <div class="divMenu">
+				<p:dock position="top" proximity="90" maxWidth="40" styleClass="dock" align="center">  
+				    <p:menuitem value="Home" icon="/resources/images/ruquLogo.png" url="#"/>  
+				    <p:menuitem value="Music" icon="/resources/images/ruquLogo.png" url="#"/>  
+				    <p:menuitem value="Video" icon="/resources/images/ruquLogo.png" url="#"/>  
+				    <p:menuitem value="Email" icon="/resources/images/ruquLogo.png" url="#"/>  
+				    <p:menuitem value="Portfolio" icon="/resources/images/ruquLogo.png" url="#"/>  
+				    <p:menuitem value="Link" icon="/resources/images/ruquLogo.png" url="#"/>  
+				    <p:menuitem value="RSS" icon="/resources/images/ruquLogo.png" url="#"/>  
+				    <p:menuitem value="History" icon="/resources/images/ruquLogo.png" url="#"/>  
+				</p:dock>  
+			</div>
+			<!--  </p:panel> -->
+			
+		</h:form>
 
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
-	
-<h:head>
-
-	<link rel="stylesheet" href="#{request.contextPath}/resources/css/base.css" />
-	<link rel="stylesheet" href="#{request.contextPath}/resources/css/skeleton.css" />
-	<link rel="stylesheet" href="#{request.contextPath}/resources/css/layout.css" />
-	<link rel="stylesheet" href="#{request.contextPath}/resources/css/estiloLogin.css" />
-	
-</h:head>
-
-<h:body>
-
-	<h:form id="form">
-	
-		<div class="notice">
-			<a href="" class="close">close</a>
-			<p class="titulo">ACTIVA BUILDING CONTROL</p>
-		</div>
-	
-		<div class="container">
-		
-		<div class="form-bg">
-			<form>
-				<h2 class="encabezado"> Login</h2>
-				<p><input type="text" placeholder="Username"/></p>
-				<p><input type="password" placeholder="Password"/></p>
-				<label for="remember">
-				  <input type="checkbox" id="remember" value="remember" />
-				  <span class="recuerda">Recuérdame en esta PC</span>
-				</label>
-				<button type="submit"></button>
-			</form>
-		</div>
-
-		<div class="logo">	
-			<img src="#{request.contextPath}/resources/images/ruquLogo.png"/>
-		</div>
-		
-	
-	</div><!-- container -->
-
-
-
-	</h:form>
-
-</h:body>
-
-</html>
+    </ui:define>
+    
+</ui:composition>

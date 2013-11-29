@@ -21,14 +21,16 @@
             <sec:filter-chain pattern="/logout.jsp" filters="none"/>
             <sec:filter-chain pattern="/css/**" filters="none"/>
 
-            <sec:filter-chain pattern="/**"
+            <!--  <sec:filter-chain pattern="/**"
                               filters="
-            securityContextFilter,
-            logoutFilter,
-            authenticationProcessingFilter,
-            exceptionTranslationFilter,
-            filterSecurityInterceptor"/>
-        </security:filter-chain-map>
+		            securityContextFilter,
+		            logoutFilter,
+		            authenticationProcessingFilter,
+		            exceptionTranslationFilter,
+		            filterSecurityInterceptor"/>
+		     <-->
+       	</security:filter-chain-map>
+        	
     </beans:bean>
 
 
