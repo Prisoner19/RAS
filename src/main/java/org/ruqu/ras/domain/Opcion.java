@@ -25,7 +25,7 @@ public class Opcion implements java.io.Serializable {
     private String textoOpcion;
     private Opcion opcion;
     private String ruta;
-    private boolean vigencia;
+    private boolean vigencia=true;
     private Set<Opcion> opciones = new HashSet<Opcion>(0);
     private Set<Rol> rols = new HashSet<Rol>(0);
 

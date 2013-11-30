@@ -29,7 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         CustomUserDetails user;
         int idRol_default = -1;
-
+        System.out.println(username);
         Usuario us = usuarioDao.getByUsuario(username);
 
         if (us == null) {
@@ -37,6 +37,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
         List<Rol> roles = rolDao.getRolesUserbyId(us.getIdUsuario());
+        System.out.println(roles);
         Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         if (roles.size() > 0) {
             authorities.add(new SimpleGrantedAuthority(roles.get(0).getDescripcion()));

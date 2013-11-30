@@ -20,7 +20,7 @@ public class Rol implements java.io.Serializable {
 
     private Integer idRol;
     private String descripcion;
-    private boolean vigencia;
+    private boolean vigencia=true;
     private Set<Usuario> usuarios = new HashSet<Usuario>(0);
     private Set<Opcion> opcions = new HashSet<Opcion>(0);
 

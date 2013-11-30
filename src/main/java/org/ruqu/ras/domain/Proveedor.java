@@ -27,7 +27,7 @@ public class Proveedor implements java.io.Serializable {
 	private String nombre;
 	private String direccion;
 	private String telefono;
-	private Boolean vigencia;
+	private Boolean vigencia=true;
 	private Set<Compra> compras = new HashSet<Compra>(0);
 
 	public Proveedor() {

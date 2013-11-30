@@ -134,6 +134,12 @@ CREATE TABLE IF NOT EXISTS `ras`.`Rol` (
   PRIMARY KEY (`idRol`))
   ENGINE = InnoDB;
 
+LOCK TABLES `Rol` WRITE;
+/*!40000 ALTER TABLE `Rol` DISABLE KEYS */;
+INSERT INTO `Rol` VALUES (1,'Administrador',1);
+/*!40000 ALTER TABLE `Rol` ENABLE KEYS */;
+UNLOCK TABLES;
+
 
 -- -----------------------------------------------------
 -- Table `ras`.`Usuario`
@@ -156,6 +162,12 @@ CREATE TABLE IF NOT EXISTS `ras`.`Usuario` (
   ENGINE = InnoDB;
 
 
+
+LOCK TABLES `Usuario` WRITE;
+/*!40000 ALTER TABLE `Usuario` DISABLE KEYS */;
+INSERT INTO `Usuario` VALUES (1,'admin','admin',1,NULL);
+/*!40000 ALTER TABLE `Usuario` ENABLE KEYS */;
+UNLOCK TABLES;
 -- -----------------------------------------------------
 -- Table `ras`.`LogConsulta`
 -- -----------------------------------------------------
@@ -254,6 +266,7 @@ DROP TABLE IF EXISTS `ras`.`Opcion` ;
 CREATE TABLE IF NOT EXISTS `ras`.`Opcion` (
   `idOpcion` INT NOT NULL AUTO_INCREMENT,
   `Descripcion` VARCHAR(45) NULL,
+  `TextoOpcion` varchar(45) DEFAULT NULL,
   `Ruta` VARCHAR(45) NULL,
   `Vigencia` TINYINT(1) NOT NULL,
   `id_menu_padre` INT NULL,
@@ -266,6 +279,11 @@ CREATE TABLE IF NOT EXISTS `ras`.`Opcion` (
     ON UPDATE NO ACTION)
   ENGINE = InnoDB;
 
+LOCK TABLES `Opcion` WRITE;
+/*!40000 ALTER TABLE `Opcion` DISABLE KEYS */;
+INSERT INTO `Opcion` VALUES (1,'Compras','Compras',NULL,1,NULL),(2,'Inventario','Inventario',NULL,1,NULL),(3,'Personal','Personal',NULL,1,NULL),(4,'Proyecto','Proyecto',NULL,1,NULL),(5,'security','Seguridad',NULL,1,NULL),(6,'historialCompras','Historico','pages/Compras/historialCompras.xhtml',1,1),(7,'mantCompras','Detalle','pages/Compras/mantCompras.xhtml',1,1),(8,'mantProveedor','Proveedor','pages/Compras/mantProveedor.xhtml',1,1),(9,'mantCategoria','Categoria','pages/Inventario/mantCategoria.xhtml',1,2),(10,'mantEquipo','Detalle Equipo','pages/Inventario/mantEquipo.xhtml',1,2),(11,'mantPersonal','Detalle','pages/Personal/mantPersonal.xhtml',1,3),(12,'detalleProyecto','Detalle','pages/Proyecto/detalleProyecto.xhtml',1,4),(13,'mantProyecto','Gestion','pages/Proyecto/mantProyecto.xhtml',1,4),(14,'mantRoles','Gestion de Roles','pages/security/mantRoles.xhtml',1,5),(15,'Usuario','Usuario','pages/security/Usuario.xhtml',1,5);
+/*!40000 ALTER TABLE `Opcion` ENABLE KEYS */;
+UNLOCK TABLES;
 
 -- -----------------------------------------------------
 -- Table `ras`.`Personal`
@@ -306,6 +324,12 @@ CREATE TABLE IF NOT EXISTS `ras`.`OpcionAsignadas` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
   ENGINE = InnoDB;
+
+LOCK TABLES `OpcionAsignadas` WRITE;
+/*!40000 ALTER TABLE `OpcionAsignadas` DISABLE KEYS */;
+INSERT INTO `OpcionAsignadas` VALUES (1,1),(1,2),(1,3),(1,4),(1,5);
+/*!40000 ALTER TABLE `OpcionAsignadas` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 -- -----------------------------------------------------
@@ -352,7 +376,7 @@ CREATE TABLE IF NOT EXISTS `ras`.`OtroGasto` (
   PRIMARY KEY (`idOtroGasto`),
   INDEX `fk_OtroGasto_Proyecto1_idx` (`Proyecto_idProyecto` ASC),
   CONSTRAINT `fk_OtroGasto_Proyecto1`
-  FOREIGN KEY (`Proyecto_idProyecto`)
+  FOREIGN KEY   (`Proyecto_idProyecto`)
   REFERENCES `ras`.`Proyecto` (`idProyecto`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)

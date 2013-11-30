@@ -72,9 +72,8 @@ public class OpcionDao implements IOpcionDao{
         @SuppressWarnings("unchecked")
         List<Opcion> list = sessionFactory.getCurrentSession()
                 .createQuery("Select m from Opcion as m "
-                        + "inner join m.rols as rol "
-                        + "where rol in :roles and m.opcion.id=:padre").
-                        setParameterList("roles", roles).setParameter("padre", id_padre).list();
+                        + "where m.opcion.id=:padre")
+                        .setParameter("padre", id_padre).list();
 
 
         return list;

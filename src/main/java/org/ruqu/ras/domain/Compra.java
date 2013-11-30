@@ -30,7 +30,7 @@ public class Compra implements java.io.Serializable {
 	private Proveedor proveedor;
 	private Date fecha;
 	private BigDecimal total;
-	private boolean vigencia;
+	private boolean vigencia=true;
 	private Set<Logconsulta> logconsultas = new HashSet<Logconsulta>(0);
 	private Set<Detallecompra> detallecompras = new HashSet<Detallecompra>(0);
 

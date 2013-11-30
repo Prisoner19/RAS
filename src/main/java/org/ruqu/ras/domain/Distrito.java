@@ -22,7 +22,7 @@ public class Distrito implements java.io.Serializable {
 
 	private Integer idDistrito;
 	private String distrito;
-	private boolean vigencia;
+	private boolean vigencia=true;
 	private Set<Proveedor> proveedors = new HashSet<Proveedor>(0);
 
 	public Distrito() {
