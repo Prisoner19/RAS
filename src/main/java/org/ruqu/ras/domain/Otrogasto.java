@@ -29,7 +29,7 @@ public class Otrogasto implements java.io.Serializable {
 	private String descripcion;
 	private BigDecimal monto;
 	private Date registro;
-	private boolean vigencia;
+	private boolean vigencia=true;
 
 	public Otrogasto() {
 	}

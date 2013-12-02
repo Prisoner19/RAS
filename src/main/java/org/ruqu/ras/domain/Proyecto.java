@@ -39,7 +39,7 @@ public class Proyecto implements java.io.Serializable {
 	private BigDecimal costoMaterialReal;
 	private BigDecimal costoPersonalReal;
 	private BigDecimal costoOtrosReal;
-	private boolean vigencia;
+	private boolean vigencia=true;
 	private Set<Personalasignado> personalasignados = new HashSet<Personalasignado>(
 			0);
 	private Set<Otrogasto> otrogastos = new HashSet<Otrogasto>(0);
@@ -218,7 +218,7 @@ public class Proyecto implements java.io.Serializable {
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "equipoasignado", catalog = "ras", joinColumns = { @JoinColumn(name = "Proyecto_idProyecto", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "Equipo_idEquipo", nullable = false, updatable = false) })
+	@JoinTable(name = "EquipoAsignado", catalog = "ras", joinColumns = { @JoinColumn(name = "Proyecto_idProyecto", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "Equipo_idEquipo", nullable = false, updatable = false) })
 	public Set<Equipo> getEquipos() {
 		return this.equipos;
 	}

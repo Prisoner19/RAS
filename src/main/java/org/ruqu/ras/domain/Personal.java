@@ -29,7 +29,7 @@ public class Personal implements java.io.Serializable {
 	private Date registro;
 	private String celular;
 	private String email;
-	private boolean vigencia;
+	private boolean vigencia=true;
 	private Set<Personalasignado> personalasignados = new HashSet<Personalasignado>(
 			0);
 
