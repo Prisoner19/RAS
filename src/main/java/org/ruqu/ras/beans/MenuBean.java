@@ -71,6 +71,10 @@ public class MenuBean implements Serializable {
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
+		
+		
+		System.out.print(model.getElements().get(0).getId());
+		
 		/*
 
         model = new DefaultMenuModel();

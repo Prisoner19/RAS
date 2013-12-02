@@ -14,10 +14,17 @@
 
 	<h:body>
 		<h:form>
-			<div id="footer">
-			 	<p:menubar styleClass="menuBar" model="#{menuBean.model}" widgetVar="menuTree" ></p:menubar> 
+			<p:growl id="messages"/>  
+			<div id="header">
+				<div class="logout">
+					<p:commandButton styleClass="botonLogout" value="Cerrar Sesión" actionListener="#{loginBean.logout}"
+					icon="ui-icon-circle-arrow-w" action="menuPrincipal" ajax="false"  />
+				</div>
+				<p class="titulo">ACTIVA BUILDING CONTROL</p>
+				<div class="reloj">
+					<p:clock pattern="HH:mm:ss - dd / MM / yyyy" />
+				</div>				
 			</div>
-		 
 		</h:form>
 	
 	</h:body>		

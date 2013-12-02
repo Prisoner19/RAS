@@ -24,7 +24,7 @@
 
         <div id="heading">
             <ui:insert name="heading">
-                <ui:include src="/template/menu.xhtml"/>
+                <ui:include src="/template/header.xhtml"/>
             </ui:insert>
         </div>
 
@@ -33,6 +33,12 @@
             <br/>
             <ui:insert name="content"/>
             <br/>
+        </div>
+        
+        <div id="footer">
+         	<ui:insert name="footer">
+                <ui:include src="/template/menu.xhtml"/>
+            </ui:insert>
         </div>
 
     </h:body>

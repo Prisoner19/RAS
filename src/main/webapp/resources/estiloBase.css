@@ -1426,6 +1426,10 @@
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     border-radius: 0;
+    border-right: 1px solid #88A1B5;
+    font-family: candara;
+    font-weight: lighter;
+    padding: 5px;
 }
 
 .ui-menu.ui-widget .ui-menu-list {
@@ -1544,6 +1548,10 @@
     -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
     -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+    background: #fff;
+	border: 1px solid #95A18F;
+	position: fixed;
+
 }
 
 .ui-menu.ui-menubar .ui-menu-parent .ui-menu-child {

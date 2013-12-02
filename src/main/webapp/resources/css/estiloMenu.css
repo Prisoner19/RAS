@@ -1,31 +1,13 @@
-.panelMenu{
-	-moz-border-radius:9px;
-	-webkit-border-radius:9px;
-	border-radius:9px;
-	margin: 150px auto 0;
-	background: url(../images/bg.jpg) top left;
-	padding: 15px 0 15px 8px; 
-	width:600px;
-	height:300px;
-	opacity:0.9;
+
+
+#footer{
+   position:absolute;
+   bottom:20px;
+   height:60px;
+   margin:auto;
 }
 
-.ui-dock-top{
-
-}
-
-.ui-dock-container-top{
-	border-radius:9px;
-	background: url(../images/form-bg.png) top left;
-	display:inline;
-}
-
-.botonMenu{
-	font-family:candara;
-	font-size:16px;
-	font-weight:lighter;
-}
-
-.elijaOpcion{
-	display:inline;
+.menuBar, .ui-menu .ui-menubar .menuBar{
+	width:500px;
+	
 }
