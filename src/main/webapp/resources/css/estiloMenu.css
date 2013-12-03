@@ -1,13 +1,12 @@
 
 
-#footer{
-   position:absolute;
-   bottom:20px;
-   height:60px;
-   margin:auto;
+#header2{
+  	margin-top:60px;
+   	height:60px;
+
 }
 
 .menuBar, .ui-menu .ui-menubar .menuBar{
 	width:500px;
-	
+	padding:0px;
 }

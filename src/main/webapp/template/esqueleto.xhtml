@@ -28,18 +28,19 @@
             </ui:insert>
         </div>
 
-
+		<div id="header2">
+         	<ui:insert name="header2">
+                <ui:include src="/template/menu.xhtml"/>
+            </ui:insert>
+        </div>
+        
         <div id="content">
             <br/>
             <ui:insert name="content"/>
             <br/>
         </div>
         
-        <div id="footer">
-         	<ui:insert name="footer">
-                <ui:include src="/template/menu.xhtml"/>
-            </ui:insert>
-        </div>
+        
 
     </h:body>
 </f:view>

@@ -1429,7 +1429,7 @@
     border-right: 1px solid #88A1B5;
     font-family: candara;
     font-weight: lighter;
-    padding: 5px;
+    padding: 0px 1px 0px 1px;
 }
 
 .ui-menu.ui-widget .ui-menu-list {
@@ -1450,16 +1450,12 @@
 .ui-menu.ui-widget li>.ui-menuitem-link.ui-state-hover {
     color: #ffffff;
     text-decoration: none;
-    background-color: #0088cc;
-    background-color: #0081c2;
     background-position: 0px;
-    background-image: -moz-linear-gradient(top, #0088cc, #0077b3);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0077b3));
-    background-image: -webkit-linear-gradient(top, #0088cc, #0077b3);
-    background-image: -o-linear-gradient(top, #0088cc, #0077b3);
-    background-image: linear-gradient(to bottom, #0088cc, #0077b3);
+    background-image: linear-gradient(to bottom, #4F6772, #557281);
     background-repeat: repeat-x;
     filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
+    border-radius: 2px;
+    width:120px;
 }
 
 .ui-menu.ui-widget li>.ui-menuitem-link.ui-state-hover .ui-icon {
@@ -1531,8 +1527,7 @@
 
 /** MenuBar **/
 .ui-menu.ui-menubar {
-    padding-right: 20px;
-    padding-left: 10px;
+	padding: 5px;
     background-color: #fafafa;
     background-image: -moz-linear-gradient(top, #ffffff, #f2f2f2);
     background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f2f2f2));
