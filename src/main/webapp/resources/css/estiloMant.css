@@ -18,9 +18,15 @@ body {
 	opacity:0.8;
 	margin-top:50px;
 	font-family:candara;
+	text-align: center;
 }
 
-
+.numericos{
+	font-family: verdana;
+	font-weight: lighter;
+	font-size: 11px;
+	text-align:center;
+}
 
 #body {
    padding:10px;
@@ -31,7 +37,6 @@ body {
 	margin:auto;
 	padding: 5px;
 	width:1000px;
-	margin-top:50px;
 }
 
 .logout{
@@ -59,7 +64,7 @@ body {
 .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover {
     color: #333333;
     text-decoration: none;
-    background-color: #D6BFB4;
+    background-color: #C7C6B5;
     *background-color: #d9d9d9;
     /* Buttons in IE7 don't get borders, so darken on hover */
     background-position: 0 -5px;
@@ -95,7 +100,7 @@ body {
 		text-align: center;
 		line-height: 45px;
 		font-size : 14px;
-		font-family:candara;
+		font-family:Happy Monkey;
 		font-weight:normal;
 		display:inline;
 		margin-left:703px;
@@ -106,7 +111,10 @@ body {
 	font-size:16px;
 	font-weight:normal;
 	color:#53768C;
-	padding-bottom:10px;
+	padding:4px;
+	margin-bottom: 10px;
+	float: left;
+	margin-left: 10px;
 }
 
 .botonPeque, .ui-widget-content .botonPeque{

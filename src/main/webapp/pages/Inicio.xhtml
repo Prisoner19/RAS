@@ -6,8 +6,16 @@
 
 
     <ui:define name="content">
-        <h:form id="form">
-            <p:outputLabel value="#{inicioBean.mensajeInicio}"></p:outputLabel>
+        <h:form id="formBienvenido">
+	        <div id="divMensajes">
+	            <div>
+	        		<p:outputLabel styleClass="mensaje" value="#{inicioBean.mensajeInicio}"></p:outputLabel>
+	           	</div>
+	           	
+	 			<div>
+	 				<p:outputLabel styleClass="submensaje" value="#{inicioBean.submensajeInicio}"></p:outputLabel>
+	 			</div>
+	 		</div>
             <p:growl id="growl" life="3000" autoUpdate="true" showDetail="true"/>
 
         </h:form>

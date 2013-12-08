@@ -11,11 +11,7 @@
 
 <ui:define name="content">
 
-	<p:tabView id="tabView" dynamic="true" cache="true">
-			
-		<p:tab id="tabEquipo" title="Equipo">
-
-		    <h:form id="form1">
+	<h:form id="form">
 		
 				<p:growl id="growl" showDetail="true" life="3000" />
 		
@@ -37,9 +33,6 @@
 							<f:selectItem itemLabel="Seleccione uno" itemValue="#{null}" noSelectionOption="true" /> 
 							<f:selectItems value="#{EquipoBean.categorias}" var="cat" itemLabel="#{cat.nombre}" itemValue="#{cat}" /> 
 						</p:selectOneMenu>
-						
-						<h:outputText value="Nombre de equipo:" />
-						<p:inputText value="#{EquipoBean.equipo.nombre}" />
 		
 						<h:outputText value="Descripcion:" />
 						<p:inputText value="#{EquipoBean.equipo.descripcion}" />
@@ -52,13 +45,13 @@
 						
 						<p:commandButton value="#{EquipoBean.etiBotonDialog()}"
 							actionListener="#{EquipoBean.procesarDialog}"
-							update=":tabView:form1:datatablecampana, growl" oncomplete="dialog.hide();" />
+							update=":form:datatablecampana, growl" oncomplete="dialog.hide();" />
 		
 					</h:panelGrid>
 				</p:dialog>
-		
+				
 				<p:panel>
-		
+					<span class="mantenimiento">EQUIPOS</span>
 					<div id="cuerpo">
 		
 						<p:dataTable id="datatablecampana" var="c" widgetVar="dt"
@@ -66,44 +59,55 @@
 							selection="#{EquipoBean.equipoNuevo}" selectionMode="single"
 							styleClass="datatable_style_general" editable="true" paginator="true" rows="10"
 							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-							rowsPerPageTemplate="2,5,10">
+							rowsPerPageTemplate="2,5,10" paginatorPosition="bottom">
 		
 							<f:facet name="header">
 		
 								<p:commandButton id="viewNuevo" styleClass="botonPeque"
-									value="Nuevo" icon="ui-icon-document" update=":tabView:form1:display"
+									value="Nuevo" icon="ui-icon-document" update=":form:display"
 									oncomplete="dialog.show()"
 									actionListener="#{EquipoBean.nuevoEvent}" />
 		
 								<p:commandButton id="viewEditar" styleClass="botonPeque"
 									value="Editar" icon="ui-icon-search"
-									update=":tabView:form1:display, :tabView:form1:growl"
+									update=":form:display, :form:growl"
 									actionListener="#{EquipoBean.editarEvent}" />
 		
 								<p:commandButton id="EliminarRegistro" styleClass="botonPeque"
 									value="Eliminar" icon="ui-icon-closethick"
-									update=":tabView:form1:display, :tabView:form1:growl"
+									update=":form:display, :form:growl"
 									actionListener="#{EquipoBean.eliminarEvent}" />
 		
 							</f:facet>
 							
-							<p:ajax event="rowEdit" listener="#{EquipoBean.onEdit}" update=":tabView:form1:growl" />  
-		        			<p:ajax event="rowEditCancel" listener="#{EquipoBean.onCancel}" update=":tabView:form1:growl" /> 
+							<p:ajax event="rowEdit" listener="#{EquipoBean.onEdit}" update=":form:growl" />  
+		        			<p:ajax event="rowEditCancel" listener="#{EquipoBean.onCancel}" update=":form:growl" /> 
+		
+							<p:column style="width:6%">
+								<f:facet name="header">
+									<h:panelGrid class="opciones"  columns="2">
+								    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonOpcion" update=":form:display" oncomplete="dialog.show()" actionListener="#{EquipoBean.nuevoEvent}"/>
+								    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonOpcion" update=":form:display, :form:growl" actionListener="#{EquipoBean.eliminarEvent}"/>
+									</h:panelGrid>
+								</f:facet>
+								
+								<p:rowEditor />
+							</p:column>
 		
 							<p:column styleClass="columna" headerText="Codigo de Equipo"
-								filterBy="#{c.codigo}" footerText="codigo">
+								filterBy="#{c.codigo}">
 								<p:cellEditor>
 									<f:facet name="output" >
-										<h:outputText value="#{c.codigo}" />
+										<h:outputText styleClass="numericos" value="#{c.codigo}" />
 									</f:facet>
 									<f:facet name="input" >
-										<p:inputText value="#{c.codigo}" style="width:100%"/>
+										<p:inputText styleClass="numericos" value="#{c.codigo}" style="width:30%"/>
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
 		
 							<p:column styleClass="columna" headerText="Categoria"
-								filterBy="#{c.categoria}" footerText="categoria">
+								filterBy="#{c.categoria}">
 								<p:cellEditor>
 									<f:facet name="output">
 										<h:outputText value="#{c.categoria.nombre}" />
@@ -117,67 +121,28 @@
 								</p:cellEditor>
 							</p:column>
 							
-							<p:column styleClass="columna" headerText="Nombre"
-								filterBy="#{c.nombre}" footerText="nombre">
+							<p:column styleClass="columna" headerText="Costo" filterBy="#{c.costo}">
 								<p:cellEditor>
 									<f:facet name="output">
-										<h:outputText value="#{c.nombre}" />
+										<h:outputText styleClass="numericos"  value="#{c.costo}" />
 									</f:facet>
 									<f:facet name="input">
-										<p:inputText value="#{c.nombre}" style="width:100%"/>
+										<p:inputText styleClass="numericos"  value="#{c.costo}" style="width:30%"/>
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
 							
-							<p:column styleClass="columna" headerText="Descripcion" filterBy="#{c.descripcion}"
-								footerText="descripcion">
+							<p:column styleClass="columna" headerText="Stock" filterBy="#{c.stock}">
 								<p:cellEditor>
 									<f:facet name="output">
-										<h:outputText value="#{c.descripcion}" />
+										<h:outputText styleClass="numericos"  value="#{c.stock}" />
 									</f:facet>
 									<f:facet name="input">
-										<p:inputText value="#{c.descripcion}" style="width:100%"/>
+										<p:inputText styleClass="numericos"  value="#{c.stock}" style="width:20%"/>
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
-							
-							<p:column styleClass="columna" headerText="Costo" filterBy="#{c.costo}"
-								footerText="costo">
-								<p:cellEditor>
-									<f:facet name="output">
-										<h:outputText value="#{c.costo}" />
-									</f:facet>
-									<f:facet name="input">
-										<p:inputText value="#{c.costo}" style="width:100%"/>
-									</f:facet>
-								</p:cellEditor>
-							</p:column>
-							
-							<p:column styleClass="columna" headerText="Stock" filterBy="#{c.stock}"
-								footerText="stock">
-								<p:cellEditor>
-									<f:facet name="output">
-										<h:outputText value="#{c.stock}" />
-									</f:facet>
-									<f:facet name="input">
-										<p:inputText value="#{c.stock}" style="width:100%"/>
-									</f:facet>
-								</p:cellEditor>
-							</p:column>
-							
-							<p:column style="width:6%">
-								<f:facet name="header">
-									<h:panelGrid columns="2">
-								    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonPeque" update=":tabView:form1:display" oncomplete="dialog.show()" actionListener="#{EquipoBean.nuevoEvent}"/>
-								    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonPeque" update=":tabView:form1:display, :tabView:form1:growl" actionListener="#{EquipoBean.eliminarEvent}"/>
-									</h:panelGrid>
-								</f:facet>
-								
-								<p:rowEditor />
-							</p:column>
-							
-							<f:facet name="footer">
-							</f:facet>
+
 						</p:dataTable>
 					</div>
 		
@@ -196,7 +161,7 @@
 					severity="alert" widgetVar="confirmation">
 		
 					<p:commandButton id="confirm" value="Si"
-						update=":tabView:form1:datatablecampana, growl"
+						update=":form:datatablecampana, growl"
 						oncomplete="confirmation.hide()"
 						actionListener="#{EquipoBean.validarEliminar}" />
 					<p:commandButton id="decline" value="No"
@@ -205,139 +170,6 @@
 				</p:confirmDialog>
 		
 			</h:form>
-		
-		</p:tab>
-		
-		<p:tab id="tabCategoria" title="Categoria">
-				
-			<h:form id="form2">
-		
-				<p:growl id="growl" showDetail="true" life="3000" />
-		
-				<!-- CATEGORIA -->
-				<p:dialog id="dialog" header="Nuevo" widgetVar="dialog"
-					resizable="false" width="400" height="200" showEffect="clip"
-					hideEffect="fold" modal="true">
-		
-					<h:panelGrid id="display" columns="2" cellpadding="4">
-						<h:outputText value="Id:" rendered="#{CategoriaBean.accionEditar}" />
-						<h:outputText value="#{CategoriaBean.categoria.idCategoria}"
-							rendered="#{CategoriaBean.accionEditar}" />
-						
-						<h:outputText value="Nombre de Categoria:" />
-						<p:inputText value="#{CategoriaBean.categoria.nombre}" />
-		
-						<h:outputText value="Descripcion:" />
-						<p:inputText value="#{CategoriaBean.categoria.descripcion}" />
-						
-						<p:commandButton value="#{CategoriaBean.etiBotonDialog()}"
-							actionListener="#{CategoriaBean.procesarDialog}"
-							update=":tabView:form2:datatablecampana, growl" oncomplete="dialog.hide();" />
-		
-					</h:panelGrid>
-				</p:dialog>
-		
-				<p:panel>
-		
-					<div id="cuerpo">
-		
-						<p:dataTable id="datatablecampana" var="c" widgetVar="dt"
-							value="#{CategoriaBean.categorias}" rowKey="#{c.idCategoria}"
-							selection="#{CategoriaBean.categoriaNuevo}" selectionMode="single"
-							styleClass="datatable_style_general" editable="true" paginator="true" rows="10"
-							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-							rowsPerPageTemplate="2,5,10">
-		
-							<f:facet name="header">
-		
-								<p:commandButton id="viewNuevo" styleClass="botonPeque"
-									value="Nuevo" icon="ui-icon-document" update=":tabView:form2:display"
-									oncomplete="dialog.show()"
-									actionListener="#{CategoriaBean.nuevoEvent}" />
-		
-								<p:commandButton id="viewEditar" styleClass="botonPeque"
-									value="Editar" icon="ui-icon-search"
-									update=":tabView:form2:display, :tabView:form2:growl"
-									actionListener="#{CategoriaBean.editarEvent}" />
-		
-								<p:commandButton id="EliminarRegistro" styleClass="botonPeque"
-									value="Eliminar" icon="ui-icon-closethick"
-									update=":tabView:form2:display, :tabView:form2:growl"
-									actionListener="#{CategoriaBean.eliminarEvent}" />
-		
-							</f:facet>
-							
-							<p:ajax event="rowEdit" listener="#{CategoriaBean.onEdit}" update=":tabView:form2:growl" />  
-		        			<p:ajax event="rowEditCancel" listener="#{CategoriaBean.onCancel}" update=":tabView:form2:growl" /> 
-							
-							<p:column styleClass="columna" headerText="Nombre"
-								filterBy="#{c.nombre}" footerText="nombre">
-								<p:cellEditor>
-									<f:facet name="output">
-										<h:outputText value="#{c.nombre}" />
-									</f:facet>
-									<f:facet name="input">
-										<p:inputText value="#{c.nombre}" style="width:100%"/>
-									</f:facet>
-								</p:cellEditor>
-							</p:column>
-							
-							<p:column styleClass="columna" headerText="Descripcion" filterBy="#{c.descripcion}"
-								footerText="descripcion">
-								<p:cellEditor>
-									<f:facet name="output">
-										<h:outputText value="#{c.descripcion}" />
-									</f:facet>
-									<f:facet name="input">
-										<p:inputText value="#{c.descripcion}" style="width:100%"/>
-									</f:facet>
-								</p:cellEditor>
-							</p:column>
-							
-							<p:column style="width:6%">
-								<f:facet name="header">
-									<h:panelGrid columns="2">
-								    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonPeque" update=":tabView:form2:display" oncomplete="dialog.show()" actionListener="#{CategoriaBean.nuevoEvent}"/>
-								    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonPeque" update=":tabView:form2:display, :tabView:form2:growl" actionListener="#{CategoriaBean.eliminarEvent}"/>
-									</h:panelGrid>
-								</f:facet>
-								
-								<p:rowEditor />
-							</p:column>
-							
-							<f:facet name="footer">
-							</f:facet>
-						</p:dataTable>
-					</div>
-		
-				</p:panel>
-		
-				<p:dialog id="modalDialog" header="CONFIRMACION" widgetVar="dlg2"
-					modal="true" height="150" width="400" closable="false"
-					resizable="false">
-					<p:messages id="messages" showDetail="true" autoUpdate="true"
-						closable="false" />
-					<p:commandButton value="OK" onclick="dlg2.hide()" />
-				</p:dialog>
-		
-				<p:confirmDialog id="confirmDialog"
-					message="¿Esta seguro de esta accion?" header="Eliminar Registro"
-					severity="alert" widgetVar="confirmation">
-		
-					<p:commandButton id="confirm" value="Si"
-						update=":tabView:form2:datatablecampana, growl"
-						oncomplete="confirmation.hide()"
-						actionListener="#{CategoriaBean.validarEliminar}" />
-					<p:commandButton id="decline" value="No"
-						onclick="confirmation.hide()" type="button" />
-		
-				</p:confirmDialog>
-		
-			</h:form>
-					
-		</p:tab>
-		
-	</p:tabView>
 			
 </ui:define>
 
