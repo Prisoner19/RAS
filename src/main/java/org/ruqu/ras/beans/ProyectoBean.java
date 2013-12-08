@@ -111,6 +111,14 @@ public class ProyectoBean implements Serializable{
 					"Aviso", "No ha seleccionado ningun proyecto", growlPath);
 	}
 	
+	public void gastoEvent(){
+		if(proyectoSelec!=null){			
+			proyecto=proyectoService.getProyectoById(proyectoSelec.getIdProyecto());
+			RequestContext.getCurrentInstance().execute("dialogGastos.show();");
+		}else
+			FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_WARN, 
+					"Aviso", "No ha seleccionado ningun proyecto", growlPath);
+	}	
 	
 	public void eliminarEvent(){
 		if(proyectoSelec!=null){			
@@ -133,14 +141,13 @@ public class ProyectoBean implements Serializable{
 		
 		editar();
 		
-        FacesMessage msg = new FacesMessage("Proyecto Editado", ((Proyecto) event.getObject()).getNombre());  
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+		FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_INFO, "Proyecto Editado", ((Proyecto) event.getObject()).getNombre(), growlPath);
+
     }  
       
     public void onCancel(RowEditEvent event) {  
-        FacesMessage msg = new FacesMessage("Proyecto Cancelado", ((Proyecto) event.getObject()).getNombre());  
-  
-        FacesContext.getCurrentInstance().addMessage(null, msg);  
+    	limpiarCampos();
+    	FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_INFO, "Edicion de Proyecto Cancelada.", ((Proyecto) event.getObject()).getNombre(), growlPath);
     }
     
 	//BOTON PROCESAR-DIALOG

@@ -127,6 +127,7 @@
 				 <value>org.ruqu.ras.domain.Categoria</value>
 				 <value>org.ruqu.ras.domain.Compra</value>
 				 <value>org.ruqu.ras.domain.Detallecompra</value>
+				 <value>org.ruqu.ras.domain.Equipoasignado</value>
 				 <value>org.ruqu.ras.domain.Equipo</value>
 				 <value>org.ruqu.ras.domain.Distrito</value>				 
 				 <value>org.ruqu.ras.domain.Logconsulta</value>

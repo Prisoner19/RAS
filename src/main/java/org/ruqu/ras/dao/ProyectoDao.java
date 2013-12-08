@@ -38,8 +38,7 @@ public class ProyectoDao implements IProyectoDao{
 		@SuppressWarnings("unchecked")
 		List<Proyecto> list=getSessionFactory().getCurrentSession()
 				.createQuery("from Proyecto where id=? and Vigencia=1")
-				.setParameter(0, id).list();
-		Hibernate.initialize(list.get(0).getEquipos());
+				.setParameter(0, id).list();		
 		//Hibernate.initialize(list.get(0).getLogconsultas());
 		return (Proyecto) list.get(0);
 	}
@@ -49,8 +48,7 @@ public class ProyectoDao implements IProyectoDao{
 		@SuppressWarnings("unchecked")
 		List<Proyecto> list=getSessionFactory().getCurrentSession()
 				.createQuery("from Proyecto where Vigencia=1").list();
-		for(Proyecto l:list){
-			Hibernate.initialize(l.getEquipos());
+		for(Proyecto l:list){			
 			//Hibernate.initialize(l.getLogconsultas());
 		}
 		return list;

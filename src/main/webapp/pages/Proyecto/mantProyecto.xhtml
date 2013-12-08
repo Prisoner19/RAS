@@ -20,11 +20,22 @@
 		    }	   
 		} 	 
 	 </script>
-    
+    <pe:tooltip global="true" myPosition="left center" atPosition="right center"/>  
     <h:form id="form">
-
+		
 		<p:growl id="growl" showDetail="true" life="3000" />
-
+		
+		<p:dialog id="dialogGastos" header="Gastos" widgetVar="dialogGastos"
+			resizable="false" width="500" height="300" showEffect="clip"
+			hideEffect="fold" modal="true">
+			<p:tabView id="tabsGastos" dynamic="true">
+				<p:tab id="tabEquipo" title="Equipo"> 
+				
+				</p:tab>			
+			</p:tabView>			
+		</p:dialog>
+		
+		
 		<p:dialog id="dialogPresupuesto" header="Presupuesto Estimado" widgetVar="dialogPresupuesto"
 			resizable="false" width="500" height="300" showEffect="clip"
 			hideEffect="fold" modal="true">
@@ -33,32 +44,38 @@
 				
 			<h:outputText value="Nombre de Proyecto:" rendered="#{!ProyectoBean.accionEditar}"/>
                <p:inputText value="#{ProyectoBean.proyecto.nombre}" rendered="#{!ProyectoBean.accionEditar}"
-               required="true" />
+               required="true" title="Ingresar 2 a 20 caracteres" >
+                <f:validateLength minimum="2" maximum="20" />
+               	<pe:keyFilter regEx="/[a-z0-9 ]/i" /> 
+               </p:inputText>
 
                <h:outputText value="Descripcion:" rendered="#{!ProyectoBean.accionEditar}"/>
                <p:inputText value="#{ProyectoBean.proyecto.descripcion}" rendered="#{!ProyectoBean.accionEditar}"
-               required="true" />
+               required="true" title="Ingresar 2 a 20 caracteres">
+                <f:validateLength minimum="2" maximum="20" />
+               	<pe:keyFilter regEx="/[a-z0-9 ]/i" /> 
+               </p:inputText>
                
                <h:outputText value="Fecha de Inicio:" rendered="#{!ProyectoBean.accionEditar}"/>
                <p:calendar value="#{ProyectoBean.proyecto.inicio}" id="calendarNuevo" rendered="#{!ProyectoBean.accionEditar}"
                     required="true"   navigator="true" display="inline" effect="slide" yearRange="c-5:c+5"
-                    timeZone="#{ProyectoBean.timeZone()}"/>				
+                    timeZone="#{ProyectoBean.timeZone()}" title="Ingresar fecha valida"/>				
 				
 				<h:outputText value="Costo de Personal:" />
 				<pe:inputNumber value="#{ProyectoBean.proyecto.costoPersonal}" required="true"
-				decimalPlaces="2" thousandSeparator=""/>
+				decimalPlaces="2" thousandSeparator="" title="Costo estimado de pago a personal"/>
 				
 				<h:outputText value="Costo de Equipos:" />
 				<pe:inputNumber value="#{ProyectoBean.proyecto.costoEquipo}" required="true"
-				decimalPlaces="2" thousandSeparator=""/>
+				decimalPlaces="2" thousandSeparator="" title="Costo estimado de pago por equipos"/>
 				
 				<h:outputText value="Otros Gastos:" />
 				<pe:inputNumber value="#{ProyectoBean.proyecto.costoOtros}" required="true"
-				decimalPlaces="2" thousandSeparator=""/>
+				decimalPlaces="2" thousandSeparator="" title="Costo estimado de pago por otros conceptos"/>
 			
 				<p:commandButton value="#{ProyectoBean.etiBotonDialog()}"
 					actionListener="#{ProyectoBean.procesarDialog}" oncomplete="handleComplete(xhr, status, args);"
-					update="@form:datatablecampana,@form:displayPresupuesto"/>			
+					update="@form:datatablecampana,@form:displayPresupuesto" title="Procesar Proyecto"/>			
 						
 			</h:panelGrid>
 		</p:dialog>
@@ -78,13 +95,18 @@
 
 						<p:commandButton id="viewEditarPresupuesto" styleClass="botonPeque"
 							value="Editar Presupuesto" icon="ui-icon-search" process="@form:datatablecampana"
-							update=":form:displayPresupuesto, :form:growl"
+							update=":form:displayPresupuesto, :form:growl" title="Editar Presupuesto"
 							actionListener="#{ProyectoBean.editarEvent}" />
+						
+						<p:commandButton id="viewEditarGastos" styleClass="botonPeque"
+							value="Editar Gastos" icon="ui-icon-search" process="@form:datatablecampana"
+							update=":form:displayPresupuesto, :form:growl" title="Editar Gastos: Personal/Equipos/Otros"
+							actionListener="#{ProyectoBean.gastoEvent}" />
 
 					</f:facet>
 					
-					<p:ajax event="rowEdit" listener="#{ProyectoBean.onEdit}" update=":form:growl" />  
-        			<p:ajax event="rowEditCancel" listener="#{ProyectoBean.onCancel}" update=":form:growl" /> 
+					<p:ajax event="rowEdit" listener="#{ProyectoBean.onEdit}" oncomplete="handleComplete(xhr, status, args);"/>  
+        			<p:ajax event="rowEditCancel" listener="#{ProyectoBean.onCancel}" oncomplete="dt.unselectAllRows()"/> 
 					
 					<p:column styleClass="columna" headerText="Nombre"
 						filterBy="#{c.nombre}" footerText="nombre">
@@ -95,7 +117,10 @@
 								</div>
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText value="#{c.nombre}" style="width:100%"/>
+								<p:inputText value="#{c.nombre}" style="width:100%">
+									<pe:keyFilter regEx="/[a-z0-9 ]/i" /> 
+									<f:validateLength minimum="2" maximum="20" />	
+								</p:inputText>
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
@@ -109,7 +134,10 @@
 								</div>
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText value="#{c.descripcion}" style="width:100%"/>
+								<p:inputText value="#{c.descripcion}" style="width:100%">
+									<pe:keyFilter regEx="/[a-z0-9 ]/i" />
+									<f:validateLength minimum="2" maximum="20" /> 
+								</p:inputText>
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
@@ -119,11 +147,14 @@
 						<p:cellEditor>
 							<f:facet name="output">
 								<div onclick="selectCurrentRow_paginator(dt,#{index})">
-									<h:outputText value="#{c.inicio}" />
+									<h:outputText value="#{c.inicio}" >
+										<f:convertDateTime pattern="dd-M-yyyy" locale="es"
+										timeZone="#{ProyectoBean.timeZone()}"/>
+									</h:outputText>
 								</div>
 							</f:facet>
 							<f:facet name="input">
-								<p:calendar value="#{c.inicio}" id="calendarEditar" 
+								<p:calendar value="#{c.inicio}" id="calendarEditar" required="true"
 									navigator="true" display="inline" effect="slide" yearRange="c-100:c-0"/>
 							</f:facet>
 						</p:cellEditor>
@@ -133,7 +164,7 @@
 						<div style="text-align: center;" onclick="selectCurrentRow_paginator(dt,#{index})">
 
 							<p:selectBooleanButton value="#{c.cierre}" styleClass="toggle"  onLabel="SÍ" offLabel="NO" 
-													onIcon="ui-icon-check" offIcon="ui-icon-close"
+													onIcon="ui-icon-check" offIcon="ui-icon-close" 
 													>  
 											
 								<p:ajax listener="#{ProyectoBean.toggle(index)}" process="@form:datatablecampana">									
@@ -147,12 +178,13 @@
 					<p:column style="width:6%">
 						<f:facet name="header">
 							<h:panelGrid columns="2">
-						    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" 
+						    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" title="Agregar Nuevo Proyecto"
 						    	styleClass="botonPeque" actionListener="#{ProyectoBean.nuevoEvent}"  update="@form:displayPresupuesto" process="@this">
 						    		<p:resetInput target=":form:displayPresupuesto"></p:resetInput>
 						    	</p:commandButton>
 						    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonPeque" process="@form:datatablecampana"
-						         update="@form:datatablecampana" actionListener="#{ProyectoBean.eliminarEvent}">
+						         update="@form:datatablecampana" actionListener="#{ProyectoBean.eliminarEvent}"
+						         title="Eliminar el proyecto seleccionado">
 						    		<p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" 
 						    		icon="ui-icon-alert" /> 
 						    	</p:commandButton>
