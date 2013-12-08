@@ -19,9 +19,11 @@ import java.util.Map;
 public class InicioBean {
 
     String mensajeInicio;
+    String submensajeInicio;
 
     public InicioBean() {
-        mensajeInicio = "Bienvenido al sistema";
+        mensajeInicio = "¡Hola!";
+        submensajeInicio = "Bienvenido. Puedes usar la barra de menú para navegar por el sistema.";
     }
 
     @PostConstruct
@@ -48,5 +50,13 @@ public class InicioBean {
 
     public void setMensajeInicio(String mensajeInicio) {
         this.mensajeInicio = mensajeInicio;
+    }
+    
+    public String getSubmensajeInicio() {
+        return submensajeInicio;
+    }
+
+    public void setSubmensajeInicio(String submensajeInicio) {
+        this.submensajeInicio = submensajeInicio;
     }
 }

@@ -43,8 +43,8 @@
 			</h:panelGrid>
 		</p:dialog>
 
-		<p:panel>
-
+		<p:panel styleClass="panel">
+			<span class="mantenimiento">PERSONAL</span>
 			<div id="cuerpo">
 
 				<p:dataTable id="datatablecampana" var="c" widgetVar="dt"
@@ -52,7 +52,7 @@
 					selection="#{PersonalBean.personalNuevo}" selectionMode="single"
 					styleClass="datatable_style_general" editable="true" paginator="true" rows="10"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					rowsPerPageTemplate="2,5,10">
+					rowsPerPageTemplate="2,5,10"  paginatorPosition="bottom">
 
 					<f:facet name="header">
 
@@ -76,8 +76,19 @@
 					<p:ajax event="rowEdit" listener="#{PersonalBean.onEdit}" update=":form:growl" />  
         			<p:ajax event="rowEditCancel" listener="#{PersonalBean.onCancel}" update=":form:growl" /> 
 					
+					<p:column style="width:6%;">
+						<f:facet name="header">
+							<h:panelGrid class="opciones" columns="2">
+						    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonOpcion" update=":form:display" oncomplete="dialog.show()" actionListener="#{PersonalBean.nuevoEvent}"/>
+						    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonOpcion" update=":form:display, :form:growl" actionListener="#{PersonalBean.eliminarEvent}"/>
+							</h:panelGrid>
+						</f:facet>
+						
+						<p:rowEditor />
+					</p:column>
+					
 					<p:column styleClass="columna" headerText="Nombre"
-						filterBy="#{c.nombre}" footerText="nombre">
+						filterBy="#{c.nombre}">
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{c.nombre}" />
@@ -88,8 +99,7 @@
 						</p:cellEditor>
 					</p:column>
 					
-					<p:column styleClass="columna" headerText="Profesion" filterBy="#{c.profesion}"
-						footerText="profesion">
+					<p:column styleClass="columna" headerText="Profesion" filterBy="#{c.profesion}">
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{c.profesion}" />
@@ -100,8 +110,7 @@
 						</p:cellEditor>
 					</p:column>
 					
-					<p:column styleClass="columna" headerText="Celular" filterBy="#{c.celular}"
-						footerText="celular">
+					<p:column styleClass="columna" headerText="Celular" filterBy="#{c.celular}">
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{c.celular}" />
@@ -112,8 +121,7 @@
 						</p:cellEditor>
 					</p:column>
 					
-					<p:column styleClass="columna" headerText="Email" filterBy="#{c.email}"
-						footerText="email">
+					<p:column styleClass="columna" headerText="Email" filterBy="#{c.email}">
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{c.email}" />
@@ -124,24 +132,10 @@
 						</p:cellEditor>
 					</p:column>
 					
-					<p:column styleClass="columna" headerText="Registrado" filterBy="#{c.registro}"
-						footerText="registrado">
-						<h:outputText value="#{c.registro}" />
+					<p:column styleClass="columna" headerText="Registrado" filterBy="#{c.registro}">
+						<h:outputText styleClass="numericos" value="#{c.registro}" />
 					</p:column>
-				
-					<p:column style="width:6%">
-						<f:facet name="header">
-							<h:panelGrid columns="2">
-						    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonPeque" update=":form:display" oncomplete="dialog.show()" actionListener="#{PersonalBean.nuevoEvent}"/>
-						    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonPeque" update=":form:display, :form:growl" actionListener="#{PersonalBean.eliminarEvent}"/>
-							</h:panelGrid>
-						</f:facet>
-						
-						<p:rowEditor />
-					</p:column>
-					
-					<f:facet name="footer">
-					</f:facet>
+
 				</p:dataTable>
 			</div>
 

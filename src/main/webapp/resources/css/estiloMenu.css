@@ -1,7 +1,7 @@
 
 
 #header2{
-  	margin-top:60px;
+  	margin-top:70px;
    	height:60px;
 
 }
@@ -9,4 +9,36 @@
 .menuBar, .ui-menu .ui-menubar .menuBar{
 	width:500px;
 	padding:0px;
+}
+
+.menu{
+	font-family:Exo;
+	font-size:12px;
+	text-align:center;
+	margin-left:120px;
+}
+
+.mensaje{
+	font-family:Electrolize;
+	font-size:20px;
+	font-weight:lighter;
+	color:white;
+}
+
+.submensaje{
+	font-family:Candara;
+	font-size:14px;
+	color:white;
+}
+
+#divMensajes{
+	background: url(../images/bg.jpg) top left;
+	opacity:0.6;
+	padding:8px;
+	border-radius:9px;
+}
+
+#formBienvenido{
+	width:600px;
+	margin:auto;
 }

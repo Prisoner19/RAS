@@ -46,8 +46,8 @@
 			</h:panelGrid>
 		</p:dialog>
 
-		<p:panel>
-
+		<p:panel styleClass="panel">
+			<span class="mantenimiento">PROVEEDOR</span>
 			<div id="cuerpo">
 
 				<p:dataTable id="datatablecampana" var="c" widgetVar="dt"
@@ -55,7 +55,7 @@
 					selection="#{ProveedorBean.proveedorNuevo}" selectionMode="single"
 					styleClass="datatable_style_general" editable="true" paginator="true" rows="10"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					rowsPerPageTemplate="2,5,10">
+					rowsPerPageTemplate="2,5,10" paginatorPosition="bottom">
 
 					<f:facet name="header">
 
@@ -79,8 +79,19 @@
 					<p:ajax event="rowEdit" listener="#{ProveedorBean.onEdit}" update=":form:growl" />  
         			<p:ajax event="rowEditCancel" listener="#{ProveedorBean.onCancel}" update=":form:growl" /> 
 					
+					<p:column style="width:6%">
+						<f:facet name="header">
+							<h:panelGrid class="opciones"  columns="2">
+						    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonOpcion" update=":form:display" oncomplete="dialog.show()" actionListener="#{ProveedorBean.nuevoEvent}"/>
+						    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonOpcion" update=":form:display, :form:growl" actionListener="#{ProveedorBean.eliminarEvent}"/>
+							</h:panelGrid>
+						</f:facet>
+						
+						<p:rowEditor />
+					</p:column>
+					
 					<p:column styleClass="columna" headerText="Nombre"
-						filterBy="#{c.nombre}" footerText="nombre">
+						filterBy="#{c.nombre}">
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{c.nombre}" />
@@ -91,8 +102,7 @@
 						</p:cellEditor>
 					</p:column>
 					
-					<p:column styleClass="columna" headerText="Direccion" filterBy="#{c.direccion}"
-						footerText="direccion">
+					<p:column styleClass="columna" headerText="Direccion" filterBy="#{c.direccion}">
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{c.direccion}" />
@@ -104,7 +114,7 @@
 					</p:column>
 					
 					<p:column styleClass="columna" headerText="Distrito"
-						filterBy="#{c.distrito}" footerText="distrito">
+						filterBy="#{c.distrito}">
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{c.distrito.distrito}" />
@@ -118,31 +128,17 @@
 						</p:cellEditor>
 					</p:column>
 							
-					<p:column styleClass="columna" headerText="Telefono" filterBy="#{c.telefono}"
-						footerText="telefono">
+					<p:column styleClass="columna" headerText="Telefono" filterBy="#{c.telefono}">
 						<p:cellEditor>
 							<f:facet name="output">
-								<h:outputText value="#{c.telefono}" />
+								<h:outputText styleClass="numericos" value="#{c.telefono}" />
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText value="#{c.telefono}" style="width:100%"/>
+								<p:inputText styleClass="numericos" value="#{c.telefono}" style="width:100%"/>
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
-					
-					<p:column style="width:6%">
-						<f:facet name="header">
-							<h:panelGrid columns="2">
-						    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonPeque" update=":form:display" oncomplete="dialog.show()" actionListener="#{ProveedorBean.nuevoEvent}"/>
-						    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonPeque" update=":form:display, :form:growl" actionListener="#{ProveedorBean.eliminarEvent}"/>
-							</h:panelGrid>
-						</f:facet>
-						
-						<p:rowEditor />
-					</p:column>
-					
-					<f:facet name="footer">
-					</f:facet>
+	
 				</p:dataTable>
 			</div>
 

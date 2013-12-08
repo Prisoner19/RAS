@@ -18,6 +18,7 @@
     border: 1px solid #dddddd;
     background: #ffffff;
     color: #333333;
+    text-align:center;
 }
 
 .ui-widget-content a {
@@ -1427,8 +1428,8 @@
     -moz-border-radius: 0;
     border-radius: 0;
     border-right: 1px solid #88A1B5;
-    font-family: candara;
-    font-weight: lighter;
+    font-family: Exo;
+    font-size:13px;
     padding: 0px 1px 0px 1px;
 }
 
@@ -1451,7 +1452,7 @@
     color: #ffffff;
     text-decoration: none;
     background-position: 0px;
-    background-image: linear-gradient(to bottom, #4F6772, #557281);
+    background-image: linear-gradient(to bottom, #88A1B5, #88A1B5);
     background-repeat: repeat-x;
     filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
     border-radius: 2px;
