@@ -46,15 +46,15 @@
 						<p:inputText value="#{EquipoBean.equipo.descripcion}" />
 						
 						<h:outputText styleClass="labelDialog"  value="COSTO" />
-						<pe:inputNumber value="#{EquipoBean.equipo.costo}" rendered="#{!EquipoBean.accionEditar}" required="true" 
+						<pe:inputNumber styleClass="numericos" value="#{EquipoBean.equipo.costo}" rendered="#{!EquipoBean.accionEditar}" required="true" 
 						decimalPlaces="2" thousandSeparator=""/>
 						
 						<h:outputText styleClass="labelDialog"  value="STOCK" />
-						<pe:inputNumber value="#{EquipoBean.equipo.stock}" rendered="#{!EquipoBean.accionEditar}" required="true" />
+						<pe:inputNumber styleClass="numericos" value="#{EquipoBean.equipo.stock}" rendered="#{!EquipoBean.accionEditar}" required="true" decimalPlaces="0"/>
 						<div></div>
 						<p:commandButton value="#{EquipoBean.etiBotonDialog()}"
 							actionListener="#{EquipoBean.procesarDialog}" oncomplete="handleComplete(xhr, status, args);"
-					update="@form:datatablecampana, growl, @form:display" />
+					update=":form:datatablecampana, growl, @form:display" />
 		
 					</h:panelGrid>
 				</p:dialog>
@@ -112,7 +112,7 @@
 										</div>
 									</f:facet>
 									<f:facet name="input" >
-										<p:inputText styleClass="numericos" value="#{c.codigo}" style="width:30%"/>
+										<p:inputText styleClass="numericos" value="#{c.codigo}" style="width:30%; font-family: verdana;font-size: 11px;"/>
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
@@ -126,7 +126,7 @@
 										</div>
 									</f:facet>
 									<f:facet name="input">
-										<p:selectOneMenu widgetVar="categoria" value="#{c.categoria}" converter="omnifaces.SelectItemsConverter" >
+										<p:selectOneMenu widgetVar="categoria" value="#{c.categoria}" converter="omnifaces.SelectItemsConverter" style="width:100%; text-align:center;" >
 											<f:selectItem itemLabel="Seleccione uno" itemValue="#{null}" noSelectionOption="true" /> 
 											<f:selectItems value="#{EquipoBean.categorias}" var="cat" itemLabel="#{cat.nombre}" itemValue="#{cat}" /> 
 										</p:selectOneMenu>
@@ -142,7 +142,7 @@
 										</div>
 									</f:facet>
 									<f:facet name="input">
-										<p:inputText styleClass="numericos"  value="#{c.costo}" style="width:30%"/>
+										<p:inputText styleClass="numericos"  value="#{c.costo}" style="width:30%; font-family: verdana;font-size: 11px;"/>
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
@@ -155,7 +155,7 @@
 										</div>
 									</f:facet>
 									<f:facet name="input">
-										<p:inputText styleClass="numericos"  value="#{c.stock}" style="width:20%"/>
+										<p:inputText styleClass="numericos"  value="#{c.stock}" style="width:20%; font-family: verdana;font-size: 11px;"/>
 									</f:facet>
 								</p:cellEditor>
 							</p:column>

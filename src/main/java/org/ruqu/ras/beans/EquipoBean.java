@@ -128,6 +128,8 @@ public class EquipoBean implements Serializable{
 	public void init(){
 		equipos=getEquipoService().getEquipos();
 		categorias=getCategoriaService().getCategorias();
+		//System.out.print("\n\n"+equipos.size());
+		System.out.print("\n\n"+categorias.size());
 	}
 	
 	/* AJAX BUTTON EVENTS  
@@ -193,7 +195,7 @@ public class EquipoBean implements Serializable{
     }  
       
     public void onCancel(RowEditEvent event) {  
-        FacesMessage msg = new FacesMessage("Equipo Cancelado", ((Equipo) event.getObject()).getNombre());  
+        FacesMessage msg = new FacesMessage("Edición Cancelada", ((Equipo) event.getObject()).getNombre());  
   
         FacesContext.getCurrentInstance().addMessage(null, msg);  
     }
@@ -236,7 +238,6 @@ public class EquipoBean implements Serializable{
 		RequestContext context = RequestContext.getCurrentInstance();  
         FacesMessage msg = null;  
         boolean registrado = false;  
-          
 
         if(getEquipo().getCodigo()!=null){
         	registrado=true;
@@ -255,7 +256,7 @@ public class EquipoBean implements Serializable{
         FacesMessage msg = null;  
         boolean editado = false;  
         
-        if(getEquipo().getNombre()!=null && getEquipo().getNombre().length()>=1){
+        if(getEquipo().getCodigo()!=null && getEquipo().getCodigo().length()>=1){
         	editado=true;
         	msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Editado", getEquipo().getNombre());
             editar();

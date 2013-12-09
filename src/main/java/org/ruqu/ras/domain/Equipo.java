@@ -30,7 +30,7 @@ public class Equipo implements java.io.Serializable {
 	private String descripcion;
 	private BigDecimal costo;
 	private Integer stock;
-	private boolean vigencia;
+	private boolean vigencia = true;
 	private Set<Logconsulta> logconsultas = new HashSet<Logconsulta>(0);
 	private Set<Detallecompra> detallecompras = new HashSet<Detallecompra>(0);
 	private Set<Equipoasignado> equipoasignados = new HashSet<Equipoasignado>(0);
