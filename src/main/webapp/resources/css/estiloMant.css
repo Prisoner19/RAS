@@ -16,11 +16,31 @@ body {
 	background-position: 0px;
 	background-image: linear-gradient(to bottom, #8D9694, #8D9694);
 	opacity:0.8;
-	margin-top:50px;
 	font-family:candara;
 	text-align: center;
 }
 
+.selectMenu{
+	font-family:candara;
+}
+
+.ui-selectonemenu .ui-widget .ui-state-default .ui-corner-all .ui-helper-clearfix .selectMenu
+{
+	width:100%;
+}
+
+.botonMenu{
+	float:right;
+	font-family:candara;
+	font-weight: lighter;
+	font-size:12px;
+}
+
+.labelDialog{
+	float:right;
+	font-family:candara;
+	font-size:12px;
+}
 .numericos{
 	font-family: verdana;
 	font-weight: lighter;
@@ -74,12 +94,6 @@ body {
     -o-transition: background-position 0.1s linear;
     transition: background-position 0.1s linear;
 }
-
-
-.ui-state-default,.ui-widget-content .ui-state-default,.ui-widget-header .ui-state-default{
-	border-color: #ccc;
-	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-} 
 
 #header {
 		width: 100%;
@@ -156,7 +170,7 @@ f:facet div{
 .columna{
 	font-family:"candara";
 	font-weight:lighter;
-	font-size:13px;
+	font-size:14px;
 }
 
 .paneMantenimiento{

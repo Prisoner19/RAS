@@ -10,13 +10,22 @@
 
 
     <ui:define name="content">
+    
+    <script>
+		function handleComplete(xhr, status, args) {  
+		    if(args.validationFailed) { 	    	
+		    	showError();	    	
+		    }	   
+		} 	 
+	</script>
+	 
     <h:form id="form">
 
 		<p:growl id="growl" showDetail="true" life="3000" />
 
 		<!-- PROVEEDOR -->
 		<p:dialog id="dialog" header="Nuevo" widgetVar="dialog"
-			resizable="false" width="400" height="200" showEffect="clip"
+			resizable="false" width="320" height="230" showEffect="clip"
 			hideEffect="fold" modal="true">
 
 			<h:panelGrid id="display" columns="2" cellpadding="4">
@@ -24,24 +33,24 @@
 				<h:outputText value="#{ProveedorBean.proveedor.idProveedor}"
 					rendered="#{ProveedorBean.accionEditar}" />
 				
-				<h:outputText value="Nombre de Proveedor:" />
-				<p:inputText value="#{ProveedorBean.proveedor.nombre}" />
+				<h:outputText styleClass="labelDialog" value="NOMBRE" />
+				<p:inputText value="#{ProveedorBean.proveedor.nombre}"  rendered="#{!ProveedorBean.accionEditar}" required="true" />
 
-				<h:outputText value="Direccion:" />
+				<h:outputText styleClass="labelDialog"  value="DIRECCIÓN" />
 				<p:inputText value="#{ProveedorBean.proveedor.direccion}" />
 				
-				<h:outputText value="Distrito:" />
-					<p:selectOneMenu widgetVar="distrito" value="#{ProveedorBean.proveedor.distrito}" converter="omnifaces.SelectItemsConverter"  >
+				<h:outputText styleClass="labelDialog" value="DISTRITO" />
+					<p:selectOneMenu widgetVar="distrito" styleClass="selectMenu" value="#{ProveedorBean.proveedor.distrito}" converter="omnifaces.SelectItemsConverter" style="width: 100%;" >
 							<f:selectItem itemLabel="Seleccione uno" itemValue="#{null}" noSelectionOption="true" /> 
 							<f:selectItems value="#{ProveedorBean.distritos}" var="dist" itemLabel="#{dist.distrito}" itemValue="#{dist}" /> 
 					</p:selectOneMenu>
 						
-				<h:outputText value="Telefono:" />
+				<h:outputText styleClass="labelDialog" value="TELÉFONO" />
 				<p:inputText value="#{ProveedorBean.proveedor.telefono}" />
-				
+				<div></div>
 				<p:commandButton value="#{ProveedorBean.etiBotonDialog()}"
 					actionListener="#{ProveedorBean.procesarDialog}"
-					update=":form:datatablecampana, growl" oncomplete="dialog.hide();" />
+					update=":form:datatablecampana, growl, :form:display"  oncomplete="handleComplete(xhr, status, args);"/>
 
 			</h:panelGrid>
 		</p:dialog>
@@ -52,7 +61,7 @@
 
 				<p:dataTable id="datatablecampana" var="c" widgetVar="dt"
 					value="#{ProveedorBean.proveedors}" rowKey="#{c.idProveedor}"
-					selection="#{ProveedorBean.proveedorNuevo}" selectionMode="single"
+					selection="#{ProveedorBean.proveedorNuevo}" selectionMode="single" rowIndexVar="index"
 					styleClass="datatable_style_general" editable="true" paginator="true" rows="10"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					rowsPerPageTemplate="2,5,10" paginatorPosition="bottom">
@@ -62,12 +71,10 @@
 						<p:commandButton id="viewNuevo" styleClass="botonPeque"
 							value="Nuevo" icon="ui-icon-document" update=":form:display"
 							oncomplete="dialog.show()"
-							actionListener="#{ProveedorBean.nuevoEvent}" />
-
-						<p:commandButton id="viewEditar" styleClass="botonPeque"
-							value="Editar" icon="ui-icon-search"
-							update=":form:display, :form:growl"
-							actionListener="#{ProveedorBean.editarEvent}" />
+							actionListener="#{ProveedorBean.nuevoEvent}" process="@this">
+							
+							<p:resetInput target=":form:display"></p:resetInput>
+						</p:commandButton>
 
 						<p:commandButton id="EliminarRegistro" styleClass="botonPeque"
 							value="Eliminar" icon="ui-icon-closethick"
@@ -82,7 +89,9 @@
 					<p:column style="width:6%">
 						<f:facet name="header">
 							<h:panelGrid class="opciones"  columns="2">
-						    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonOpcion" update=":form:display" oncomplete="dialog.show()" actionListener="#{ProveedorBean.nuevoEvent}"/>
+						    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonOpcion" update=":form:display" oncomplete="dialog.show()" actionListener="#{ProveedorBean.nuevoEvent}" process="@this">
+						    		<p:resetInput target=":form:display"></p:resetInput>
+						    	</p:commandButton>
 						    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonOpcion" update=":form:display, :form:growl" actionListener="#{ProveedorBean.eliminarEvent}"/>
 							</h:panelGrid>
 						</f:facet>
@@ -90,34 +99,40 @@
 						<p:rowEditor />
 					</p:column>
 					
-					<p:column styleClass="columna" headerText="Nombre"
+					<p:column styleClass="columna" headerText="NOMBRE"
 						filterBy="#{c.nombre}">
 						<p:cellEditor>
 							<f:facet name="output">
-								<h:outputText value="#{c.nombre}" />
+								<div onclick="selectCurrentRow_paginator(dt,#{index})">
+									<h:outputText value="#{c.nombre}" />
+								</div>
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText value="#{c.nombre}" style="width:100%"/>
+								<p:inputText value="#{c.nombre}" style="width:100%; text-align:center;"/>
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
 					
-					<p:column styleClass="columna" headerText="Direccion" filterBy="#{c.direccion}">
+					<p:column styleClass="columna" headerText="DIRECCIÓN" filterBy="#{c.direccion}">
 						<p:cellEditor>
 							<f:facet name="output">
-								<h:outputText value="#{c.direccion}" />
+								<div onclick="selectCurrentRow_paginator(dt,#{index})">
+									<h:outputText value="#{c.direccion}" />
+								</div>
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText value="#{c.direccion}" style="width:100%"/>
+								<p:inputText value="#{c.direccion}" style="width:100%; text-align:center;"/>
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
 					
-					<p:column styleClass="columna" headerText="Distrito"
+					<p:column styleClass="columna" headerText="DISTRITO"
 						filterBy="#{c.distrito}">
 						<p:cellEditor>
 							<f:facet name="output">
-								<h:outputText value="#{c.distrito.distrito}" />
+								<div onclick="selectCurrentRow_paginator(dt,#{index})">
+									<h:outputText value="#{c.distrito.distrito}" />
+								</div>
 							</f:facet>
 							<f:facet name="input">
 								<p:selectOneMenu widgetVar="distrito" value="#{c.distrito}" converter="omnifaces.SelectItemsConverter" >
@@ -128,13 +143,15 @@
 						</p:cellEditor>
 					</p:column>
 							
-					<p:column styleClass="columna" headerText="Telefono" filterBy="#{c.telefono}">
+					<p:column styleClass="columna" headerText="TELÉFONO" filterBy="#{c.telefono}">
 						<p:cellEditor>
 							<f:facet name="output">
-								<h:outputText styleClass="numericos" value="#{c.telefono}" />
+								<div onclick="selectCurrentRow_paginator(dt,#{index})">
+									<h:outputText styleClass="numericos" value="#{c.telefono}" />
+								</div>
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText styleClass="numericos" value="#{c.telefono}" style="width:100%"/>
+								<p:inputText styleClass="numericos" value="#{c.telefono}" style="width:100%; text-align:center;"/>
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
@@ -143,6 +160,8 @@
 			</div>
 
 		</p:panel>
+
+		<p:remoteCommand name="showError" actionListener="#{ProveedorBean.showError}" immediate="true" />
 
 		<p:dialog id="modalDialog" header="CONFIRMACION" widgetVar="dlg2"
 			modal="true" height="150" width="400" closable="false"

@@ -10,13 +10,22 @@
 
 
     <ui:define name="content">
+    
+	<script>
+		function handleComplete(xhr, status, args) {  
+		    if(args.validationFailed) { 	    	
+		    	showError();	    	
+		    }	   
+		} 	 
+	 </script>
+    
     <h:form id="form">
 
 		<p:growl id="growl" showDetail="true" life="3000" />
 
 		<!-- PERSONAL -->
 		<p:dialog id="dialog" header="Nuevo" widgetVar="dialog"
-			resizable="false" width="400" height="200" showEffect="clip"
+			resizable="false" width="310" height="200" showEffect="clip"
 			hideEffect="fold" modal="true">
 
 			<h:panelGrid id="display" columns="2" cellpadding="4">
@@ -24,21 +33,21 @@
 				<h:outputText value="#{PersonalBean.personal.idPersonal}"
 					rendered="#{PersonalBean.accionEditar}" />
 				
-				<h:outputText value="Nombre de Personal:" />
-				<p:inputText value="#{PersonalBean.personal.nombre}" />
+				<h:outputText styleClass="labelDialog" value="NOMBRE" />
+				<p:inputText value="#{PersonalBean.personal.nombre}" rendered="#{!PersonalBean.accionEditar}" required="true"/>
 
-				<h:outputText value="Profesion:" />
+				<h:outputText styleClass="labelDialog" value="PROFESIÓN" />
 				<p:inputText value="#{PersonalBean.personal.profesion}" />
 				
-				<h:outputText value="Celular:" />
+				<h:outputText styleClass="labelDialog" value="CELULAR" />
 				<p:inputText value="#{PersonalBean.personal.celular}" />
 				
-				<h:outputText value="E - Mail:" />
+				<h:outputText styleClass="labelDialog" value="EMAIL" />
 				<p:inputText value="#{PersonalBean.personal.email}" />
-				
+				<div></div>
 				<p:commandButton value="#{PersonalBean.etiBotonDialog()}"
-					actionListener="#{PersonalBean.procesarDialog}"
-					update=":form:datatablecampana, growl" oncomplete="dialog.hide();" />
+					actionListener="#{PersonalBean.procesarDialog}" oncomplete="handleComplete(xhr, status, args);"
+					update="@form:datatablecampana, growl, @form:display" />
 
 			</h:panelGrid>
 		</p:dialog>
@@ -49,7 +58,7 @@
 
 				<p:dataTable id="datatablecampana" var="c" widgetVar="dt"
 					value="#{PersonalBean.personals}" rowKey="#{c.idPersonal}"
-					selection="#{PersonalBean.personalNuevo}" selectionMode="single"
+					selection="#{PersonalBean.personalNuevo}" selectionMode="single" rowIndexVar="index"
 					styleClass="datatable_style_general" editable="true" paginator="true" rows="10"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					rowsPerPageTemplate="2,5,10"  paginatorPosition="bottom">
@@ -59,12 +68,10 @@
 						<p:commandButton id="viewNuevo" styleClass="botonPeque"
 							value="Nuevo" icon="ui-icon-document" update=":form:display"
 							oncomplete="dialog.show()"
-							actionListener="#{PersonalBean.nuevoEvent}" />
+							actionListener="#{PersonalBean.nuevoEvent}" process="@this">
+								<p:resetInput target=":form:display"></p:resetInput>
+						</p:commandButton>
 
-						<p:commandButton id="viewEditar" styleClass="botonPeque"
-							value="Editar" icon="ui-icon-search"
-							update=":form:display, :form:growl"
-							actionListener="#{PersonalBean.editarEvent}" />
 
 						<p:commandButton id="EliminarRegistro" styleClass="botonPeque"
 							value="Eliminar" icon="ui-icon-closethick"
@@ -79,7 +86,9 @@
 					<p:column style="width:6%;">
 						<f:facet name="header">
 							<h:panelGrid class="opciones" columns="2">
-						    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonOpcion" update=":form:display" oncomplete="dialog.show()" actionListener="#{PersonalBean.nuevoEvent}"/>
+						    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonOpcion" update=":form:display" oncomplete="dialog.show()" actionListener="#{PersonalBean.nuevoEvent}" process="@this">
+						    		<p:resetInput target=":form:display"></p:resetInput>
+						    	</p:commandButton>
 						    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonOpcion" update=":form:display, :form:growl" actionListener="#{PersonalBean.eliminarEvent}"/>
 							</h:panelGrid>
 						</f:facet>
@@ -87,44 +96,52 @@
 						<p:rowEditor />
 					</p:column>
 					
-					<p:column styleClass="columna" headerText="Nombre"
+					<p:column styleClass="columna" headerText="NOMBRE"
 						filterBy="#{c.nombre}">
 						<p:cellEditor>
 							<f:facet name="output">
-								<h:outputText value="#{c.nombre}" />
+								<div onclick="selectCurrentRow_paginator(dt,#{index})">
+									<h:outputText value="#{c.nombre}" />
+								</div>
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText value="#{c.nombre}" style="width:100%"/>
+								<p:inputText value="#{c.nombre}" style="width:100%; text-align:center;"/>
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
 					
-					<p:column styleClass="columna" headerText="Profesion" filterBy="#{c.profesion}">
+					<p:column styleClass="columna" headerText="PROFESIÓN" filterBy="#{c.profesion}">
 						<p:cellEditor>
 							<f:facet name="output">
-								<h:outputText value="#{c.profesion}" />
+								<div onclick="selectCurrentRow_paginator(dt,#{index})">
+									<h:outputText value="#{c.profesion}" />
+								</div>
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText value="#{c.profesion}" style="width:100%"/>
+								<p:inputText value="#{c.profesion}" style="width:100%; text-align:center;"/>
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
 					
-					<p:column styleClass="columna" headerText="Celular" filterBy="#{c.celular}">
+					<p:column styleClass="columna" headerText="CELULAR" filterBy="#{c.celular}">
 						<p:cellEditor>
 							<f:facet name="output">
-								<h:outputText value="#{c.celular}" />
+								<div onclick="selectCurrentRow_paginator(dt,#{index})">
+									<h:outputText  styleClass="numericos" value="#{c.celular}" />
+								</div>
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText value="#{c.celular}" style="width:100%"/>
+								<p:inputText  styleClass="numericos" value="#{c.celular}" style="width:100%"/>
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
 					
-					<p:column styleClass="columna" headerText="Email" filterBy="#{c.email}">
+					<p:column styleClass="columna" headerText="EMAIL" filterBy="#{c.email}">
 						<p:cellEditor>
 							<f:facet name="output">
-								<h:outputText value="#{c.email}" />
+								<div onclick="selectCurrentRow_paginator(dt,#{index})">
+									<h:outputText value="#{c.email}" />
+								</div>
 							</f:facet>
 							<f:facet name="input">
 								<p:inputText value="#{c.email}" style="width:100%"/>
@@ -132,7 +149,7 @@
 						</p:cellEditor>
 					</p:column>
 					
-					<p:column styleClass="columna" headerText="Registrado" filterBy="#{c.registro}">
+					<p:column styleClass="columna" headerText="REGISTRADO" filterBy="#{c.registro}">
 						<h:outputText styleClass="numericos" value="#{c.registro}" />
 					</p:column>
 
@@ -140,6 +157,8 @@
 			</div>
 
 		</p:panel>
+		
+		<p:remoteCommand name="showError" actionListener="#{PersonalBean.showError}" immediate="true" />
 
 		<p:dialog id="modalDialog" header="CONFIRMACION" widgetVar="dlg2"
 			modal="true" height="150" width="400" closable="false"

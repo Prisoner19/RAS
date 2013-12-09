@@ -119,6 +119,7 @@
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
     border-color: #ccc;
     border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    font-family: candara;
 }
 
 /* Interaction Cues----------------------------------*/
@@ -1010,17 +1011,17 @@
 }
 
 .ui-inputfield.ui-state-focus, .ui-widget-content .ui-inputfield.ui-state-focus, .ui-widget-header .ui-inputfield.ui-state-focus {
-    border-color: rgba(82, 168, 236, 0.8);
+    border-color: #8D9694;
     outline: 0;
     outline: thin dotted   \9; /* IE6-9 */
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
-    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+    box-shadow: inset 0 1px 1px #8D9694, 0 0 8px #8D9694;
 }
 
 .ui-inputfield.ui-state-error, .ui-widget-header .ui-inputfield.ui-state-error, .ui-widget-content .ui-inputfield.ui-state-error {
     color: #333333;
-    border: 1px solid #eed3d7;
+    background-color: #C79D9D;
+    *background-color: #d9d9d9;
+    background-position: 0 -5px;
 }
 
 /** TabView **/
@@ -1296,7 +1297,9 @@
 .ui-dialog.ui-widget-content .ui-dialog-titlebar {
     padding: 9px 15px;
     border-bottom: 1px solid #eee;
-    background-color: #ffffff;
+    background-color: #88A1B5;
+    font-family:Exo;
+    font-weight:lighter;
 }
 
 .ui-dialog.ui-widget-content .ui-dialog-title {

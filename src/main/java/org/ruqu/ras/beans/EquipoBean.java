@@ -16,6 +16,7 @@ import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.TabChangeEvent;
 import org.ruqu.ras.domain.Categoria;
 import org.ruqu.ras.domain.Equipo;
+import org.ruqu.ras.helpers.utils.FacesMessageHelper;
 import org.ruqu.ras.service.ICategoriaService;
 import org.ruqu.ras.service.IEquipoService;
 
@@ -27,6 +28,7 @@ public class EquipoBean implements Serializable{
 	 * =================
 	 */
 	private static final long serialVersionUID = 1L;
+	private static final String growlPath ="form:growl";
 	
 	@ManagedProperty(value="#{EquipoService}")
 	IEquipoService equipoService;
@@ -108,9 +110,9 @@ public class EquipoBean implements Serializable{
 	
 	public String etiBotonDialog(){
 		if(accionEditar){
-			return "Editar";
+			return "EDITAR";
 		}else{
-			return "Nuevo";
+			return "NUEVO";
 		}
 	}
 
@@ -204,6 +206,8 @@ public class EquipoBean implements Serializable{
 		}else{
 			validarNuevo();
 		}
+		RequestContext.getCurrentInstance().execute("dialog.hide();");
+		refrescarEquipos();
 	}
 	
 	/* ACCIONES CRUD
@@ -233,7 +237,7 @@ public class EquipoBean implements Serializable{
         FacesMessage msg = null;  
         boolean registrado = false;  
           
-        if(getEquipo().getNombre()!=null && getEquipo().getNombre().length()>=1){
+        if(getEquipo().getCodigo()!=null){
         	registrado=true;
         	msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registrado", getEquipo().getNombre());
             insertar();
@@ -286,7 +290,10 @@ public class EquipoBean implements Serializable{
 	*	RUTINAS ADICIONALES
 	*	===================
     */
-
+	public void showError(){
+		FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_WARN, "Registro","Campos resaltados invalidos", growlPath
+				,"Error");		
+	}
 
 	public void limpiarCampos()
 	{

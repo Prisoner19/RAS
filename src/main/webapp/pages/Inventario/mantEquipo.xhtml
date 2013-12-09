@@ -11,13 +11,21 @@
 
 <ui:define name="content">
 
+	<script>
+		function handleComplete(xhr, status, args) {  
+		    if(args.validationFailed) { 	    	
+		    	showError();	    	
+		    }	   
+		} 	 
+	 </script>
+
 	<h:form id="form">
 		
 				<p:growl id="growl" showDetail="true" life="3000" />
 		
 				<!-- EQUIPO -->
 				<p:dialog id="dialog" header="Nuevo" widgetVar="dialog"
-					resizable="false" width="400" height="200" showEffect="clip"
+					resizable="false" width="400" height="250" showEffect="clip"
 					hideEffect="fold" modal="true">
 		
 					<h:panelGrid id="display" columns="2" cellpadding="4">
@@ -25,27 +33,28 @@
 						<h:outputText value="#{EquipoBean.equipo.idEquipo}"
 							rendered="#{EquipoBean.accionEditar}" />
 						
-						<h:outputText value="Codigo de equipo:" />
-						<p:inputText value="#{EquipoBean.equipo.codigo}" />
+						<h:outputText styleClass="labelDialog" value="CÓDIGO EQUIPO" />
+						<p:inputText value="#{EquipoBean.equipo.codigo}" rendered="#{!EquipoBean.accionEditar}" required="true"/>
 							
-						<h:outputText value="Categoria:" />
-						<p:selectOneMenu widgetVar="categoria" value="#{EquipoBean.equipo.categoria}" converter="omnifaces.SelectItemsConverter"  >
+						<h:outputText styleClass="labelDialog"  value="CATEGORÍA" />
+						<p:selectOneMenu widgetVar="categoria" styleClass="selectMenu" value="#{EquipoBean.equipo.categoria}" converter="omnifaces.SelectItemsConverter" style="width: 100%;" >
 							<f:selectItem itemLabel="Seleccione uno" itemValue="#{null}" noSelectionOption="true" /> 
-							<f:selectItems value="#{EquipoBean.categorias}" var="cat" itemLabel="#{cat.nombre}" itemValue="#{cat}" /> 
+							<f:selectItems styleClass="listaSelectMenu" value="#{EquipoBean.categorias}" var="cat" itemLabel="#{cat.nombre}" itemValue="#{cat}" /> 
 						</p:selectOneMenu>
 		
-						<h:outputText value="Descripcion:" />
+						<h:outputText styleClass="labelDialog"  value="DESCRIPCIÓN" />
 						<p:inputText value="#{EquipoBean.equipo.descripcion}" />
 						
-						<h:outputText value="Costo:" />
-						<p:inputText value="#{EquipoBean.equipo.costo}" />
+						<h:outputText styleClass="labelDialog"  value="COSTO" />
+						<pe:inputNumber value="#{EquipoBean.equipo.costo}" rendered="#{!EquipoBean.accionEditar}" required="true" 
+						decimalPlaces="2" thousandSeparator=""/>
 						
-						<h:outputText value="Stock:" />
-						<p:inputText value="#{EquipoBean.equipo.stock}" />
-						
+						<h:outputText styleClass="labelDialog"  value="STOCK" />
+						<pe:inputNumber value="#{EquipoBean.equipo.stock}" rendered="#{!EquipoBean.accionEditar}" required="true" />
+						<div></div>
 						<p:commandButton value="#{EquipoBean.etiBotonDialog()}"
-							actionListener="#{EquipoBean.procesarDialog}"
-							update=":form:datatablecampana, growl" oncomplete="dialog.hide();" />
+							actionListener="#{EquipoBean.procesarDialog}" oncomplete="handleComplete(xhr, status, args);"
+					update="@form:datatablecampana, growl, @form:display" />
 		
 					</h:panelGrid>
 				</p:dialog>
@@ -56,7 +65,7 @@
 		
 						<p:dataTable id="datatablecampana" var="c" widgetVar="dt"
 							value="#{EquipoBean.equipos}" rowKey="#{c.idEquipo}"
-							selection="#{EquipoBean.equipoNuevo}" selectionMode="single"
+							selection="#{EquipoBean.equipoNuevo}" selectionMode="single" rowIndexVar="index"
 							styleClass="datatable_style_general" editable="true" paginator="true" rows="10"
 							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 							rowsPerPageTemplate="2,5,10" paginatorPosition="bottom">
@@ -66,13 +75,11 @@
 								<p:commandButton id="viewNuevo" styleClass="botonPeque"
 									value="Nuevo" icon="ui-icon-document" update=":form:display"
 									oncomplete="dialog.show()"
-									actionListener="#{EquipoBean.nuevoEvent}" />
-		
-								<p:commandButton id="viewEditar" styleClass="botonPeque"
-									value="Editar" icon="ui-icon-search"
-									update=":form:display, :form:growl"
-									actionListener="#{EquipoBean.editarEvent}" />
-		
+									actionListener="#{EquipoBean.nuevoEvent}"  process="@this">
+									
+									<p:resetInput target=":form:display"></p:resetInput>
+							</p:commandButton>
+
 								<p:commandButton id="EliminarRegistro" styleClass="botonPeque"
 									value="Eliminar" icon="ui-icon-closethick"
 									update=":form:display, :form:growl"
@@ -86,7 +93,9 @@
 							<p:column style="width:6%">
 								<f:facet name="header">
 									<h:panelGrid class="opciones"  columns="2">
-								    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonOpcion" update=":form:display" oncomplete="dialog.show()" actionListener="#{EquipoBean.nuevoEvent}"/>
+								    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonOpcion" update=":form:display" oncomplete="dialog.show()" actionListener="#{EquipoBean.nuevoEvent}"  process="@this">
+											<p:resetInput target=":form:display"></p:resetInput>
+										</p:commandButton>
 								    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonOpcion" update=":form:display, :form:growl" actionListener="#{EquipoBean.eliminarEvent}"/>
 									</h:panelGrid>
 								</f:facet>
@@ -94,11 +103,13 @@
 								<p:rowEditor />
 							</p:column>
 		
-							<p:column styleClass="columna" headerText="Codigo de Equipo"
+							<p:column styleClass="columna" headerText="CÓDIGO"
 								filterBy="#{c.codigo}">
 								<p:cellEditor>
 									<f:facet name="output" >
-										<h:outputText styleClass="numericos" value="#{c.codigo}" />
+										<div onclick="selectCurrentRow_paginator(dt,#{index})">
+											<h:outputText styleClass="numericos" value="#{c.codigo}" />
+										</div>
 									</f:facet>
 									<f:facet name="input" >
 										<p:inputText styleClass="numericos" value="#{c.codigo}" style="width:30%"/>
@@ -106,11 +117,13 @@
 								</p:cellEditor>
 							</p:column>
 		
-							<p:column styleClass="columna" headerText="Categoria"
+							<p:column styleClass="columna" headerText="CATEGORÍA"
 								filterBy="#{c.categoria}">
 								<p:cellEditor>
 									<f:facet name="output">
-										<h:outputText value="#{c.categoria.nombre}" />
+										<div onclick="selectCurrentRow_paginator(dt,#{index})">
+											<h:outputText value="#{c.categoria.nombre}" />
+										</div>
 									</f:facet>
 									<f:facet name="input">
 										<p:selectOneMenu widgetVar="categoria" value="#{c.categoria}" converter="omnifaces.SelectItemsConverter" >
@@ -121,10 +134,12 @@
 								</p:cellEditor>
 							</p:column>
 							
-							<p:column styleClass="columna" headerText="Costo" filterBy="#{c.costo}">
+							<p:column styleClass="columna" headerText="COSTO" filterBy="#{c.costo}">
 								<p:cellEditor>
 									<f:facet name="output">
-										<h:outputText styleClass="numericos"  value="#{c.costo}" />
+										<div onclick="selectCurrentRow_paginator(dt,#{index})">
+											<h:outputText styleClass="numericos"  value="#{c.costo}" />
+										</div>
 									</f:facet>
 									<f:facet name="input">
 										<p:inputText styleClass="numericos"  value="#{c.costo}" style="width:30%"/>
@@ -132,10 +147,12 @@
 								</p:cellEditor>
 							</p:column>
 							
-							<p:column styleClass="columna" headerText="Stock" filterBy="#{c.stock}">
+							<p:column styleClass="columna" headerText="STOCK" filterBy="#{c.stock}">
 								<p:cellEditor>
 									<f:facet name="output">
-										<h:outputText styleClass="numericos"  value="#{c.stock}" />
+										<div onclick="selectCurrentRow_paginator(dt,#{index})">
+											<h:outputText styleClass="numericos"  value="#{c.stock}" />
+										</div>
 									</f:facet>
 									<f:facet name="input">
 										<p:inputText styleClass="numericos"  value="#{c.stock}" style="width:20%"/>
@@ -147,6 +164,8 @@
 					</div>
 		
 				</p:panel>
+				
+				<p:remoteCommand name="showError" actionListener="#{EquipoBean.showError}" immediate="true" />
 		
 				<p:dialog id="modalDialog" header="CONFIRMACION" widgetVar="dlg2"
 					modal="true" height="150" width="400" closable="false"

@@ -10,29 +10,38 @@
 
 
     <ui:define name="content">
+ 
+    <script>
+		function handleComplete(xhr, status, args) {  
+		    if(args.validationFailed) { 	    	
+		    	showError();	    	
+		    }	   
+		} 	 
+	 </script>
+    
     <h:form id="form">
 
 		<p:growl id="growl" showDetail="true" life="3000" />
 
 		<!-- CATEGORIA -->
 		<p:dialog id="dialog" header="Nuevo" widgetVar="dialog"
-			resizable="false" width="400" height="200" showEffect="clip"
+			resizable="false" width="320" height="140" showEffect="clip"
 			hideEffect="fold" modal="true">
 
 			<h:panelGrid id="display" columns="2" cellpadding="4">
 				<h:outputText value="Id:" rendered="#{CategoriaBean.accionEditar}" />
 				<h:outputText value="#{CategoriaBean.categoria.idCategoria}"
-					rendered="#{CategoriaBean.accionEditar}" />
+					rendered="#{CategoriaBean.accionEditar}"  />
 				
-				<h:outputText value="Nombre de Categoria:" />
-				<p:inputText value="#{CategoriaBean.categoria.nombre}" />
+				<h:outputText styleClass="labelDialog" value="NOMBRE"/>
+				<p:inputText value="#{CategoriaBean.categoria.nombre}" rendered="#{!CategoriaBean.accionEditar}" required="true" />
 
-				<h:outputText value="Descripcion:" />
+				<h:outputText  styleClass="labelDialog" value="DESCRIPCIÓN" />
 				<p:inputText value="#{CategoriaBean.categoria.descripcion}" />
-				
+				<div></div>
 				<p:commandButton value="#{CategoriaBean.etiBotonDialog()}"
-					actionListener="#{CategoriaBean.procesarDialog}"
-					update=":form:datatablecampana, growl" oncomplete="dialog.hide();" />
+					actionListener="#{CategoriaBean.procesarDialog}" oncomplete="handleComplete(xhr, status, args);"
+					update="@form:datatablecampana, growl, @form:display" />
 
 			</h:panelGrid>
 		</p:dialog>
@@ -43,8 +52,8 @@
 
 				<p:dataTable id="datatablecampana" var="c" widgetVar="dt"
 					value="#{CategoriaBean.categorias}" rowKey="#{c.idCategoria}"
-					selection="#{CategoriaBean.categoriaNuevo}" selectionMode="single"
-					styleClass="tablaGeneral" editable="true" paginator="true"  rows="10"
+					selection="#{CategoriaBean.categoriaNuevo}" selectionMode="single" rowIndexVar="index"
+					styleClass="datatable_style_general" editable="true" paginator="true"  rows="10"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					rowsPerPageTemplate="2,5,10" paginatorPosition="bottom">
 
@@ -53,12 +62,9 @@
 						<p:commandButton id="viewNuevo" styleClass="botonPeque"
 							value="Nuevo" icon="ui-icon-document" update=":form:display"
 							oncomplete="dialog.show()"
-							actionListener="#{CategoriaBean.nuevoEvent}" />
-
-						<p:commandButton id="viewEditar" styleClass="botonPeque"
-							value="Editar" icon="ui-icon-search"
-							update=":form:display, :form:growl"
-							actionListener="#{CategoriaBean.editarEvent}" />
+							actionListener="#{CategoriaBean.nuevoEvent}" process="@this">
+								<p:resetInput target=":form:display"></p:resetInput>
+						</p:commandButton>
 
 						<p:commandButton id="EliminarRegistro" styleClass="botonPeque"
 							value="Eliminar" icon="ui-icon-closethick"
@@ -73,7 +79,9 @@
 					<p:column style="width:6%;">
 						<f:facet name="header">
 							<h:panelGrid class="opciones" columns="2">
-						    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonOpcion" update=":form:display" oncomplete="dialog.show()" actionListener="#{CategoriaBean.nuevoEvent}"/>
+						    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonOpcion" update=":form:display" oncomplete="dialog.show()" actionListener="#{CategoriaBean.nuevoEvent}" process="@this">
+						    		<p:resetInput target=":form:display"></p:resetInput>
+						    	</p:commandButton>
 						    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonOpcion" update=":form:display, :form:growl" actionListener="#{CategoriaBean.eliminarEvent}"/>
 							</h:panelGrid>
 						</f:facet>
@@ -85,10 +93,12 @@
 						filterBy="#{c.nombre}">
 						<p:cellEditor>
 							<f:facet name="output">
-								<h:outputText value="#{c.nombre}" />
+								<div onclick="selectCurrentRow_paginator(dt,#{index})">
+									<h:outputText value="#{c.nombre}" />
+								</div>
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText value="#{c.nombre}" style="width:100%"/>
+								<p:inputText value="#{c.nombre}" style="width:30%; text-align:center;"/>
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
@@ -96,10 +106,12 @@
 					<p:column styleClass="columna" headerText="DESCRIPCIÓN" filterBy="#{c.descripcion}">
 						<p:cellEditor>
 							<f:facet name="output">
-								<h:outputText value="#{c.descripcion}" />
+								<div onclick="selectCurrentRow_paginator(dt,#{index})">
+									<h:outputText value="#{c.descripcion}" />
+								</div>
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText value="#{c.descripcion}" style="width:100%"/>
+								<p:inputText value="#{c.descripcion}" style="width:50%; text-align:center;"/>
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
@@ -111,6 +123,8 @@
 			</div>
 
 		</p:panel>
+		
+		<p:remoteCommand name="showError" actionListener="#{CategoriaBean.showError}" immediate="true" />
 
 		<p:dialog id="modalDialog" header="CONFIRMACION" widgetVar="dlg2"
 			modal="true" height="150" width="400" closable="false"

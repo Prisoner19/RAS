@@ -16,6 +16,7 @@ import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 import org.ruqu.ras.domain.Personal;
+import org.ruqu.ras.helpers.utils.FacesMessageHelper;
 import org.ruqu.ras.service.IPersonalService;
 
 @ManagedBean (name="PersonalBean")
@@ -27,6 +28,7 @@ public class PersonalBean implements Serializable{
 	 * =================
 	 */
 	private static final long serialVersionUID = 1L;
+	private static final String growlPath ="form:growl";
 	
 	@ManagedProperty(value="#{PersonalService}")
 	IPersonalService personalService;
@@ -176,6 +178,8 @@ public class PersonalBean implements Serializable{
 		}else{
 			validarNuevo();
 		}
+		RequestContext.getCurrentInstance().execute("dialog.hide();");
+		refrescarPersonals();
 	}
 	
 	/* ACCIONES CRUD
@@ -260,7 +264,11 @@ public class PersonalBean implements Serializable{
 	*	RUTINAS ADICIONALES
 	*	===================
     */
-
+	
+	public void showError(){
+		FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_WARN, "Registro","Campos resaltados invalidos", growlPath
+				,"Error");		
+	}
 
 	public void limpiarCampos()
 	{

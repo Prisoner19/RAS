@@ -14,6 +14,7 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 import org.ruqu.ras.domain.Distrito;
 import org.ruqu.ras.domain.Proveedor;
+import org.ruqu.ras.helpers.utils.FacesMessageHelper;
 import org.ruqu.ras.service.IDistritoService;
 import org.ruqu.ras.service.IProveedorService;
 
@@ -26,6 +27,7 @@ public class ProveedorBean {
 	 * =================
 	 */
 	private static final long serialVersionUID = 1L;
+	private static final String growlPath ="form:growl";
 	
 	@ManagedProperty(value="#{ProveedorService}")
 	IProveedorService proveedorService;
@@ -107,9 +109,9 @@ public class ProveedorBean {
 	
 	public String etiBotonDialog(){
 		if(accionEditar){
-			return "Editar";
+			return "EDITAR";
 		}else{
-			return "Nuevo";
+			return "NUEVO";
 		}
 	}
 
@@ -195,6 +197,8 @@ public class ProveedorBean {
 		}else{
 			validarNuevo();
 		}
+		RequestContext.getCurrentInstance().execute("dialog.hide();");
+		refrescarProveedors();
 	}
 	
 	/* ACCIONES CRUD
@@ -277,6 +281,10 @@ public class ProveedorBean {
 	*	RUTINAS ADICIONALES
 	*	===================
     */
+	public void showError(){
+		FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_WARN, "Registro","Campos resaltados invalidos", growlPath
+				,"Error");		
+	}
 
 
 	public void limpiarCampos()

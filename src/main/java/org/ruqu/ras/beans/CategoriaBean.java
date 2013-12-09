@@ -14,6 +14,7 @@ import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 import org.ruqu.ras.domain.Categoria;
+import org.ruqu.ras.helpers.utils.FacesMessageHelper;
 import org.ruqu.ras.service.ICategoriaService;
 
 @ManagedBean(name="CategoriaBean")
@@ -25,6 +26,7 @@ public class CategoriaBean implements Serializable{
 	 * =================
 	 */
 	private static final long serialVersionUID = 1L;
+	private static final String growlPath ="form:growl";
 	
 	@ManagedProperty(value="#{CategoriaService}")
 	ICategoriaService categoriaService;
@@ -85,9 +87,9 @@ public class CategoriaBean implements Serializable{
 	
 	public String etiBotonDialog(){
 		if(accionEditar){
-			return "Editar";
+			return "EDITAR";
 		}else{
-			return "Nuevo";
+			return "NUEVO";
 		}
 	}
 
@@ -166,11 +168,13 @@ public class CategoriaBean implements Serializable{
 	//BOTON PROCESAR-DIALOG
 	public void procesarDialog(){
 		if(accionEditar){
-			System.out.println("llegue");
+			System.out.println("\n\n\n\nllegue");
 			validarEditar();
 		}else{
 			validarNuevo();
 		}
+		RequestContext.getCurrentInstance().execute("dialog.hide();");
+		refrescarCategorias();
 	}
 	
 	/* ACCIONES CRUD
@@ -200,7 +204,7 @@ public class CategoriaBean implements Serializable{
         FacesMessage msg = null;  
         boolean registrado = false;  
           
-        if(getCategoria().getNombre()!=null && getCategoria().getNombre().length()>=1){
+        if(getCategoria().getNombre()!=null){
         	registrado=true;
         	msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registrado", getCategoria().getNombre());
             insertar();
@@ -217,7 +221,7 @@ public class CategoriaBean implements Serializable{
         FacesMessage msg = null;  
         boolean editado = false;  
         
-        if(getCategoria().getNombre()!=null && getCategoria().getNombre().length()>=1){
+        if(getCategoria().getNombre()!=null){
         	editado=true;
         	msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Editado", getCategoria().getNombre());
             editar();
@@ -253,7 +257,10 @@ public class CategoriaBean implements Serializable{
 	*	RUTINAS ADICIONALES
 	*	===================
     */
-
+	public void showError(){
+		FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_WARN, "Registro","Campos resaltados invalidos", growlPath
+				,"Error");		
+	}
 
 	public void limpiarCampos()
 	{
