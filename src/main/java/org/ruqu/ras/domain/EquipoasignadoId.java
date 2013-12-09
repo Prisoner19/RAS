@@ -11,6 +11,10 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class EquipoasignadoId implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int equipoIdEquipo;
 	private int proyectoIdProyecto;
 
@@ -40,26 +44,39 @@ public class EquipoasignadoId implements java.io.Serializable {
 		this.proyectoIdProyecto = proyectoIdProyecto;
 	}
 
-	public boolean equals(Object other) {
-		if ((this == other))
-			return true;
-		if ((other == null))
-			return false;
-		if (!(other instanceof EquipoasignadoId))
-			return false;
-		EquipoasignadoId castOther = (EquipoasignadoId) other;
 
-		return (this.getEquipoIdEquipo() == castOther.getEquipoIdEquipo())
-				&& (this.getProyectoIdProyecto() == castOther
-						.getProyectoIdProyecto());
-	}
 
+	@Override
 	public int hashCode() {
-		int result = 17;
-
-		result = 37 * result + this.getEquipoIdEquipo();
-		result = 37 * result + this.getProyectoIdProyecto();
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + equipoIdEquipo;
+		result = prime * result + proyectoIdProyecto;
 		return result;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		EquipoasignadoId other = (EquipoasignadoId) obj;
+		if (equipoIdEquipo != other.equipoIdEquipo)
+			return false;
+		if (proyectoIdProyecto != other.proyectoIdProyecto)
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return equipoIdEquipo
+				+ "-" + proyectoIdProyecto;
+	}
+	
+	
 
 }

@@ -2,6 +2,8 @@ package org.ruqu.ras.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -10,11 +12,12 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 import org.ruqu.ras.domain.Equipo;
+import org.ruqu.ras.domain.Equipoasignado;
+import org.ruqu.ras.domain.EquipoasignadoId;
 import org.ruqu.ras.domain.Otrogasto;
 import org.ruqu.ras.domain.Personalasignado;
 import org.ruqu.ras.domain.Proyecto;
@@ -51,9 +54,13 @@ public class ProyectoBean implements Serializable{
 	private List<Personalasignado> personalasignados;
 	private List<Equipo> equipos;
 	private List<Otrogasto> otrogastos;
+	private List<Equipoasignado> equiposAsignados;
+	
 	
 	private Proyecto proyecto;
 	private Proyecto proyectoSelec;
+	private Equipoasignado equipoAsignado;
+	
 	
 	private boolean accionEditar = false;
 
@@ -77,11 +84,13 @@ public class ProyectoBean implements Serializable{
 		proyectos=new ArrayList<Proyecto>();
 		proyecto=new Proyecto();
 		proyectoSelec = new Proyecto();
+		equipoAsignado = new Equipoasignado();
 	}
 	
 	@PostConstruct
 	public void init(){
 		proyectos=getProyectoService().getProyectos();
+		equipos = equipoService.getEquipos();
 	}
 	
 	/* AJAX BUTTON EVENTS  
@@ -113,12 +122,15 @@ public class ProyectoBean implements Serializable{
 	
 	public void gastoEvent(){
 		if(proyectoSelec!=null){			
+			limpiarTabs();
 			proyecto=proyectoService.getProyectoById(proyectoSelec.getIdProyecto());
+			equiposAsignados=new ArrayList<Equipoasignado>(proyecto.getEquipoasignados());
 			RequestContext.getCurrentInstance().execute("dialogGastos.show();");
 		}else
 			FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_WARN, 
 					"Aviso", "No ha seleccionado ningun proyecto", growlPath);
-	}	
+	}
+	
 	
 	public void eliminarEvent(){
 		if(proyectoSelec!=null){			
@@ -168,6 +180,41 @@ public class ProyectoBean implements Serializable{
 		
 	}
 	
+	public void descargarEquipo(){
+		if(equipoAsignado.getEquipo().getStock()<equipoAsignado.getCantidad()){
+			FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_WARN, 
+					"Aviso", "No hay Stock para descargar Equipo", growlPath);
+		}else{ 
+			equipoAsignado.getEquipo().setStock(equipoAsignado.getEquipo().getStock()-equipoAsignado.getCantidad());
+			equipoAsignado.setId(new EquipoasignadoId(equipoAsignado.getEquipo().getIdEquipo(),
+					proyectoSelec.getIdProyecto()));
+			equipoAsignado.setFecha(new Date());
+			equipoAsignado.setPrecioUnit(equipoAsignado.getEquipo().getCosto());
+			equipoAsignado.setProyecto(proyectoSelec);
+			
+			if(!equiposAsignados.contains(equipoAsignado)){
+				equiposAsignados.add(equipoAsignado);			
+				
+				FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_INFO, 
+					"Aviso", "Equipo descargado", growlPath);
+			}else{
+				FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_WARN, 
+						"Aviso", "No puede descargar el mismo producto", growlPath);
+			}
+		}
+	}
+	
+	public void guardarGastos(){
+		proyectoSelec.setEquipoasignados(new HashSet<Equipoasignado>(equiposAsignados));		
+		getProyectoService().updateProyecto(proyectoSelec);
+		for(Equipoasignado ea:equiposAsignados){
+			equipoService.updateEquipo(ea.getEquipo());
+		}
+		RequestContext.getCurrentInstance().execute("dialogGastos.hide()");
+		FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_INFO, 
+				"Aviso", "Gastos guardados", growlPath);
+	}
+	
 	/* ACCIONES CRUD
 	*  =============
 	*/
@@ -195,8 +242,13 @@ public class ProyectoBean implements Serializable{
 	public void limpiarCampos()
 	{
 		proyecto= new Proyecto();		
-		proyectoSelec = new Proyecto();
+		proyectoSelec = new Proyecto();		
 	}
+	
+	private void limpiarTabs() {
+		equiposAsignados = new ArrayList<Equipoasignado>();
+		equipoAsignado = new Equipoasignado();
+	}	
 
 	private void refrescarProyectos()
 	{
@@ -218,6 +270,26 @@ public class ProyectoBean implements Serializable{
 	*  ==================
 	*/
 	
+	public Equipoasignado getEquipoAsignado() {
+		return equipoAsignado;
+	}
+
+
+	public void setEquipoAsignado(Equipoasignado equipoAsignado) {
+		this.equipoAsignado = equipoAsignado;
+	}
+
+
+	public List<Equipoasignado> getEquiposAsignados() {
+		return equiposAsignados;
+	}
+
+
+	public void setEquiposAsignados(List<Equipoasignado> equiposAsignados) {
+		this.equiposAsignados = equiposAsignados;
+	}
+
+
 	public IProyectoService getProyectoService() {
 		return proyectoService;
 	}

@@ -30,9 +30,80 @@
 			hideEffect="fold" modal="true">
 			<p:tabView id="tabsGastos" dynamic="true">
 				<p:tab id="tabEquipo" title="Equipo"> 
+					
+					<p:panelGrid id="panel_tabEquipo">
+						<p:row>
+							<p:column>
+								<h:outputText value="Producto:"  />
+							</p:column>
+							<p:column>
+							<p:inputText value="#{ProyectoBean.equipoAsignado.equipo.descripcion}" required="true"
+							disabled="true" />
+							<p:commandButton id="btn_overlay" icon="ui-icon-search" type="button"></p:commandButton>
+							<p:overlayPanel id="equipoPanel" for="btn_overlay" hideEffect="fade" dynamic="true"
+							widgetVar="overlay_equipo"> 
+								<p:dataTable id="EquiposTable" widgetVar="equiDt" var="e" 
+								value="#{ProyectoBean.equipos}" rowIndexVar="rowIndex" rowKey="#{e.idEquipo}">
+									<p:column headerText="Equipo">
+										<p:outputLabel value="#{e.descripcion}"></p:outputLabel>									
+									</p:column>
+									<p:column>
+										<p:commandButton id="btn_overlay_process" icon="ui-icon-search" 
+										process="EquiposTable" update="@form:tabsGastos:panel_tabEquipo" oncomplete="overlay_equipo.hide()">
+											<f:setPropertyActionListener value="#{e}" target="#{ProyectoBean.equipoAsignado.equipo}" /> 
+										</p:commandButton>
+									</p:column>
+								</p:dataTable>
+							</p:overlayPanel> 
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<h:outputText value="Cantidad:"  />
+							</p:column>
+							<p:column>
+								<pe:inputNumber value="#{ProyectoBean.equipoAsignado.cantidad}" 
+								decimalPlaces="0" thousandSeparator="" required="true">
+								</pe:inputNumber>
+							</p:column>
+						</p:row>
+						
+						<f:facet name="footer">
+							<p:row>
+								<p:column>
+									<p:commandButton value="Descargar" process="panel_tabEquipo"
+									update="@form:tabsGastos:table_equipos"
+									actionListener="#{ProyectoBean.descargarEquipo()}"  ></p:commandButton>
+								</p:column>
+							</p:row>
+						</f:facet>
+						
+					</p:panelGrid>
+					
+					<p:dataTable id="table_equipos" value="#{ProyectoBean.equiposAsignados}" var="equi"
+					rowKey="#{equi.id.toString()}" rowIndexVar="rowIndex" widgetVar="equiposAsignados">
+						<p:column headerText="Equipo">
+							<p:outputLabel value="#{equi.equipo.descripcion}"></p:outputLabel>						
+						</p:column>
+							
+						<p:column headerText="Cantidad">	
+							<p:outputLabel value="#{equi.cantidad}" ></p:outputLabel>					
+						</p:column>
+					
+					</p:dataTable>
+					
+				</p:tab>
+				<p:tab id="tabPersonal" title="Personal"> 
+				
+				</p:tab>
+				<p:tab id="tabOtros" title="Otros"> 
 				
 				</p:tab>			
-			</p:tabView>			
+			</p:tabView>
+				<p:commandButton value="Guardar"
+				process="@widgetVar(equiposAsignados),@this"
+				actionListener="#{ProyectoBean.guardarGastos()}"  ></p:commandButton>
+								
 		</p:dialog>
 		
 		
@@ -42,7 +113,7 @@
 			
 			<h:panelGrid id="displayPresupuesto" columns="2" cellpadding="4">
 				
-			<h:outputText value="Nombre de Proyecto:" rendered="#{!ProyectoBean.accionEditar}"/>
+			   <h:outputText value="Nombre de Proyecto:" rendered="#{!ProyectoBean.accionEditar}"/>
                <p:inputText value="#{ProyectoBean.proyecto.nombre}" rendered="#{!ProyectoBean.accionEditar}"
                required="true" title="Ingresar 2 a 20 caracteres" >
                 <f:validateLength minimum="2" maximum="20" />
