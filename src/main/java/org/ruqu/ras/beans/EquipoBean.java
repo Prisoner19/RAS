@@ -237,6 +237,7 @@ public class EquipoBean implements Serializable{
         FacesMessage msg = null;  
         boolean registrado = false;  
           
+
         if(getEquipo().getCodigo()!=null){
         	registrado=true;
         	msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registrado", getEquipo().getNombre());

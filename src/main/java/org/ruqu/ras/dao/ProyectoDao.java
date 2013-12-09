@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
+import org.ruqu.ras.domain.Equipoasignado;
 import org.ruqu.ras.domain.Proyecto;
 
 public class ProyectoDao implements IProyectoDao{
@@ -34,14 +35,17 @@ public class ProyectoDao implements IProyectoDao{
 	}
 
 	@Override
-	public Proyecto getProyectoById(int id) {
-		@SuppressWarnings("unchecked")
-		List<Proyecto> list=getSessionFactory().getCurrentSession()
+	public Proyecto getProyectoById(int id) {		
+		Proyecto proyecto=(Proyecto)getSessionFactory().getCurrentSession()
 				.createQuery("from Proyecto where id=? and Vigencia=1")
-				.setParameter(0, id).list();
-		Hibernate.initialize(list.get(0).getEquipos());
-		//Hibernate.initialize(list.get(0).getLogconsultas());
-		return (Proyecto) list.get(0);
+				.setParameter(0, id).uniqueResult();
+		if(proyecto!=null){
+			Hibernate.initialize(proyecto.getEquipoasignados());
+			for(Equipoasignado ea : proyecto.getEquipoasignados()){
+				Hibernate.initialize(ea.getEquipo());
+			}
+		}
+		return proyecto;
 	}
 
 	@Override
@@ -49,10 +53,7 @@ public class ProyectoDao implements IProyectoDao{
 		@SuppressWarnings("unchecked")
 		List<Proyecto> list=getSessionFactory().getCurrentSession()
 				.createQuery("from Proyecto where Vigencia=1").list();
-		for(Proyecto l:list){
-			Hibernate.initialize(l.getEquipos());
-			//Hibernate.initialize(l.getLogconsultas());
-		}
+		
 		return list;
 	}
 }
