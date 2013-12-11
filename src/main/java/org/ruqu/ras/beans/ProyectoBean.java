@@ -19,11 +19,14 @@ import org.ruqu.ras.domain.Equipo;
 import org.ruqu.ras.domain.Equipoasignado;
 import org.ruqu.ras.domain.EquipoasignadoId;
 import org.ruqu.ras.domain.Otrogasto;
+import org.ruqu.ras.domain.Personal;
 import org.ruqu.ras.domain.Personalasignado;
+import org.ruqu.ras.domain.PersonalasignadoId;
 import org.ruqu.ras.domain.Proyecto;
 import org.ruqu.ras.helpers.utils.FacesMessageHelper;
 import org.ruqu.ras.service.IEquipoService;
 import org.ruqu.ras.service.IOtrogastoService;
+import org.ruqu.ras.service.IPersonalService;
 import org.ruqu.ras.service.IPersonalasignadoService;
 import org.ruqu.ras.service.IProyectoService;
 
@@ -47,12 +50,16 @@ public class ProyectoBean implements Serializable{
 	@ManagedProperty(value="#{EquipoService}")
 	IEquipoService equipoService;
 	
+	@ManagedProperty(value="#{PersonalService}")
+	IPersonalService personalService;
+	
 	@ManagedProperty(value="#{OtrogastoService}")
 	IOtrogastoService otrogastoService;
 	
 	private List<Proyecto> proyectos;
-	private List<Personalasignado> personalasignados;
+	private List<Personalasignado> personalAsignados;
 	private List<Equipo> equipos;
+	private List<Personal> personals;
 	private List<Otrogasto> otrogastos;
 	private List<Equipoasignado> equiposAsignados;
 	
@@ -60,7 +67,8 @@ public class ProyectoBean implements Serializable{
 	private Proyecto proyecto;
 	private Proyecto proyectoSelec;
 	private Equipoasignado equipoAsignado;
-	
+	private Personalasignado personalAsignado;
+	private Otrogasto otroGasto;
 	
 	private boolean accionEditar = false;
 
@@ -85,12 +93,15 @@ public class ProyectoBean implements Serializable{
 		proyecto=new Proyecto();
 		proyectoSelec = new Proyecto();
 		equipoAsignado = new Equipoasignado();
+		personalAsignado = new Personalasignado();
+		otroGasto=new Otrogasto();
 	}
 	
 	@PostConstruct
 	public void init(){
 		proyectos=getProyectoService().getProyectos();
 		equipos = equipoService.getEquipos();
+		personals = personalService.getPersonals();
 	}
 	
 	/* AJAX BUTTON EVENTS  
@@ -204,8 +215,41 @@ public class ProyectoBean implements Serializable{
 		}
 	}
 	
+	public void descargarPersonal(){
+		personalAsignado.setId(new PersonalasignadoId(personalAsignado.getPersonal().getIdPersonal(),
+				proyectoSelec.getIdProyecto()));
+		personalAsignado.setProyecto(proyectoSelec);
+		if(!personalAsignados.contains(personalAsignado)){
+			personalAsignados.add(personalAsignado);
+			
+			FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_INFO, 
+					"Aviso", "Personal asignado", growlPath);
+		}else{
+			FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_WARN, 
+					"Aviso", "No puede asignar la misma persona", growlPath);
+		}
+	}
+	
+	public void descargarOtroGasto(){
+		otroGasto.setRegistro(new Date());
+		otroGasto.setProyecto(proyectoSelec);
+		otrogastoService.addOtrogasto(otroGasto);
+		if(!otrogastos.contains(otroGasto)){
+			otrogastos.add(otrogastoService.getOtrogastoById(otroGasto.getIdOtroGasto()));
+			
+			FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_INFO, 
+					"Aviso", "Otro Gasto adicionado", growlPath);
+		}else{
+			FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_WARN, 
+					"Aviso", "No puede adicionar el mismo gasto", growlPath);
+		}
+	}
+	
 	public void guardarGastos(){
-		proyectoSelec.setEquipoasignados(new HashSet<Equipoasignado>(equiposAsignados));		
+		proyectoSelec.setEquipoasignados(new HashSet<Equipoasignado>(equiposAsignados));
+		proyectoSelec.setPersonalasignados(new HashSet<Personalasignado>(personalAsignados));
+		proyectoSelec.setOtrogastos(new HashSet<Otrogasto>(otrogastos));
+		
 		getProyectoService().updateProyecto(proyectoSelec);
 		for(Equipoasignado ea:equiposAsignados){
 			equipoService.updateEquipo(ea.getEquipo());
@@ -248,6 +292,10 @@ public class ProyectoBean implements Serializable{
 	private void limpiarTabs() {
 		equiposAsignados = new ArrayList<Equipoasignado>();
 		equipoAsignado = new Equipoasignado();
+		personalAsignados = new ArrayList<Personalasignado>();
+		personalAsignado = new Personalasignado();
+		otrogastos=new ArrayList<Otrogasto>();
+		otroGasto=new Otrogasto();
 	}	
 
 	private void refrescarProyectos()
@@ -270,8 +318,38 @@ public class ProyectoBean implements Serializable{
 	*  ==================
 	*/
 	
+	
 	public Equipoasignado getEquipoAsignado() {
 		return equipoAsignado;
+	}
+
+	public IPersonalService getPersonalService() {
+		return personalService;
+	}
+
+
+	public void setPersonalService(IPersonalService personalService) {
+		this.personalService = personalService;
+	}
+
+
+	public List<Personal> getPersonals() {
+		return personals;
+	}
+
+
+	public void setPersonals(List<Personal> personals) {
+		this.personals = personals;
+	}
+
+
+	public Personalasignado getPersonalAsignado() {
+		return personalAsignado;
+	}
+
+
+	public void setPersonalAsignado(Personalasignado personalAsignado) {
+		this.personalAsignado = personalAsignado;
 	}
 
 
@@ -319,12 +397,12 @@ public class ProyectoBean implements Serializable{
 		this.otrogastoService = otrogastoService;
 	}
 
-	public List<Personalasignado> getPersonalasignados() {
-		return personalasignados;
+	public List<Personalasignado> getPersonalAsignados() {
+		return personalAsignados;
 	}
 
-	public void setPersonalasignados(List<Personalasignado> personalasignados) {
-		this.personalasignados = personalasignados;
+	public void setPersonalAsignados(List<Personalasignado> personalAsignados) {
+		this.personalAsignados = personalAsignados;
 	}
 
 	public List<Equipo> getEquipos() {
@@ -373,6 +451,14 @@ public class ProyectoBean implements Serializable{
 
 	public boolean isAccionEditar() {
 		return accionEditar;
+	}
+
+	public Otrogasto getOtroGasto() {
+		return otroGasto;
+	}
+
+	public void setOtroGasto(Otrogasto otroGasto) {
+		this.otroGasto = otroGasto;
 	}
 
 	public void setAccionEditar(boolean accionEditar) {

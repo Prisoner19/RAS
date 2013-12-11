@@ -26,7 +26,7 @@
 		<p:growl id="growl" showDetail="true" life="3000" />
 		
 		<p:dialog id="dialogGastos" header="Gastos" widgetVar="dialogGastos"
-			resizable="false" width="500" height="300" showEffect="clip"
+			resizable="false" width="600" height="450" showEffect="clip"
 			hideEffect="fold" modal="true">
 			<p:tabView id="tabsGastos" dynamic="true">
 				<p:tab id="tabEquipo" title="Equipo"> 
@@ -94,11 +94,175 @@
 					
 				</p:tab>
 				<p:tab id="tabPersonal" title="Personal"> 
-				
+					<p:panelGrid id="panel_tabPersonal">
+						<p:row>
+							<p:column>
+								<h:outputText value="Persona:"  />
+							</p:column>
+							<p:column>
+							<p:inputText value="#{ProyectoBean.personalAsignado.personal.nombre}" required="true"
+							disabled="true" />
+							<p:commandButton id="btn_overlay_Personal" icon="ui-icon-search" type="button"></p:commandButton>
+							<p:overlayPanel id="personalPanel" for="btn_overlay_Personal" hideEffect="fade" dynamic="true"
+							widgetVar="overlay_personal"> 
+								<p:dataTable id="PersonalTable" widgetVar="personalDt" var="p" 
+								value="#{ProyectoBean.personals}" rowIndexVar="rowIndex" rowKey="#{p.idPersonal}">
+									<p:column headerText="Nombre">
+										<p:outputLabel value="#{p.nombre}"></p:outputLabel>									
+									</p:column>
+									<p:column headerText="Profesion">
+										<p:outputLabel value="#{p.profesion}"></p:outputLabel>									
+									</p:column>
+									<p:column>
+										<p:commandButton id="btn_overlay_Personal_process" icon="ui-icon-search" 
+										process="PersonalTable" update="@form:tabsGastos:panel_tabPersonal" oncomplete="overlay_personal.hide()">
+											<f:setPropertyActionListener value="#{p}" target="#{ProyectoBean.personalAsignado.personal}" /> 
+										</p:commandButton>
+									</p:column>
+								</p:dataTable>
+							</p:overlayPanel> 
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<h:outputText value="Pago:"  />
+							</p:column>
+							<p:column>
+								<pe:inputNumber value="#{ProyectoBean.personalAsignado.pago}" 
+								thousandSeparator="" required="true">
+								</pe:inputNumber>
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<h:outputText value="Tarea:"  />
+							</p:column>
+							<p:column>
+								 <h:inputText value="#{ProyectoBean.personalAsignado.tarea}" />  
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<h:outputText value="Empieza:"  />
+							</p:column>
+							<p:column>
+								 <p:calendar value="#{ProyectoBean.personalAsignado.inicio}" id="popupCalInicio" />  
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<h:outputText value="Finaliza:"  />
+							</p:column>
+							<p:column>
+								 <p:calendar value="#{ProyectoBean.personalAsignado.fin}" id="popupCalFin" />  
+							</p:column>
+						</p:row>
+						
+						
+						<f:facet name="footer">
+							<p:row>
+								<p:column>
+									<p:commandButton value="Asignar" process="panel_tabPersonal"
+									update="@form:tabsGastos:table_personal"
+									actionListener="#{ProyectoBean.descargarPersonal()}"  ></p:commandButton>
+								</p:column>
+							</p:row>
+						</f:facet>
+						
+					</p:panelGrid>
+					
+					<p:dataTable id="table_personal" value="#{ProyectoBean.personalAsignados}" var="pers"
+					rowKey="#{pers.id.toString()}" rowIndexVar="rowIndex" widgetVar="personalAsignados">
+						<p:column headerText="Nombre">
+							<p:outputLabel value="#{pers.personal.nombre}"></p:outputLabel>						
+						</p:column>
+							
+						<p:column headerText="Profesion">	
+							<p:outputLabel value="#{pers.personal.profesion}" ></p:outputLabel>					
+						</p:column>
+						
+						<p:column headerText="Pago">	
+							<p:outputLabel value="#{pers.pago}" ></p:outputLabel>					
+						</p:column>
+						
+						<p:column headerText="Tarea">	
+							<p:outputLabel value="#{pers.tarea}" ></p:outputLabel>					
+						</p:column>
+						
+						<p:column headerText="Inicia Labor">	
+							<p:outputLabel value="#{pers.inicio}" >
+								<f:convertDateTime pattern="d/M/yyyy"/>  
+							</p:outputLabel>					
+						</p:column>
+					
+						<p:column headerText="Fin de Labor">	
+							<p:outputLabel value="#{pers.fin}" >
+								<f:convertDateTime pattern="d/M/yyyy"/>  
+							</p:outputLabel>					
+						</p:column>
+					</p:dataTable>
 				</p:tab>
-				<p:tab id="tabOtros" title="Otros"> 
 				
-				</p:tab>			
+				<p:tab id="tabOtros" title="Otros">
+				 
+					<p:panelGrid id="panel_tabOtroGasto">
+						
+						<p:row>
+							<p:column>
+								<h:outputText value="Partida:"  />
+							</p:column>
+							<p:column>
+								 <h:inputText value="#{ProyectoBean.otroGasto.partida}" />  
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<h:outputText value="Descripcion:"  />
+							</p:column>
+							<p:column>
+								 <h:inputText value="#{ProyectoBean.otroGasto.descripcion}" />  
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<h:outputText value="Monto:"  />
+							</p:column>
+							<p:column>
+								<pe:inputNumber value="#{ProyectoBean.otroGasto.monto}" 
+								thousandSeparator="" required="true">
+								</pe:inputNumber>
+							</p:column>
+						</p:row>
+						
+						<f:facet name="footer">
+							<p:row>
+								<p:column>
+									<p:commandButton value="Asignar" process="panel_tabOtroGasto"
+									update="@form:tabsGastos:table_otros"
+									actionListener="#{ProyectoBean.descargarOtroGasto()}"  ></p:commandButton>
+								</p:column>
+							</p:row>
+						</f:facet>
+						
+					</p:panelGrid>
+					
+					<p:dataTable id="table_otros" value="#{ProyectoBean.otrogastos}" var="otro"
+					rowKey="#{otro.idOtroGasto}" rowIndexVar="rowIndex" widgetVar="otroGastos">
+						<p:column headerText="Partida">
+							<p:outputLabel value="#{otro.partida}"></p:outputLabel>						
+						</p:column>
+						
+						<p:column headerText="PDescripcion">
+							<p:outputLabel value="#{otro.descripcion}"></p:outputLabel>						
+						</p:column>
+							
+						<p:column headerText="Monto">	
+							<p:outputLabel value="#{otro.monto}" ></p:outputLabel>					
+						</p:column>
+					
+					</p:dataTable>
+				</p:tab>
+							
 			</p:tabView>
 				<p:commandButton value="Guardar"
 				process="@widgetVar(equiposAsignados),@this"
