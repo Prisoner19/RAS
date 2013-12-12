@@ -204,6 +204,7 @@ public class Proyecto implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "proyecto")
+	@Cascade({CascadeType.SAVE_UPDATE,CascadeType.DELETE})
 	public Set<Personalasignado> getPersonalasignados() {
 		return this.personalasignados;
 	}
@@ -213,6 +214,7 @@ public class Proyecto implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "proyecto")
+	@Cascade({CascadeType.SAVE_UPDATE,CascadeType.DELETE})
 	public Set<Otrogasto> getOtrogastos() {
 		return this.otrogastos;
 	}

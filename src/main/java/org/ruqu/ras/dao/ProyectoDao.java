@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.ruqu.ras.domain.Equipoasignado;
+import org.ruqu.ras.domain.Personalasignado;
 import org.ruqu.ras.domain.Proyecto;
 
 public class ProyectoDao implements IProyectoDao{
@@ -44,6 +45,11 @@ public class ProyectoDao implements IProyectoDao{
 			for(Equipoasignado ea : proyecto.getEquipoasignados()){
 				Hibernate.initialize(ea.getEquipo());
 			}
+			Hibernate.initialize(proyecto.getPersonalasignados());
+			for(Personalasignado pa : proyecto.getPersonalasignados()){
+				Hibernate.initialize(pa.getPersonal());
+			}
+			Hibernate.initialize(proyecto.getOtrogastos());
 		}
 		return proyecto;
 	}

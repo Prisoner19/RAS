@@ -136,6 +136,8 @@ public class ProyectoBean implements Serializable{
 			limpiarTabs();
 			proyecto=proyectoService.getProyectoById(proyectoSelec.getIdProyecto());
 			equiposAsignados=new ArrayList<Equipoasignado>(proyecto.getEquipoasignados());
+			personalAsignados=new ArrayList<Personalasignado>(proyecto.getPersonalasignados());
+			otrogastos=new ArrayList<Otrogasto>(proyecto.getOtrogastos());
 			RequestContext.getCurrentInstance().execute("dialogGastos.show();");
 		}else
 			FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_WARN, 
@@ -233,9 +235,9 @@ public class ProyectoBean implements Serializable{
 	public void descargarOtroGasto(){
 		otroGasto.setRegistro(new Date());
 		otroGasto.setProyecto(proyectoSelec);
-		otrogastoService.addOtrogasto(otroGasto);
+		//otrogastoService.addOtrogasto(otroGasto);
 		if(!otrogastos.contains(otroGasto)){
-			otrogastos.add(otrogastoService.getOtrogastoById(otroGasto.getIdOtroGasto()));
+			otrogastos.add(otroGasto);
 			
 			FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_INFO, 
 					"Aviso", "Otro Gasto adicionado", growlPath);
