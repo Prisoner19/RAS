@@ -1,5 +1,6 @@
 package org.ruqu.ras.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.ruqu.ras.domain.Otrogasto;
@@ -17,4 +18,6 @@ public interface IOtrogastoService {
 	public Otrogasto getOtrogastoById(int id);
 
 	public List<Otrogasto> getOtrogastos();
+	
+	public BigDecimal getCostoRealOtroGasto(int idProyecto);
 }

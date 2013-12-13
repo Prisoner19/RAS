@@ -1,6 +1,7 @@
 package org.ruqu.ras.beans;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -25,6 +26,7 @@ import org.ruqu.ras.domain.PersonalasignadoId;
 import org.ruqu.ras.domain.Proyecto;
 import org.ruqu.ras.helpers.utils.FacesMessageHelper;
 import org.ruqu.ras.service.IEquipoService;
+import org.ruqu.ras.service.IEquipoasignadoService;
 import org.ruqu.ras.service.IOtrogastoService;
 import org.ruqu.ras.service.IPersonalService;
 import org.ruqu.ras.service.IPersonalasignadoService;
@@ -46,6 +48,9 @@ public class ProyectoBean implements Serializable{
 	
 	@ManagedProperty(value="#{PersonalasignadoService}")
 	IPersonalasignadoService personalasignadoService;
+	
+	@ManagedProperty(value="#{EquipoasignadoService}")
+	IEquipoasignadoService equipoasignadoService;
 	
 	@ManagedProperty(value="#{EquipoService}")
 	IEquipoService equipoService;
@@ -69,6 +74,8 @@ public class ProyectoBean implements Serializable{
 	private Equipoasignado equipoAsignado;
 	private Personalasignado personalAsignado;
 	private Otrogasto otroGasto;
+	private BigDecimal gastoTotal;
+	private BigDecimal gastoTotalReal;
 	
 	private boolean accionEditar = false;
 
@@ -95,6 +102,8 @@ public class ProyectoBean implements Serializable{
 		equipoAsignado = new Equipoasignado();
 		personalAsignado = new Personalasignado();
 		otroGasto=new Otrogasto();
+		gastoTotal=new BigDecimal(0.0);
+		gastoTotalReal=new BigDecimal(0.0);
 	}
 	
 	@PostConstruct
@@ -112,6 +121,7 @@ public class ProyectoBean implements Serializable{
 		int num = Integer.parseInt(a);
 		
 		Proyecto p=proyectos.get(num);
+		p.setFin(new Date());
 		proyectoService.updateProyecto(p);
 	}
 	
@@ -156,6 +166,33 @@ public class ProyectoBean implements Serializable{
 					"Aviso", "No ha seleccionado ningun proyecto", growlPath);
 	}
 	
+	public void resumenEvent(){
+		if(proyectoSelec!=null){
+			
+			gastoTotal=new BigDecimal(0.0);
+			gastoTotalReal=new BigDecimal(0.0);
+			
+			proyecto=proyectoService.getProyectoById(proyectoSelec.getIdProyecto());
+			proyecto.setCostoMaterialReal(equipoasignadoService.getCostoRealEquipoasignados(proyecto.getIdProyecto()));
+			proyecto.setCostoPersonalReal(personalasignadoService.getCostoRealPersonalasignados(proyecto.getIdProyecto()));
+			proyecto.setCostoOtrosReal(otrogastoService.getCostoRealOtroGasto(proyecto.getIdProyecto()));
+			
+			proyectoService.updateProyecto(proyecto);
+			
+			gastoTotal=gastoTotal.add(proyecto.getCostoEquipo());
+			gastoTotal=gastoTotal.add(proyecto.getCostoPersonal());
+			gastoTotal=gastoTotal.add(proyecto.getCostoOtros());
+			
+			gastoTotalReal=gastoTotalReal.add(proyecto.getCostoMaterialReal());
+			gastoTotalReal=gastoTotalReal.add(proyecto.getCostoPersonalReal());
+			gastoTotalReal=gastoTotalReal.add(proyecto.getCostoOtrosReal());
+			
+			RequestContext.getCurrentInstance().execute("dialogResumen.show();");
+		}else{
+			FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_WARN, 
+					"Aviso", "No ha seleccionado ningun proyecto", growlPath);
+		}
+	}
 	public void onEdit(RowEditEvent event) {
 		Proyecto c=(Proyecto)event.getObject();
 		setProyecto(proyectoService.getProyectoById(c.getIdProyecto()));
@@ -405,6 +442,26 @@ public class ProyectoBean implements Serializable{
 		return otrogastoService;
 	}
 
+	public BigDecimal getGastoTotal() {
+		return gastoTotal;
+	}
+
+
+	public void setGastoTotal(BigDecimal gastoTotal) {
+		this.gastoTotal = gastoTotal;
+	}
+
+
+	public BigDecimal getGastoTotalReal() {
+		return gastoTotalReal;
+	}
+
+
+	public void setGastoTotalReal(BigDecimal gastoTotalReal) {
+		this.gastoTotalReal = gastoTotalReal;
+	}
+
+
 	public void setOtrogastoService(IOtrogastoService otrogastoService) {
 		this.otrogastoService = otrogastoService;
 	}
@@ -476,4 +533,16 @@ public class ProyectoBean implements Serializable{
 	public void setAccionEditar(boolean accionEditar) {
 		this.accionEditar = accionEditar;
 	}
+
+
+	public IEquipoasignadoService getEquipoasignadoService() {
+		return equipoasignadoService;
+	}
+
+
+	public void setEquipoasignadoService(
+			IEquipoasignadoService equipoasignadoService) {
+		this.equipoasignadoService = equipoasignadoService;
+	}
+	
 }

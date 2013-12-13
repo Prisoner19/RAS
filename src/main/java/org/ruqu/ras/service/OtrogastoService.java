@@ -1,5 +1,6 @@
 package org.ruqu.ras.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.ruqu.ras.dao.IOtrogastoDao;
@@ -45,5 +46,9 @@ public class OtrogastoService implements IOtrogastoService{
 
 	public void setOtrogastoDAO(IOtrogastoDao OtrogastoDAO) {
 		this.OtrogastoDAO = OtrogastoDAO;
+	}
+	
+	public BigDecimal getCostoRealOtroGasto(int idProyecto){
+		return getOtrogastoDAO().getCostoRealOtroGasto(idProyecto);
 	}
 }

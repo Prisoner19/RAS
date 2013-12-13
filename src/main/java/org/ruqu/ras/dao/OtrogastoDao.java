@@ -1,5 +1,6 @@
 package org.ruqu.ras.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
@@ -47,5 +48,12 @@ public class OtrogastoDao implements IOtrogastoDao{
 		List<Otrogasto> list=getSessionFactory().getCurrentSession()
 				.createQuery("from Otrogasto where Vigencia=1").list();
 		return list;
+	}
+
+	public BigDecimal getCostoRealOtroGasto(int idProyecto){
+		List<BigDecimal> list=getSessionFactory().getCurrentSession()
+				.createQuery("select sum(og.monto) from Otrogasto og where Proyecto_idProyecto=?")
+				.setParameter(0, idProyecto).list();
+		return (BigDecimal)list.get(0);
 	}
 }
