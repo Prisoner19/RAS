@@ -12,6 +12,8 @@
     <ui:define name="content">
  
     <script>
+
+    	initEnterKeyDefault();
 		function handleComplete(xhr, status, args) {  
 		    if(args.validationFailed) { 	    	
 		    	showError();	    	
@@ -34,10 +36,15 @@
 					rendered="#{CategoriaBean.accionEditar}"  />
 				
 				<h:outputText styleClass="labelDialog" value="NOMBRE"/>
-				<p:inputText value="#{CategoriaBean.categoria.nombre}" rendered="#{!CategoriaBean.accionEditar}" required="true" />
+				<p:inputText value="#{CategoriaBean.categoria.nombre}" rendered="#{!CategoriaBean.accionEditar}" 
+				required="true" onblur="this.value=limpiarString(this.value);">
+					<pe:keyFilter regEx="/[a-z0-9 ]/i"/> 
+				</p:inputText>
 
 				<h:outputText  styleClass="labelDialog" value="DESCRIPCIÓN" />
-				<p:inputText value="#{CategoriaBean.categoria.descripcion}" />
+				<p:inputText value="#{CategoriaBean.categoria.descripcion}" onblur="this.value=limpiarString(this.value);">
+					<pe:keyFilter regEx="/[a-z0-9 ]/i"/>
+				</p:inputText>
 				<div></div>
 				<p:commandButton value="#{CategoriaBean.etiBotonDialog()}"
 					actionListener="#{CategoriaBean.procesarDialog}" oncomplete="handleComplete(xhr, status, args);"
@@ -68,7 +75,7 @@
 
 						<p:commandButton id="EliminarRegistro" styleClass="botonPeque"
 							value="Eliminar" icon="ui-icon-closethick"
-							update=":form:display, :form:growl"
+							update=":form:display, :form:growl" process="datatablecampana,@this"
 							actionListener="#{CategoriaBean.eliminarEvent}" />
 
 					</f:facet>
@@ -82,7 +89,9 @@
 						    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonOpcion" update=":form:display" oncomplete="dialog.show()" actionListener="#{CategoriaBean.nuevoEvent}" process="@this">
 						    		<p:resetInput target=":form:display"></p:resetInput>
 						    	</p:commandButton>
-						    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonOpcion" update=":form:display, :form:growl" actionListener="#{CategoriaBean.eliminarEvent}"/>
+						    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonOpcion" 
+						    	update=":form:display, :form:growl" actionListener="#{CategoriaBean.eliminarEvent}"
+						    	process="datatablecampana,@this"/>
 							</h:panelGrid>
 						</f:facet>
 						
@@ -98,7 +107,8 @@
 								</div>
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText value="#{c.nombre}" style="width:30%; text-align:center;"/>
+								<p:inputText value="#{c.nombre}" style="width:30%; text-align:center;"
+								onblur="this.value=limpiarString(this.value);" required="true"/>
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
@@ -111,13 +121,11 @@
 								</div>
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText value="#{c.descripcion}" style="width:50%; text-align:center;"/>
+								<p:inputText value="#{c.descripcion}" style="width:50%; text-align:center;"
+								onblur="this.value=limpiarString(this.value);"/>
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
-					
-					
-					
 
 				</p:dataTable>
 			</div>
