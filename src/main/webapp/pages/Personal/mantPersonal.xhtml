@@ -12,6 +12,7 @@
     <ui:define name="content">
     
 	<script>
+		initEnterKeyDefault();
 		function handleComplete(xhr, status, args) {  
 		    if(args.validationFailed) { 	    	
 		    	showError();	    	
@@ -37,13 +38,22 @@
 				<p:inputText value="#{PersonalBean.personal.nombre}" rendered="#{!PersonalBean.accionEditar}" required="true"/>
 
 				<h:outputText styleClass="labelDialog" value="PROFESIÓN" />
-				<p:inputText value="#{PersonalBean.personal.profesion}" />
+				<p:inputText value="#{PersonalBean.personal.profesion}" 
+				onblur="this.value=limpiarString(this.value);">
+					<pe:keyFilter regEx="/[a-z' ']/i"/> 
+				</p:inputText>
 				
 				<h:outputText styleClass="labelDialog" value="CELULAR" />
-				<p:inputText value="#{PersonalBean.personal.celular}" />
+				<p:inputText value="#{PersonalBean.personal.celular}" 
+				onblur="this.value=limpiarString(this.value);">
+					<pe:keyFilter regEx="/[0-9_]/i"/> 
+				</p:inputText>
 				
 				<h:outputText styleClass="labelDialog" value="EMAIL" />
-				<p:inputText value="#{PersonalBean.personal.email}" />
+				<p:inputText value="#{PersonalBean.personal.email}" 
+				onblur="this.value=limpiarString(this.value);">
+					<pe:keyFilter regEx="/[a-z0-9_\.\-@]/i"/> 
+				</p:inputText>
 				<div></div>
 				<p:commandButton value="#{PersonalBean.etiBotonDialog()}"
 					actionListener="#{PersonalBean.procesarDialog}" oncomplete="handleComplete(xhr, status, args);"
@@ -118,7 +128,10 @@
 								</div>
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText value="#{c.profesion}" style="width:100%; text-align:center;"/>
+								<p:inputText value="#{c.profesion}" style="width:100%; text-align:center;"	
+								onblur="this.value=limpiarString(this.value);">
+									<pe:keyFilter regEx="/[a-z' ']/i"/> 
+								</p:inputText>
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
@@ -131,7 +144,10 @@
 								</div>
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText  styleClass="numericos" value="#{c.celular}" style="width:100%"/>
+								<p:inputText  styleClass="numericos" value="#{c.celular}" style="width:100%"
+								onblur="this.value=limpiarString(this.value);">
+									<pe:keyFilter regEx="/[0-9_]/i"/> 
+								</p:inputText>
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
@@ -144,7 +160,10 @@
 								</div>
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText value="#{c.email}" style="width:100%"/>
+								<p:inputText value="#{c.email}" style="width:100%"
+								onblur="this.value=limpiarString(this.value);">
+									<pe:keyFilter regEx="/[a-z0-9_\.\-@]/i"/> 
+								</p:inputText>
 							</f:facet>
 						</p:cellEditor>
 					</p:column>

@@ -13,6 +13,7 @@
 <ui:define name="content">
 
 	<script>
+		initEnterKeyDefault();
 		function handleComplete(xhr, status, args) {  
 			if(args.validationFailed) { 	    	
 				showError();	    	
@@ -131,9 +132,6 @@
 									<p:resetInput target=":form:display"></p:resetInput>
 							</p:commandButton>
 
-								<p:commandButton id="EliminarRegistro" styleClass="botonPeque"
-									value="Eliminar" icon="ui-icon-closethick" actionListener="#{CompraBean.eliminarEvent}"  process="@this"/>
-		
 							</f:facet>
 							
 							<p:ajax event="rowEdit" listener="#{CompraBean.onEdit}" update=":form:growl" />  
@@ -150,13 +148,12 @@
 								    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonOpcion" update=":form:display" oncomplete="dialog.show()" actionListener="#{CompraBean.nuevoEvent}"  process="@this">
 											<p:resetInput target=":form:display"></p:resetInput>
 										</p:commandButton>
-								    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonOpcion" actionListener="#{CompraBean.eliminarEvent}"  process="@this"/>
-									</h:panelGrid>
+								    </h:panelGrid>
 								</f:facet>
 								
 								<p:rowEditor />
 							</p:column>
-		
+							<!--  ACA DEBE IR LA ORDEN DE COMPRA 
 							<p:column styleClass="columna" headerText="CÓDIGO"
 								filterBy="#{c.idCompra}">
 								<p:cellEditor>
@@ -170,7 +167,7 @@
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
-		
+							-->
 							<p:column styleClass="columna" headerText="PROVEEDOR"
 								filterBy="#{c.proveedor}">
 								<p:cellEditor>
@@ -195,7 +192,11 @@
 										</div>
 									</f:facet>
 									<f:facet name="input">
-										<p:inputText styleClass="numericos"  value="#{c.total}" style="width:30%; font-family: verdana;font-size: 11px;"/>
+										<p:inputText styleClass="numericos"  value="#{c.total}" style="width:30%; font-family: verdana;font-size: 11px;"
+										onblur="this.value=limpiarString(this.value);">
+											<pe:keyFilter regEx="/[0-9 ]/i"/> 
+										</p:inputText>
+
 									</f:facet>
 								</p:cellEditor>
 							</p:column>

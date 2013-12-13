@@ -12,6 +12,7 @@
     <ui:define name="content">
     
     <script>
+   	 	initEnterKeyDefault();
 		function handleComplete(xhr, status, args) {  
 		    if(args.validationFailed) { 	    	
 		    	showError();	    	
@@ -37,7 +38,10 @@
 				<p:inputText value="#{ProveedorBean.proveedor.nombre}"  rendered="#{!ProveedorBean.accionEditar}" required="true" />
 
 				<h:outputText styleClass="labelDialog"  value="DIRECCIÓN" />
-				<p:inputText value="#{ProveedorBean.proveedor.direccion}" />
+				<p:inputText value="#{ProveedorBean.proveedor.direccion}" 
+				onblur="this.value=limpiarString(this.value);">
+					<pe:keyFilter regEx="/[a-z' '0-9_]/i"/> 
+				</p:inputText>
 				
 				<h:outputText styleClass="labelDialog" value="DISTRITO" />
 					<p:selectOneMenu widgetVar="distrito" styleClass="selectMenu" value="#{ProveedorBean.proveedor.distrito}" converter="omnifaces.SelectItemsConverter" style="width: 100%;" >
@@ -46,7 +50,10 @@
 					</p:selectOneMenu>
 						
 				<h:outputText styleClass="labelDialog" value="TELÉFONO" />
-				<p:inputText value="#{ProveedorBean.proveedor.telefono}" />
+				<p:inputText value="#{ProveedorBean.proveedor.telefono}" 
+				onblur="this.value=limpiarString(this.value);">
+					<pe:keyFilter regEx="/[0-9 ]/i"/> 
+				</p:inputText>
 				<div></div>
 				<p:commandButton value="#{ProveedorBean.etiBotonDialog()}"
 					actionListener="#{ProveedorBean.procesarDialog}" process="@this,display"
@@ -122,7 +129,10 @@
 								</div>
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText value="#{c.direccion}" style="width:100%; text-align:center;"/>
+								<p:inputText value="#{c.direccion}" style="width:100%; text-align:center;"
+								onblur="this.value=limpiarString(this.value);">
+										<pe:keyFilter regEx="/[[a-z' '0-9_]/i"/> 
+								</p:inputText>
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
@@ -136,7 +146,7 @@
 								</div>
 							</f:facet>
 							<f:facet name="input">
-								<h:selectOneMenu widgetVar="distrito" value="#{c.distrito}" converter="omnifaces.SelectItemsConverter"  style="width:100%; text-align:center;">
+								<h:selectOneMenu widgetVar="distrito" value="#{c.distrito}" converter="omnifaces.SelectItemsConverter"  style="width:60%; text-align:center;">
 									<f:selectItems value="#{ProveedorBean.distritos}" var="dist" itemLabel="#{dist.distrito}" itemValue="#{dist}" /> 
 								</h:selectOneMenu>
 							</f:facet>
@@ -151,7 +161,10 @@
 								</div>
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText styleClass="numericos" value="#{c.telefono}" style="width:100%; text-align:center;"/>
+								<p:inputText styleClass="numericos" value="#{c.telefono}" style="width:100%; text-align:center;"
+								onblur="this.value=limpiarString(this.value);">
+										<pe:keyFilter regEx="/[0-9 ]/i"/> 
+								</p:inputText>
 							</f:facet>
 						</p:cellEditor>
 					</p:column>

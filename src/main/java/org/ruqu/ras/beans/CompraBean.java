@@ -286,9 +286,6 @@ public class CompraBean implements Serializable {
 		getCompra().setDetallecompras(c.getDetallecompras());
 		
 		validarEditar();
-		
-        FacesMessage msg = new FacesMessage("Compra Editada", ((Compra) event.getObject()).getIdCompra().toString());  
-        FacesContext.getCurrentInstance().addMessage(null, msg);
     }  
     
 	public void onCancel(RowEditEvent event) {  
@@ -351,7 +348,7 @@ public class CompraBean implements Serializable {
         if(getCompra().getProveedor()!=null && getCompra().getDetallecompras()!=null && detalleCompras.size()>0){
         	registrado=true;
             registrarCompra();
-        	msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registrado", getCompra().getIdCompra().toString());
+        	msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "COMPRA REGISTRADA", getCompra().getIdCompra().toString());
         } 
 		else if(detalleCompras.size() == 0){
 			registrado = false;  
@@ -373,7 +370,7 @@ public class CompraBean implements Serializable {
         
         if(getCompra().getProveedor()!=null && getCompra().getDetallecompras()!=null){
         	editado=true;
-        	msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Editado", getCompra().getIdCompra().toString());
+        	msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "COMPRA EDITADA", getCompra().getIdCompra().toString());
             editar();
         }else if(getCompraNuevo()==null){
         	editado = false;  
@@ -393,7 +390,7 @@ public class CompraBean implements Serializable {
 
         if(getCompraNuevo()!=null){
         	eliminado = true;  
-            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Eliminado", getCompraNuevo().getIdCompra().toString());
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "COMPRA ELIMINADA", getCompraNuevo().getIdCompra().toString());
             eliminar();
         } else {  
 			System.out.println("NOOO");
@@ -492,10 +489,6 @@ public class CompraBean implements Serializable {
 		}
 		
 		detalleCompras = new ArrayList<Detallecompra>();
-	}
-
-	public void prueba(){
-		System.out.print("\n\nasddddd\n\n\n");
 	}
 
 	public void timeZone(){

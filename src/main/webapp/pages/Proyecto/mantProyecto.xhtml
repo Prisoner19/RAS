@@ -13,7 +13,7 @@
     <script type="text/javascript" src="#{request.contextPath}/resources/js/calendar-es.js"></script>
 	 
 	 <script>
-	
+	 	initEnterKeyDefault();
 		function handleComplete(xhr, status, args) {  
 		    if(args.validationFailed) { 	    	
 		    	showError();	    	
@@ -34,10 +34,10 @@
 					<p:panelGrid id="panel_tabEquipo">
 						<p:row>
 							<p:column>
-								<h:outputText value="Producto:"  />
+								<h:outputText styleClass="labelDialog" value="PRODUCTO"  />
 							</p:column>
 							<p:column>
-							<p:inputText value="#{ProyectoBean.equipoAsignado.equipo.descripcion}" required="true"
+							<p:inputText value="#{ProyectoBean.equipoAsignado.equipo.codigo}" required="true"
 							disabled="true" />
 							<p:commandButton id="btn_overlay" icon="ui-icon-search" type="button"></p:commandButton>
 							<p:overlayPanel id="equipoPanel" for="btn_overlay" hideEffect="fade" dynamic="true"
@@ -45,7 +45,7 @@
 								<p:dataTable id="EquiposTable" widgetVar="equiDt" var="e" 
 								value="#{ProyectoBean.equipos}" rowIndexVar="rowIndex" rowKey="#{e.idEquipo}">
 									<p:column headerText="Equipo">
-										<p:outputLabel value="#{e.descripcion}"></p:outputLabel>									
+										<p:outputLabel value="#{e.codigo}"></p:outputLabel>									
 									</p:column>
 									<p:column>
 										<p:commandButton id="btn_overlay_process" icon="ui-icon-search" 
@@ -59,31 +59,25 @@
 						</p:row>
 						<p:row>
 							<p:column>
-								<h:outputText value="Cantidad:"  />
+								<h:outputText styleClass="labelDialog"  value="CANTIDAD"  />
 							</p:column>
 							<p:column>
-								<pe:inputNumber value="#{ProyectoBean.equipoAsignado.cantidad}" 
-								decimalPlaces="0" thousandSeparator="" required="true">
-								</pe:inputNumber>
+								<p:inputText value="#{ProyectoBean.equipoAsignado.cantidad}" required="true"
+								onblur="this.value=limpiarString(this.value);">
+										<pe:keyFilter regEx="/[[0-9_]/i"/> 
+								</p:inputText>
+								<p:commandButton icon="ui-icon-check" process="panel_tabEquipo"
+									update="@form:tabsGastos:table_equipos"
+									actionListener="#{ProyectoBean.descargarEquipo()}" />
 							</p:column>
 						</p:row>
-						
-						<f:facet name="footer">
-							<p:row>
-								<p:column>
-									<p:commandButton value="Descargar" process="panel_tabEquipo"
-									update="@form:tabsGastos:table_equipos"
-									actionListener="#{ProyectoBean.descargarEquipo()}"  ></p:commandButton>
-								</p:column>
-							</p:row>
-						</f:facet>
-						
+
 					</p:panelGrid>
 					
 					<p:dataTable id="table_equipos" value="#{ProyectoBean.equiposAsignados}" var="equi"
 					rowKey="#{equi.id.toString()}" rowIndexVar="rowIndex" widgetVar="equiposAsignados">
 						<p:column headerText="Equipo">
-							<p:outputLabel value="#{equi.equipo.descripcion}"></p:outputLabel>						
+							<p:outputLabel value="#{equi.equipo.codigo}"></p:outputLabel>						
 						</p:column>
 							
 						<p:column headerText="Cantidad">	
@@ -97,7 +91,7 @@
 					<p:panelGrid id="panel_tabPersonal">
 						<p:row>
 							<p:column>
-								<h:outputText value="Persona:"  />
+								<h:outputText value="PERSONA"  />
 							</p:column>
 							<p:column>
 							<p:inputText value="#{ProyectoBean.personalAsignado.personal.nombre}" required="true"
@@ -125,7 +119,7 @@
 						</p:row>
 						<p:row>
 							<p:column>
-								<h:outputText value="Pago:"  />
+								<h:outputText  styleClass="labelDialog" value="PAGO"  />
 							</p:column>
 							<p:column>
 								<pe:inputNumber value="#{ProyectoBean.personalAsignado.pago}" 
@@ -135,15 +129,18 @@
 						</p:row>
 						<p:row>
 							<p:column>
-								<h:outputText value="Tarea:"  />
+								<h:outputText  styleClass="labelDialog" value="TAREA"  />
 							</p:column>
 							<p:column>
-								 <h:inputText value="#{ProyectoBean.personalAsignado.tarea}" />  
+								 <p:inputText value="#{ProyectoBean.personalAsignado.tarea}" 
+								 onblur="this.value=limpiarString(this.value);">
+									<pe:keyFilter regEx="/[a-z' ']/i"/> 
+								</p:inputText> 
 							</p:column>
 						</p:row>
 						<p:row>
 							<p:column>
-								<h:outputText value="Empieza:"  />
+								<h:outputText  styleClass="labelDialog" value="EMPIEZA"  />
 							</p:column>
 							<p:column>
 								 <p:calendar value="#{ProyectoBean.personalAsignado.inicio}" id="popupCalInicio" />  
@@ -151,7 +148,7 @@
 						</p:row>
 						<p:row>
 							<p:column>
-								<h:outputText value="Finaliza:"  />
+								<h:outputText  styleClass="labelDialog" value="FINALIZA"  />
 							</p:column>
 							<p:column>
 								 <p:calendar value="#{ProyectoBean.personalAsignado.fin}" id="popupCalFin" />  
@@ -173,29 +170,29 @@
 					
 					<p:dataTable id="table_personal" value="#{ProyectoBean.personalAsignados}" var="pers"
 					rowKey="#{pers.id.toString()}" rowIndexVar="rowIndex" widgetVar="personalAsignados">
-						<p:column headerText="Nombre">
+						<p:column  headerText="NOMBRE">
 							<p:outputLabel value="#{pers.personal.nombre}"></p:outputLabel>						
 						</p:column>
 							
-						<p:column headerText="Profesion">	
+						<p:column headerText="PROFESION">	
 							<p:outputLabel value="#{pers.personal.profesion}" ></p:outputLabel>					
 						</p:column>
 						
-						<p:column headerText="Pago">	
+						<p:column headerText="PAGO">	
 							<p:outputLabel value="#{pers.pago}" ></p:outputLabel>					
 						</p:column>
 						
-						<p:column headerText="Tarea">	
+						<p:column headerText="TAREA">	
 							<p:outputLabel value="#{pers.tarea}" ></p:outputLabel>					
 						</p:column>
 						
-						<p:column headerText="Inicia Labor">	
+						<p:column headerText="INICIO LABOR">	
 							<p:outputLabel value="#{pers.inicio}" >
 								<f:convertDateTime pattern="d/M/yyyy"/>  
 							</p:outputLabel>					
 						</p:column>
 					
-						<p:column headerText="Fin de Labor">	
+						<p:column headerText="FIN LABOR">	
 							<p:outputLabel value="#{pers.fin}" >
 								<f:convertDateTime pattern="d/M/yyyy"/>  
 							</p:outputLabel>					
@@ -209,23 +206,29 @@
 						
 						<p:row>
 							<p:column>
-								<h:outputText value="Partida:"  />
+								<h:outputText styleClass="labelDialog" value="PARTIDA"  />
 							</p:column>
 							<p:column>
-								 <h:inputText value="#{ProyectoBean.otroGasto.partida}" />  
-							</p:column>
-						</p:row>
-						<p:row>
-							<p:column>
-								<h:outputText value="Descripcion:"  />
-							</p:column>
-							<p:column>
-								 <h:inputText value="#{ProyectoBean.otroGasto.descripcion}" />  
+								 <p:inputText value="#{ProyectoBean.otroGasto.partida}"  
+								 onblur="this.value=limpiarString(this.value);">
+									<pe:keyFilter regEx="/[a-z' ']/i"/> 
+								</p:inputText>   
 							</p:column>
 						</p:row>
 						<p:row>
 							<p:column>
-								<h:outputText value="Monto:"  />
+								<h:outputText styleClass="labelDialog" value="DESCRIPCIÓN"  />
+							</p:column>
+							<p:column>
+								 <p:inputText value="#{ProyectoBean.otroGasto.descripcion}"  
+								 onblur="this.value=limpiarString(this.value);">
+									<pe:keyFilter regEx="/[a-z' ']/i"/> 
+								</p:inputText>   
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<h:outputText styleClass="labelDialog" value="MONTO"  />
 							</p:column>
 							<p:column>
 								<pe:inputNumber value="#{ProyectoBean.otroGasto.monto}" 
@@ -248,16 +251,16 @@
 					
 					<p:dataTable id="table_otros" value="#{ProyectoBean.otrogastos}" var="otro"
 					rowKey="#{otro.idOtroGasto}" rowIndexVar="rowIndex" widgetVar="otroGastos">
-						<p:column headerText="Partida">
+						<p:column  headerText="PARTIDA">
 							<p:outputLabel value="#{otro.partida}"></p:outputLabel>						
 						</p:column>
 						
-						<p:column headerText="PDescripcion">
-							<p:outputLabel value="#{otro.descripcion}"></p:outputLabel>						
+						<p:column  headerText="DESCRIPCIÓN">
+							<p:outputLabel styleClass="labelDialog" value="#{otro.descripcion}"></p:outputLabel>						
 						</p:column>
 							
-						<p:column headerText="Monto">	
-							<p:outputLabel value="#{otro.monto}" ></p:outputLabel>					
+						<p:column  headerText="MONTO">	
+							<p:outputLabel styleClass="numericos" value="#{otro.monto}" ></p:outputLabel>					
 						</p:column>
 					
 					</p:dataTable>
@@ -272,41 +275,43 @@
 		
 		
 		<p:dialog id="dialogPresupuesto" header="Presupuesto Estimado" widgetVar="dialogPresupuesto"
-			resizable="false" width="500" height="300" showEffect="clip"
+			resizable="false" width="350" height="300" showEffect="clip"
 			hideEffect="fold" modal="true">
 			
 			<h:panelGrid id="displayPresupuesto" columns="2" cellpadding="4">
 				
-			   <h:outputText value="Nombre de Proyecto:" rendered="#{!ProyectoBean.accionEditar}"/>
+			   <h:outputText styleClass="labelDialog" value="NOMBRE" rendered="#{!ProyectoBean.accionEditar}"/>
                <p:inputText value="#{ProyectoBean.proyecto.nombre}" rendered="#{!ProyectoBean.accionEditar}"
                required="true" title="Ingresar 2 a 20 caracteres" >
                 <f:validateLength minimum="2" maximum="20" />
                	<pe:keyFilter regEx="/[a-z0-9 ]/i" /> 
                </p:inputText>
 
-               <h:outputText value="Descripcion:" rendered="#{!ProyectoBean.accionEditar}"/>
+               <h:outputText styleClass="labelDialog" value="DESCRIPCION" rendered="#{!ProyectoBean.accionEditar}"/>
                <p:inputText value="#{ProyectoBean.proyecto.descripcion}" rendered="#{!ProyectoBean.accionEditar}"
-               required="true" title="Ingresar 2 a 20 caracteres">
+ 				title="Ingresar 2 a 20 caracteres">
                 <f:validateLength minimum="2" maximum="20" />
                	<pe:keyFilter regEx="/[a-z0-9 ]/i" /> 
                </p:inputText>
                
-               <h:outputText value="Fecha de Inicio:" rendered="#{!ProyectoBean.accionEditar}"/>
+               <h:outputText styleClass="labelDialog" value="FECHA INICIO" rendered="#{!ProyectoBean.accionEditar}"/>
                <p:calendar value="#{ProyectoBean.proyecto.inicio}" id="calendarNuevo" rendered="#{!ProyectoBean.accionEditar}"
                     required="true"   navigator="true" display="inline" effect="slide" yearRange="c-5:c+5"
                     timeZone="#{ProyectoBean.timeZone()}" title="Ingresar fecha valida"/>				
 				
-				<h:outputText value="Costo de Personal:" />
-				<pe:inputNumber value="#{ProyectoBean.proyecto.costoPersonal}" required="true"
+				<h:outputText styleClass="labelDialog" value="COSTO PERSONAL" />
+				<pe:inputNumber styleClass="numericos" value="#{ProyectoBean.proyecto.costoPersonal}" required="true"
 				decimalPlaces="2" thousandSeparator="" title="Costo estimado de pago a personal"/>
 				
-				<h:outputText value="Costo de Equipos:" />
-				<pe:inputNumber value="#{ProyectoBean.proyecto.costoEquipo}" required="true"
+				<h:outputText styleClass="labelDialog" value="COSTO EQUIPOS" />
+				<pe:inputNumber styleClass="numericos" value="#{ProyectoBean.proyecto.costoEquipo}" required="true"
 				decimalPlaces="2" thousandSeparator="" title="Costo estimado de pago por equipos"/>
 				
-				<h:outputText value="Otros Gastos:" />
-				<pe:inputNumber value="#{ProyectoBean.proyecto.costoOtros}" required="true"
+				<h:outputText styleClass="labelDialog" value="OTROS GASTOS" />
+				<pe:inputNumber styleClass="numericos" value="#{ProyectoBean.proyecto.costoOtros}" required="true"
 				decimalPlaces="2" thousandSeparator="" title="Costo estimado de pago por otros conceptos"/>
+				
+				<div></div>
 			
 				<p:commandButton value="#{ProyectoBean.etiBotonDialog()}"
 					actionListener="#{ProyectoBean.procesarDialog}" oncomplete="handleComplete(xhr, status, args);"
@@ -319,91 +324,48 @@
 			resizable="false" width="500" height="300" showEffect="clip"
 			hideEffect="fold" modal="true">
 			
-			<h:panelGrid id="displayResumen">
+			<p:panelGrid id="displayResumen" styleClass="tablaResumen1" columns="2" cellpadding="4">
+
+				<h:outputText styleClass="labelDialog" value="FECHA INICIO"  />
+				<h:outputText styleClass="numericos" value="#{ProyectoBean.proyecto.inicio}"  />
 				
-				<p:row>
-					<p:column>
-						<h:outputText value="Inicio del Proyecto"  />
-					</p:column>
-					<p:column>
-						<h:outputText value="#{ProyectoBean.proyecto.inicio}"  />
-					</p:column>
-				</p:row>
+				<h:outputText styleClass="labelDialog" value="FECHA FIN"  />
+				<h:outputText styleClass="numericos" value="#{ProyectoBean.proyecto.fin}"  />
+			</p:panelGrid>
+			
+			<p:panelGrid id="displayResumen2" styleClass="tablaResumen2"  columns="3" cellpadding="4">
+
+				<span></span>
+				<h:outputText styleClass="labelDialog" value="GASTOS ESTIMADOS"  />
+				<h:outputText styleClass="labelDialog" value="GASTOS REALES"  />
 				
-				<p:row>
-					<p:column>
-						<h:outputText value="Fin del Proyecto"  />
-					</p:column>
-					<p:column>
-						<h:outputText value="#{ProyectoBean.proyecto.fin}"  />
-					</p:column>
-				</p:row>
+				<h:outputText styleClass="labelDialog" value="EQUIPOS"  />
+				<h:outputText styleClass="numericos" value="#{ProyectoBean.proyecto.costoEquipo}"  />
+				<h:outputText styleClass="numericos" value="#{ProyectoBean.proyecto.costoMaterialReal}"  />
+
+				<h:outputText styleClass="labelDialog" value="PERSONAL"  />
+				<h:outputText styleClass="numericos" value="#{ProyectoBean.proyecto.costoPersonal}"  />
+				<h:outputText styleClass="numericos" value="#{ProyectoBean.proyecto.costoPersonalReal}"  />
 				
-				<p:row>
-					<p:column>
-						<h:outputText icon="ui-icon.note"  />
-					</p:column>
-					<p:column>
-						<h:outputText value="Costo Estimado"  />
-					</p:column>
-					<p:column>
-						<h:outputText value="Costo Real"  />
-					</p:column>
-				</p:row>
-				
-				<p:row>
-					<p:column>
-						<h:outputText value="Equipos"  />
-					</p:column>
-					<p:column>
-						<h:outputText value="#{ProyectoBean.proyecto.costoEquipo}"  />
-					</p:column>
-					<p:column>
-						<h:outputText value="#{ProyectoBean.proyecto.costoMaterialReal}"  />
-					</p:column>
-				</p:row>
-				
-				<p:row>
-					<p:column>
-						<h:outputText value="Personal"  />
-					</p:column>
-					<p:column>
-						<h:outputText value="#{ProyectoBean.proyecto.costoPersonal}"  />
-					</p:column>
-					<p:column>
-						<h:outputText value="#{ProyectoBean.proyecto.costoPersonalReal}"  />
-					</p:column>
-				</p:row>
-				
-				<p:row>
-					<p:column>
-						<h:outputText value="Otros Gastos"  />
-					</p:column>
-					<p:column>
-						<h:outputText value="#{ProyectoBean.proyecto.costoOtros}"  />
-					</p:column>
-					<p:column>
-						<h:outputText value="#{ProyectoBean.proyecto.costoOtrosReal}"  />
-					</p:column>
-				</p:row>
-				
-				<p:row>
-					<p:column>
-						<h:outputText value="TOTAL"  />
-					</p:column>
-					<p:column>
-						<h:outputText value="#{ProyectoBean.gastoTotal}"  />
-					</p:column>
-					<p:column>
-						<h:outputText value="#{ProyectoBean.gastoTotalReal}"  />
-					</p:column>
-				</p:row>
-				
-			</h:panelGrid>
+				<h:outputText styleClass="labelDialog" value="OTROS"  />
+				<h:outputText styleClass="numericos" value="#{ProyectoBean.proyecto.costoOtros}"  />
+				<h:outputText styleClass="numericos" value="#{ProyectoBean.proyecto.costoOtrosReal}"  />
+
+				<h:outputText styleClass="labelDialog" value="TOTAL"  />
+				<h:outputText styleClass="numericos" value="#{ProyectoBean.gastoTotal}"  />
+
+				<h:outputText styleClass="numericos" value="#{ProyectoBean.gastoTotalReal}"  />
+
+			</p:panelGrid>
+			
+			<div class="divTxtGastos">
+				<h:outputText id="textoGasto" styleClass="txtGastos" value="#{ProyectoBean.textoGastos}" />
+			</div>
+
 		</p:dialog>
 		
-		<p:panel>
-
+		<p:panel styleClass="panel">
+			<span class="mantenimiento">PROYECTOS</span>
 			<div id="cuerpo">
 
 				<p:dataTable id="datatablecampana" var="c" widgetVar="dt"
@@ -411,7 +373,7 @@
 					selection="#{ProyectoBean.proyectoSelec}" selectionMode="single" rowIndexVar="index"
 					styleClass="datatable_style_general" editable="true" paginator="true" rows="10"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					rowsPerPageTemplate="2,5,10">
+					rowsPerPageTemplate="2,5,10" paginatorPosition="bottom">
 
 					<f:facet name="header">
 
@@ -427,7 +389,7 @@
 							
 						<p:commandButton id="viewResumenProyecto" styleClass="botonPeque"
 							value="Resumen Proyecto" icon="ui-icon-search" process="@form:datatablecampana"
-							update=":form:displayResumen, :form:growl" title="Detalle de Proyecto: Personal/Equipos/Otros"
+							update=":form:displayResumen, :form:displayResumen2, :form:textoGasto, :form:growl" title="Detalle de Proyecto: Personal/Equipos/Otros"
 							actionListener="#{ProyectoBean.resumenEvent}" />
 
 					</f:facet>
@@ -435,8 +397,27 @@
 					<p:ajax event="rowEdit" listener="#{ProyectoBean.onEdit}" oncomplete="handleComplete(xhr, status, args);"/>  
         			<p:ajax event="rowEditCancel" listener="#{ProyectoBean.onCancel}" oncomplete="dt.unselectAllRows()"/> 
 					
-					<p:column styleClass="columna" headerText="Nombre"
-						filterBy="#{c.nombre}" footerText="nombre">
+					<p:column style="width:6%">
+						<f:facet name="header">
+							<h:panelGrid class="opciones" columns="2">
+						    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" title="Agregar Nuevo Proyecto"
+						    	styleClass="botonOpcion" actionListener="#{ProyectoBean.nuevoEvent}"  update="@form:displayPresupuesto" process="@this">
+						    		<p:resetInput target=":form:displayPresupuesto"></p:resetInput>
+						    	</p:commandButton>
+						    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonOpcion" process="@form:datatablecampana"
+						         update="@form:datatablecampana" actionListener="#{ProyectoBean.eliminarEvent}"
+						         title="Eliminar el proyecto seleccionado">
+						    		<p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" 
+						    		icon="ui-icon-alert" /> 
+						    	</p:commandButton>
+							</h:panelGrid>
+						</f:facet>
+						
+						<p:rowEditor />
+					</p:column>				
+					
+					<p:column styleClass="columna" headerText="NOMBRE"
+						filterBy="#{c.nombre}">
 						<p:cellEditor>
 							<f:facet name="output">
 								<div onclick="selectCurrentRow_paginator(dt,#{index})">
@@ -452,8 +433,7 @@
 						</p:cellEditor>
 					</p:column>
 					
-					<p:column styleClass="columna" headerText="Descripcion" filterBy="#{c.descripcion}"
-						footerText="descripcion">
+					<p:column styleClass="columna" headerText="DESCRIPCION" filterBy="#{c.descripcion}">
 						<p:cellEditor>
 							<f:facet name="output">
 								<div onclick="selectCurrentRow_paginator(dt,#{index})">
@@ -469,8 +449,7 @@
 						</p:cellEditor>
 					</p:column>
 					
-					<p:column styleClass="columna" headerText="Fecha de Inicio" filterBy="#{c.descripcion}"
-						footerText="inicio">
+					<p:column styleClass="columna" headerText="FECHA INICIO" filterBy="#{c.inicio}">
 						<p:cellEditor>
 							<f:facet name="output">
 								<div onclick="selectCurrentRow_paginator(dt,#{index})">
@@ -487,7 +466,7 @@
 						</p:cellEditor>
 					</p:column>
 					
-					<p:column styleClass="columna" headerText="Cierre de Proyecto" sortBy="#{c.cierre}" >
+					<p:column styleClass="columna" headerText="FECHA CIERRE" sortBy="#{c.cierre}" >
 						<div style="text-align: center;" onclick="selectCurrentRow_paginator(dt,#{index})">
 
 							<p:selectBooleanButton value="#{c.cierre}" styleClass="toggle"  onLabel="SÍ" offLabel="NO" 
@@ -501,26 +480,7 @@
 
 					    </div>
 					</p:column>
-							
-					<p:column style="width:6%">
-						<f:facet name="header">
-							<h:panelGrid columns="2">
-						    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" title="Agregar Nuevo Proyecto"
-						    	styleClass="botonPeque" actionListener="#{ProyectoBean.nuevoEvent}"  update="@form:displayPresupuesto" process="@this">
-						    		<p:resetInput target=":form:displayPresupuesto"></p:resetInput>
-						    	</p:commandButton>
-						    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonPeque" process="@form:datatablecampana"
-						         update="@form:datatablecampana" actionListener="#{ProyectoBean.eliminarEvent}"
-						         title="Eliminar el proyecto seleccionado">
-						    		<p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" 
-						    		icon="ui-icon-alert" /> 
-						    	</p:commandButton>
-							</h:panelGrid>
-						</f:facet>
-						
-						<p:rowEditor />
-					</p:column>					
-				
+
 				</p:dataTable>
 			</div>
 

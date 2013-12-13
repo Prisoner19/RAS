@@ -169,12 +169,7 @@ public class EquipoBean implements Serializable{
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
 	}
-	
-	public void onTabChange(TabChangeEvent event) {  
-        FacesMessage msg = new FacesMessage("Tab Changed", "Active Tab: " + event.getTab().getTitle());  
-  
-        FacesContext.getCurrentInstance().addMessage(null, msg);  
-    }
+
 	
 	public void onEdit(RowEditEvent event) {
 		Equipo e=(Equipo)event.getObject();
@@ -189,9 +184,6 @@ public class EquipoBean implements Serializable{
 		
 		System.out.println(getEquipo().getCategoria().getNombre());
 		validarEditar();
-		
-        FacesMessage msg = new FacesMessage("Equipo Editado", ((Equipo) event.getObject()).getNombre());  
-        FacesContext.getCurrentInstance().addMessage(null, msg);
     }  
       
     public void onCancel(RowEditEvent event) {  
@@ -241,7 +233,7 @@ public class EquipoBean implements Serializable{
 
         if(getEquipo().getCodigo()!=null){
         	registrado=true;
-        	msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registrado", getEquipo().getNombre());
+        	msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "EQUIPO REGISTRADO", getEquipo().getNombre());
             insertar();
         } else {  
         	registrado = false;  
@@ -258,7 +250,7 @@ public class EquipoBean implements Serializable{
         
         if(getEquipo().getCodigo()!=null && getEquipo().getCodigo().length()>=1){
         	editado=true;
-        	msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Editado", getEquipo().getNombre());
+        	msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "EQUIPO EDITADO", getEquipo().getNombre());
             editar();
         }else if(getEquipoNuevo()==null){
         	editado = false;  
@@ -278,7 +270,7 @@ public class EquipoBean implements Serializable{
         
         if(getEquipoNuevo()!=null){
         	eliminado = true;  
-            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Eliminado", getEquipoNuevo().getNombre());
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "EQUIPO ELIMINADO", getEquipoNuevo().getNombre());
             eliminar();
         } else {  
         	eliminado = false;  

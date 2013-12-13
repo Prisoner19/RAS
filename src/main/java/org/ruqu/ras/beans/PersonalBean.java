@@ -160,9 +160,6 @@ public class PersonalBean implements Serializable{
 		
 		//System.out.println(c.getNombre());
 		validarEditar();
-		
-        FacesMessage msg = new FacesMessage("Personal Editado", ((Personal) event.getObject()).getNombre());  
-        FacesContext.getCurrentInstance().addMessage(null, msg);
     }  
       
     public void onCancel(RowEditEvent event) {  
@@ -213,7 +210,7 @@ public class PersonalBean implements Serializable{
           
         if(getPersonal().getNombre()!=null && getPersonal().getNombre().length()>=1){
         	registrado=true;
-        	msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registrado", getPersonal().getNombre());
+        	msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "PERSONAL REGISTRADO", getPersonal().getNombre());
             insertar();
         } else {  
         	registrado = false;  
@@ -230,7 +227,7 @@ public class PersonalBean implements Serializable{
         
         if(getPersonal().getNombre()!=null && getPersonal().getNombre().length()>=1){
         	editado=true;
-        	msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Editado", getPersonal().getNombre());
+        	msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "PERSONAL EDITADO", getPersonal().getNombre());
             editar();
         }else if(getPersonalNuevo()==null){
         	editado = false;  
@@ -250,7 +247,7 @@ public class PersonalBean implements Serializable{
         
         if(getPersonalNuevo()!=null){
         	eliminado = true;  
-            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Eliminado", getPersonalNuevo().getNombre());
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "PERSONAL ELIMINADO", getPersonalNuevo().getNombre());
             eliminar();
         } else {  
         	eliminado = false;  
