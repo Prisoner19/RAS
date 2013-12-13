@@ -30,7 +30,7 @@ CREATE TABLE `categoria` (
   `Descripcion` varchar(45) DEFAULT NULL,
   `Vigencia` tinyint(1) NOT NULL,
   PRIMARY KEY (`idCategoria`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,6 +39,7 @@ CREATE TABLE `categoria` (
 
 LOCK TABLES `categoria` WRITE;
 /*!40000 ALTER TABLE `categoria` DISABLE KEYS */;
+INSERT INTO `categoria` VALUES (1,'RUQU','ABBB U',1);
 /*!40000 ALTER TABLE `categoria` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -58,7 +59,7 @@ CREATE TABLE `compra` (
   PRIMARY KEY (`idCompra`),
   KEY `fk_Compra_Proveedor1_idx` (`Proveedor_idProveedor`),
   CONSTRAINT `fk_Compra_Proveedor1` FOREIGN KEY (`Proveedor_idProveedor`) REFERENCES `proveedor` (`idProveedor`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -111,7 +112,7 @@ CREATE TABLE `distrito` (
   `Distrito` varchar(45) DEFAULT NULL,
   `Vigencia` tinyint(1) NOT NULL,
   PRIMARY KEY (`idDistrito`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -120,6 +121,7 @@ CREATE TABLE `distrito` (
 
 LOCK TABLES `distrito` WRITE;
 /*!40000 ALTER TABLE `distrito` DISABLE KEYS */;
+INSERT INTO `distrito` VALUES (1,'SJL',1);
 /*!40000 ALTER TABLE `distrito` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -142,7 +144,7 @@ CREATE TABLE `equipo` (
   PRIMARY KEY (`idEquipo`),
   KEY `fk_Equipo_Categoria1_idx` (`Categoria_idCategoria`),
   CONSTRAINT `fk_Equipo_Categoria1` FOREIGN KEY (`Categoria_idCategoria`) REFERENCES `categoria` (`idCategoria`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -203,10 +205,10 @@ CREATE TABLE `logconsulta` (
   KEY `fk_LogConsulta_Equipo1_idx` (`Equipo_idEquipo`),
   KEY `fk_LogConsulta_Compra1_idx` (`Compra_idCompra`),
   KEY `fk_LogConsulta_Proyecto1_idx` (`Proyecto_idProyecto`),
-  CONSTRAINT `fk_LogConsulta_Usuario1` FOREIGN KEY (`Usuario_idUsuario`) REFERENCES `usuario` (`idUsuario`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_LogConsulta_Equipo1` FOREIGN KEY (`Equipo_idEquipo`) REFERENCES `equipo` (`idEquipo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_LogConsulta_Compra1` FOREIGN KEY (`Compra_idCompra`) REFERENCES `compra` (`idCompra`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_LogConsulta_Proyecto1` FOREIGN KEY (`Proyecto_idProyecto`) REFERENCES `proyecto` (`idProyecto`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_LogConsulta_Equipo1` FOREIGN KEY (`Equipo_idEquipo`) REFERENCES `equipo` (`idEquipo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_LogConsulta_Proyecto1` FOREIGN KEY (`Proyecto_idProyecto`) REFERENCES `proyecto` (`idProyecto`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_LogConsulta_Usuario1` FOREIGN KEY (`Usuario_idUsuario`) REFERENCES `usuario` (`idUsuario`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -262,8 +264,8 @@ CREATE TABLE `opcionasignadas` (
   PRIMARY KEY (`Rol_idRol`,`Opcion_idOpcion`),
   KEY `fk_Rol_has_Opcion_Opcion1_idx` (`Opcion_idOpcion`),
   KEY `fk_Rol_has_Opcion_Rol1_idx` (`Rol_idRol`),
-  CONSTRAINT `fk_Rol_has_Opcion_Rol1` FOREIGN KEY (`Rol_idRol`) REFERENCES `rol` (`idRol`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Rol_has_Opcion_Opcion1` FOREIGN KEY (`Opcion_idOpcion`) REFERENCES `opcion` (`idOpcion`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_Rol_has_Opcion_Opcion1` FOREIGN KEY (`Opcion_idOpcion`) REFERENCES `opcion` (`idOpcion`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Rol_has_Opcion_Rol1` FOREIGN KEY (`Rol_idRol`) REFERENCES `rol` (`idRol`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -273,7 +275,7 @@ CREATE TABLE `opcionasignadas` (
 
 LOCK TABLES `opcionasignadas` WRITE;
 /*!40000 ALTER TABLE `opcionasignadas` DISABLE KEYS */;
-INSERT INTO `opcionasignadas` VALUES (1,1),(1,2),(1,3),(1,4),(1,5);
+INSERT INTO `opcionasignadas` VALUES (1,1),(1,2),(3,2),(1,3),(1,4),(1,5),(2,7),(2,11);
 /*!40000 ALTER TABLE `opcionasignadas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -352,8 +354,8 @@ CREATE TABLE `personalasignado` (
   PRIMARY KEY (`Proyecto_idProyecto`,`Personal_idPersonal`),
   KEY `fk_Proyecto_has_Personal_Personal1_idx` (`Personal_idPersonal`),
   KEY `fk_Proyecto_has_Personal_Proyecto1_idx` (`Proyecto_idProyecto`),
-  CONSTRAINT `fk_Proyecto_has_Personal_Proyecto1` FOREIGN KEY (`Proyecto_idProyecto`) REFERENCES `proyecto` (`idProyecto`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Proyecto_has_Personal_Personal1` FOREIGN KEY (`Personal_idPersonal`) REFERENCES `personal` (`idPersonal`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_Proyecto_has_Personal_Personal1` FOREIGN KEY (`Personal_idPersonal`) REFERENCES `personal` (`idPersonal`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Proyecto_has_Personal_Proyecto1` FOREIGN KEY (`Proyecto_idProyecto`) REFERENCES `proyecto` (`idProyecto`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -383,7 +385,7 @@ CREATE TABLE `proveedor` (
   PRIMARY KEY (`idProveedor`),
   KEY `fk_Proveedor_Distrito1_idx` (`Distrito_idDistrito`),
   CONSTRAINT `fk_Proveedor_Distrito1` FOREIGN KEY (`Distrito_idDistrito`) REFERENCES `distrito` (`idDistrito`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -426,7 +428,6 @@ CREATE TABLE `proyecto` (
 
 LOCK TABLES `proyecto` WRITE;
 /*!40000 ALTER TABLE `proyecto` DISABLE KEYS */;
-INSERT INTO `proyecto` VALUES (1,'RAS','Proyecto Fanny','2013-12-17',NULL,10.00,10.00,10.00,NULL,NULL,NULL,NULL,1);
 /*!40000 ALTER TABLE `proyecto` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -442,7 +443,7 @@ CREATE TABLE `rol` (
   `Descripcion` varchar(45) DEFAULT NULL,
   `Vigencia` tinyint(1) NOT NULL,
   PRIMARY KEY (`idRol`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -451,7 +452,7 @@ CREATE TABLE `rol` (
 
 LOCK TABLES `rol` WRITE;
 /*!40000 ALTER TABLE `rol` DISABLE KEYS */;
-INSERT INTO `rol` VALUES (1,'Administrador',1);
+INSERT INTO `rol` VALUES (1,'Administrador',1),(2,'Worker1',1),(3,'Worker2',1);
 /*!40000 ALTER TABLE `rol` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -465,13 +466,13 @@ DROP TABLE IF EXISTS `usuario`;
 CREATE TABLE `usuario` (
   `idUsuario` int(11) NOT NULL AUTO_INCREMENT,
   `Login` varchar(45) NOT NULL,
-  `Password` varchar(45) NOT NULL,
+  `Password` varchar(120) NOT NULL,
   `Vigencia` tinyint(1) NOT NULL,
   `Rol_idRol` int(11) DEFAULT NULL,
   PRIMARY KEY (`idUsuario`),
   KEY `fk_Usuario_Rol1_idx` (`Rol_idRol`),
   CONSTRAINT `fk_Usuario_Rol1` FOREIGN KEY (`Rol_idRol`) REFERENCES `rol` (`idRol`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -480,7 +481,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'admin','admin',1,1);
+INSERT INTO `usuario` VALUES (1,'admin','$2a$10$WI6zWni/y5ZnO5.y1HPHX.Z3shzTBXrYcjMEcwc4ybwwZpbYlIzwe',1,1),(2,'dtowong','$2a$10$7cUXKhvBU0yMwXyNgbCt6.qdble0I0c.NdFQAb2io2KndRw4MLFJa',1,2),(3,'germancruz','$2a$10$wM7brphrbKqY7Zf0NHfvIejsC4/3d8wlg..XMH5sDkHyuB3v6RDZi',1,3);
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -493,4 +494,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-12-08 17:34:51
+-- Dump completed on 2013-12-13 15:05:36
