@@ -51,8 +51,8 @@ public class DetalleCompraDao implements IDetalleCompraDao{
 		List<Detallecompra> list=getSessionFactory().getCurrentSession()
 				.createQuery("from Detallecompra").list();
 		for(Detallecompra l:list){
-			Hibernate.initialize(l.getCompra());
 			Hibernate.initialize(l.getEquipo());
+			Hibernate.initialize(l.getCompra());
 		}
 		return list;
 	}

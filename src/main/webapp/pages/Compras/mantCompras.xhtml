@@ -14,11 +14,20 @@
 
 	<script>
 		function handleComplete(xhr, status, args) {  
-		    if(args.validationFailed) { 	    	
-		    	showError();	    	
-		    }	   
+			if(args.validationFailed) { 	    	
+				showError();	    	
+			}	   
 		} 	 
-	 </script>
+	</script>
+	 
+	<script type="text/javascript">
+		function test(){
+			var i = $('.ui-row-toggler.ui-icon-circle-triangle-s').length;
+			
+			if(i == 1){return;}
+			$('.ui-row-toggler.ui-icon-circle-triangle-s').trigger('click');
+		}
+	</script>
 
 	<h:form id="form">
 		
@@ -32,7 +41,7 @@
 
 						<h:outputText styleClass="labelDialog"  value="PROVEEDOR" />
 
-						<p:selectOneMenu widgetVar="proveedor" styleClass="selectMenu" value="#{CompraBean.compra.proveedor}" converter="omnifaces.SelectItemsConverter" style="width: 100%;" >
+						<p:selectOneMenu widgetVar="proveedor" styleClass="selectMenu" value="#{CompraBean.compra.proveedor}" converter="omnifaces.SelectItemsConverter" style="width: 100%;" required="true">
 							<f:selectItem itemLabel="Seleccione uno" itemValue="#{null}" noSelectionOption="true" /> 
 							<f:selectItems styleClass="listaSelectMenu" value="#{CompraBean.proveedores}" var="prov" itemLabel="#{prov.nombre}" itemValue="#{prov}" /> 
 						</p:selectOneMenu>
@@ -96,15 +105,15 @@
 						</p:column>
 					</p:dataTable>
 					
-					<p:commandButton value="Registrar" process="@widgetVar(detalleCompra),@this" 
-						actionListener="#{CompraBean.registrarCompra()}" >
+					<p:commandButton value="Registrar" process="@widgetVar(detalleCompra),@this, @widgetVar(proveedor)" 
+						 update="@form:tabla_equipos, display2, display, growl, @form:datatablecampana" actionListener="#{CompraBean.procesarDialog}"  oncomplete="handleComplete(xhr, status, args);">
 					</p:commandButton>
 					
 				</p:dialog>
 				
 				<p:panel>
 					<span class="mantenimiento">COMPRAS</span>
-					<div id="cuerpo">
+					<div id="cuerpo"> 
 		
 						<p:dataTable id="datatablecampana" var="c" widgetVar="dt"
 							value="#{CompraBean.compras}" rowKey="#{c.idCompra}"
@@ -123,9 +132,7 @@
 							</p:commandButton>
 
 								<p:commandButton id="EliminarRegistro" styleClass="botonPeque"
-									value="Eliminar" icon="ui-icon-closethick"
-									update=":form:display, :form:growl"
-									actionListener="#{CompraBean.eliminarEvent}" />
+									value="Eliminar" icon="ui-icon-closethick" actionListener="#{CompraBean.eliminarEvent}"  process="@this"/>
 		
 							</f:facet>
 							
@@ -143,7 +150,7 @@
 								    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonOpcion" update=":form:display" oncomplete="dialog.show()" actionListener="#{CompraBean.nuevoEvent}"  process="@this">
 											<p:resetInput target=":form:display"></p:resetInput>
 										</p:commandButton>
-								    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonOpcion" update=":form:display, :form:growl" actionListener="#{CompraBean.eliminarEvent}"/>
+								    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonOpcion" actionListener="#{CompraBean.eliminarEvent}"  process="@this"/>
 									</h:panelGrid>
 								</f:facet>
 								
@@ -172,11 +179,10 @@
 											<h:outputText value="#{c.proveedor.nombre}" />
 										</div>
 									</f:facet>
-									<f:facet name="input">
-										<p:selectOneMenu widgetVar="proveedor" value="#{c.proveedor}" converter="omnifaces.SelectItemsConverter" style="width:100%; text-align:center;" >
-											<f:selectItem itemLabel="Seleccione uno" itemValue="#{null}" noSelectionOption="true" /> 
+									<f:facet name="input" >
+										<h:selectOneMenu widgetVar="proveedor" value="#{c.proveedor}" converter="omnifaces.SelectItemsConverter"  > 
 											<f:selectItems value="#{CompraBean.proveedores}" var="prov" itemLabel="#{prov.nombre}" itemValue="#{prov}" /> 
-										</p:selectOneMenu>
+										</h:selectOneMenu>
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
@@ -195,6 +201,7 @@
 							</p:column>
 							
 							<p:column styleClass="columna" headerText="FECHA" filterBy="#{c.fecha}">
+							
 								<p:cellEditor>
 									<f:facet name="output">
 										<div onclick="selectCurrentRow_paginator(dt,#{index})">
@@ -202,7 +209,11 @@
 										</div>
 									</f:facet>
 									<f:facet name="input">
-										<p:inputText styleClass="numericos"  value="#{c.fecha}" style="width:20%; font-family: verdana;font-size: 11px;"/>
+									
+										<p:calendar value="#{c.fecha}" id="calendarNuevo" 
+					                    required="true" navigator="true" display="inline" effect="slide" yearRange="c-5:c+5"
+					                    timeZone="#{CompraBean.timeZone()}" title="Ingresar fecha valida"/>				
+									
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
@@ -210,9 +221,9 @@
 							<p:rowExpansion>
 							
 								<p:dataTable id="tablehija" var="d"
-									value="#{CompraBean.detalleCompras}" rowKey="#{d.id.obtenerKey()}"
+									value="#{CompraBean.detalleCompras}" rowKey="#{d.id.toString()}"
 									selection="#{CompraBean.detalleSelected}" selectionMode="single"
-									styleClass="datatable_style_general" rowIndexVar="index">
+									styleClass="datatable_style_general" rowIndexVar="index2">
 									
 									<p:column style="width:6%">
 										<f:facet name="header">
@@ -265,7 +276,7 @@
 					<p:commandButton id="confirm" value="Si"
 						update=":form:datatablecampana, growl"
 						oncomplete="confirmation.hide()"
-						actionListener="#{CompraBean.validarEliminar}" />
+						actionListener="#{CompraBean.validarEliminar}"  process="@this"/>
 					<p:commandButton id="decline" value="No"
 						onclick="confirmation.hide()" type="button" />
 		

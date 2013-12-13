@@ -61,7 +61,7 @@
 				
 				<p:panel>
 					<span class="mantenimiento">EQUIPOS</span>
-					<div id="cuerpo">
+					<div id="cuerpo"> 
 		
 						<p:dataTable id="datatablecampana" var="c" widgetVar="dt"
 							value="#{EquipoBean.equipos}" rowKey="#{c.idEquipo}"
@@ -76,7 +76,6 @@
 									value="Nuevo" icon="ui-icon-document" update=":form:display"
 									oncomplete="dialog.show()"
 									actionListener="#{EquipoBean.nuevoEvent}"  process="@this">
-									
 									<p:resetInput target=":form:display"></p:resetInput>
 							</p:commandButton>
 
@@ -126,10 +125,9 @@
 										</div>
 									</f:facet>
 									<f:facet name="input">
-										<p:selectOneMenu widgetVar="categoria" value="#{c.categoria}" converter="omnifaces.SelectItemsConverter" style="width:100%; text-align:center;" >
-											<f:selectItem itemLabel="Seleccione uno" itemValue="#{null}" noSelectionOption="true" /> 
-											<f:selectItems value="#{EquipoBean.categorias}" var="cat" itemLabel="#{cat.nombre}" itemValue="#{cat}" /> 
-										</p:selectOneMenu>
+										<h:selectOneMenu widgetVar="categoria" value="#{c.categoria}" converter="omnifaces.SelectItemsConverter" style="width:100%; text-align:center;" >
+											<f:selectItems styleClass="columna" value="#{EquipoBean.categorias}" var="cat" itemLabel="#{cat.nombre}" itemValue="#{cat}" /> 
+										</h:selectOneMenu>
 									</f:facet>
 								</p:cellEditor>
 							</p:column>

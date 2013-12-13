@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -37,6 +38,7 @@ import org.ruqu.ras.service.ICompraService;
 import org.ruqu.ras.service.IDetalleCompraService;
 import org.ruqu.ras.service.IEquipoService;
 import org.ruqu.ras.service.IProveedorService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @ManagedBean(name = "CompraBean")
 @ViewScoped
@@ -69,11 +71,11 @@ public class CompraBean implements Serializable {
 	private List<Compra> compras;
 	private List<Detallecompra> detalleCompras;
 	
-	private Compra compra = new Compra();
-	private Compra compraNuevo = new Compra();
-	private Detallecompra detCompra = new Detallecompra();
-	private Proveedor provCompra = new Proveedor();
-	private Detallecompra detalleSelected = new Detallecompra();
+	Compra compra = new Compra();
+	Compra compraNuevo = new Compra();
+	Detallecompra detCompra = new Detallecompra();
+	Proveedor provCompra = new Proveedor();
+	Detallecompra detalleSelected = new Detallecompra();
 	
 	private boolean accionEditar = true;
 
@@ -229,7 +231,6 @@ public class CompraBean implements Serializable {
 		categorias=getCategoriaService().getCategorias();
 		proveedores=getProveedorService().getProveedors();
 		compras=getCompraService().getCompras();
-		detalleCompras=getDetalleCompraService().getDetallecompras();
 	}
 	
 	
@@ -262,6 +263,7 @@ public class CompraBean implements Serializable {
 	}
 	
 	public void eliminarEvent(){
+		System.out.println("llegue");
 		if(getCompraNuevo()!=null){
 			RequestContext.getCurrentInstance().execute("confirmation.show()");
 		}
@@ -311,7 +313,6 @@ public class CompraBean implements Serializable {
 	//BOTON PROCESAR-DIALOG
 	public void procesarDialog(){
 		if(accionEditar){
-			System.out.println("llegue");
 			validarEditar();
 		}else{
 			validarNuevo();
@@ -347,14 +348,18 @@ public class CompraBean implements Serializable {
         FacesMessage msg = null;  
         boolean registrado = false;  
 
-        if(getCompra().getProveedor()!=null && getCompra().getDetallecompras()!=null){
+        if(getCompra().getProveedor()!=null && getCompra().getDetallecompras()!=null && detalleCompras.size()>0){
         	registrado=true;
-            insertar();
+            registrarCompra();
         	msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registrado", getCompra().getIdCompra().toString());
         } 
-		else {  
+		else if(detalleCompras.size() == 0){
+			registrado = false;  
+            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error de registro", "Nada que ingresar.");  
+		}
+		else{  
         	registrado = false;  
-            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error de registro", "Campo(s) invalido(s)");  
+            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error de registro", "Campo(s) inválido(s)");  
         }
         FacesContext.getCurrentInstance().addMessage(null, msg);  
         context.addCallbackParam("registrado", registrado);
@@ -385,16 +390,17 @@ public class CompraBean implements Serializable {
 		RequestContext context = RequestContext.getCurrentInstance();  
         FacesMessage msg = null;  
         boolean eliminado = false;  
-        
+
         if(getCompraNuevo()!=null){
         	eliminado = true;  
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Eliminado", getCompraNuevo().getIdCompra().toString());
             eliminar();
         } else {  
+			System.out.println("NOOO");
         	eliminado = false;  
             msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Seleccione un registro");  
         }  
-          
+        
         FacesContext.getCurrentInstance().addMessage(null, msg);  
         context.addCallbackParam("eliminado", eliminado);
 	}
@@ -414,7 +420,7 @@ public class CompraBean implements Serializable {
 		compraNuevo = new Compra();
 	}
 
-	private void refrescarCompras()
+	public void refrescarCompras()
 	{
 		setCompras(getCompraService().getCompras());
 	}
@@ -426,7 +432,7 @@ public class CompraBean implements Serializable {
 			FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Ingrese cantidad válida", growlPath);
 		}
 		else{
-			detCompra.getEquipo().setStock(detCompra.getEquipo().getStock() + detCompra.getCantidad());
+			//detCompra.getEquipo().setStock(detCompra.getEquipo().getStock() + detCompra.getCantidad());
 			//detCompra.setId(new DetallecompraId(getCompra().getIdCompra(),detCompra.getEquipo().getIdEquipo()));
 			detCompra.setTotalDetalle(BigDecimal.valueOf(detCompra.getEquipo().getCosto().intValue() * detCompra.getCantidad()));
 			detCompra.setCompra(compra);
@@ -442,7 +448,9 @@ public class CompraBean implements Serializable {
 			detCompra = new Detallecompra();
 			
 			for(Detallecompra dt:detalleCompras){
-				System.out.print(dt.getEquipo().getCodigo());
+				System.out.print("\n\n"+dt.getEquipo().getCodigo());
+				System.out.print("\\"+dt.getCantidad());
+				System.out.print("\\"+dt.getEquipo().getStock()+"\n\n");
 			}
 		}
 	}
@@ -452,20 +460,47 @@ public class CompraBean implements Serializable {
 		double costoTotal = 0;
 		
 		for(Detallecompra dt:detalleCompras){
-			costoTotal = costoTotal + dt.getEquipo().getCosto().doubleValue();
+			dt.getEquipo().getCodigo();
+			costoTotal = costoTotal + dt.getEquipo().getCosto().doubleValue() * dt.getCantidad();
 		}
 		
 		getCompra().setFecha(new Date());
-		System.out.print("\n\n\n"+getCompra().getProveedor() +"\n\n\n");
+	//	System.out.print("\n\n\n"+getCompra().getProveedor() +"\n\n\n");
 		getCompra().setProveedor(getProveedorService().getProveedorById(getCompra().getProveedor().getIdProveedor()));
 		getCompra().setTotal(BigDecimal.valueOf(costoTotal));
-		//getCompraService().addCompra(getCompra());
+		getCompra().setDetallecompras(new HashSet<Detallecompra>(detalleCompras));
 
+		getCompraService().addCompra(getCompra());
+
+		System.out.print("\n\n"+getCompra().getFecha().toString());
+		System.out.print("\n\n"+getCompra().getIdCompra());
+		System.out.print("\n\n"+getCompra().getTotal());
+		System.out.print("\n\n"+getCompra().getProveedor().getNombre());
+		
+		for(Detallecompra dt:getCompra().getDetallecompras()){
+			dt.setCompra(getCompra());
+			dt.setId(new DetallecompraId(getCompra().getIdCompra(),dt.getEquipo().getIdEquipo()));
+			System.out.print("\n\n"+dt.getCompra().getIdCompra());
+			dt.getEquipo().setStock(dt.getEquipo().getStock() + dt.getCantidad());
+			getEquipoService().updateEquipo(dt.getEquipo());
+		}
+		
+		getCompraService().updateCompra(getCompra());
+		
+		for(Detallecompra dt:getCompra().getDetallecompras()){
+			getDetalleCompraService().addDetallecompra(dt);
+		}
+		
+		detalleCompras = new ArrayList<Detallecompra>();
 	}
 
+	public void prueba(){
+		System.out.print("\n\nasddddd\n\n\n");
+	}
 
-
-
+	public void timeZone(){
+		TimeZone.getDefault();
+	}
 
 
 	
