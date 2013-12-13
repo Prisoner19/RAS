@@ -74,6 +74,25 @@ body {
 	
 }
 
+.tablaResumen1{
+	margin:auto;
+}
+.tablaResumen2{
+	margin:auto;
+	margin-top:20px;
+}
+.txtGastos{
+	font-family:candara;
+	color:white;
+	font-size:14px;
+}
+
+.divTxtGastos{
+	background: url(../images/bg.jpg);
+	margin-top:20px;
+	opacity:0.7;
+}
+
 .botonLogout{
 	font-family:candara;
 	font-size:14px;

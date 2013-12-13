@@ -77,6 +77,8 @@ public class ProyectoBean implements Serializable{
 	private BigDecimal gastoTotal;
 	private BigDecimal gastoTotalReal;
 	
+	private String textoGastos;
+	
 	private boolean accionEditar = false;
 
 	
@@ -183,9 +185,30 @@ public class ProyectoBean implements Serializable{
 			gastoTotal=gastoTotal.add(proyecto.getCostoPersonal());
 			gastoTotal=gastoTotal.add(proyecto.getCostoOtros());
 			
-			gastoTotalReal=gastoTotalReal.add(proyecto.getCostoMaterialReal());
-			gastoTotalReal=gastoTotalReal.add(proyecto.getCostoPersonalReal());
-			gastoTotalReal=gastoTotalReal.add(proyecto.getCostoOtrosReal());
+			if(proyecto.getCostoMaterialReal()==null)
+				proyecto.setCostoMaterialReal(BigDecimal.ZERO);
+			else{		
+				gastoTotalReal=gastoTotalReal.add(proyecto.getCostoMaterialReal());
+			}
+			
+			if(proyecto.getCostoPersonalReal()==null)
+				proyecto.setCostoPersonalReal(BigDecimal.ZERO);
+			else{
+				gastoTotalReal=gastoTotalReal.add(proyecto.getCostoPersonalReal());
+			}
+			
+			if(proyecto.getCostoOtrosReal()==null)
+				proyecto.setCostoOtrosReal(BigDecimal.ZERO);
+			else{
+				gastoTotalReal=gastoTotalReal.add(proyecto.getCostoOtrosReal());
+			}
+			
+			if(gastoTotal.compareTo(gastoTotalReal)==1){
+				setTextoGastos("GASTOS POR DEBAJO DE LO ESTIMADO");
+			}
+			else{
+				setTextoGastos("ATENCIÓN: GASTOS MAYORES A LO ESTIMADO");
+			}
 			
 			RequestContext.getCurrentInstance().execute("dialogResumen.show();");
 		}else{
@@ -543,6 +566,16 @@ public class ProyectoBean implements Serializable{
 	public void setEquipoasignadoService(
 			IEquipoasignadoService equipoasignadoService) {
 		this.equipoasignadoService = equipoasignadoService;
+	}
+
+
+	public String getTextoGastos() {
+		return textoGastos;
+	}
+
+
+	public void setTextoGastos(String textoGastos) {
+		this.textoGastos = textoGastos;
 	}
 	
 }
