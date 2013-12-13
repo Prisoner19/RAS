@@ -10,6 +10,16 @@
 
 
     <ui:define name="content">
+    
+    	 <script>
+
+	    	initEnterKeyDefault();
+			function handleComplete(xhr, status, args) {  
+			    if(args.validationFailed) { 	    	
+			    	showError();	    	
+			    }	   
+			} 	 
+	 	</script>
         <h:form id="form">
 
             <p:growl id="growl" showDetail="true" life="3000" />
@@ -25,20 +35,28 @@
                                   rendered="#{UsuarioBean.accionEditar}" />
 
                     <h:outputText value="Nombre de Usuario:" />
-                    <p:inputText value="#{UsuarioBean.usuario.login}" />
+                    <p:inputText value="#{UsuarioBean.usuario.login}"  required="true"
+                    >
+                    <f:validateLength minimum="5" />
+                    <pe:keyFilter regEx="/[a-z0-9]/i"/>
+                    </p:inputText>
 
                     <h:outputText value="Password:" />
-                    <p:password value="#{UsuarioBean.usuario.password}" />
+                    <p:password value="#{UsuarioBean.usuario.password}" required="true"                    	
+                     feedback="true">
+                     	<pe:keyFilter regEx="/[a-z0-9]/i"/>
+                    	<f:validateLength minimum="5" maximum="15" />
+                    </p:password>
 
                     <h:outputText value="Rol:" />
-                    <p:selectOneMenu converter="omnifaces.SelectItemsConverter" value="#{UsuarioBean.usuario.rol}" >
+                    <p:selectOneMenu converter="omnifaces.SelectItemsConverter" value="#{UsuarioBean.usuario.rol}" required="true">
                         <f:selectItem itemLabel="Seleccione uno" itemValue="#{null}" noSelectionOption="true" />
                         <f:selectItems value="#{UsuarioBean.roles}" var="rol" itemLabel="#{rol.descripcion}" itemValue="#{rol}" />
                     </p:selectOneMenu>
 
-                    <p:commandButton value="#{UsuarioBean.etiBotonDialog()}"
-                                     actionListener="#{UsuarioBean.procesarDialog}"
-                                     update=":form:datatablecampana, growl" oncomplete="dialog.hide();" />
+                    <p:commandButton value="#{UsuarioBean.etiBotonDialog()}" process="display,@this"
+                                     actionListener="#{UsuarioBean.procesarDialog}" oncomplete="handleComplete(xhr, status, args);"
+                                     update=":form:datatablecampana, display" />
 
                 </h:panelGrid>
             </p:dialog>
@@ -58,17 +76,22 @@
 
                             <p:commandButton id="viewNuevo" styleClass="botonPeque"
                                              value="Nuevo" icon="ui-icon-document" update=":form:display"
-                                             oncomplete="dialog.show()"
-                                             actionListener="#{UsuarioBean.nuevoEvent}" />
+                                             oncomplete="dialog.show()" process="datatablecampana,@this"
+                                             actionListener="#{UsuarioBean.nuevoEvent}"    >                          	
+                             
+                             <p:resetInput target="@form:display"></p:resetInput>
+                             </p:commandButton>
 
                             <p:commandButton id="viewEditar" styleClass="botonPeque"
                                              value="Editar" icon="ui-icon-search"
-                                             update=":form:display, :form:growl"
-                                             actionListener="#{UsuarioBean.editarEvent}" />
+                                             update=":form:display, :form:growl" process="datatablecampana,@this"
+                                             actionListener="#{UsuarioBean.editarEvent}" >
+                             	<p:resetInput target="@form:display"></p:resetInput>
+                             </p:commandButton>
 
                             <p:commandButton id="EliminarRegistro" styleClass="botonPeque"
                                              value="Eliminar" icon="ui-icon-closethick"
-                                             update=":form:datatablecampana, :form:growl"
+                                             update=":form:datatablecampana, :form:growl" process="datatablecampana,@this"
                                              actionListener="#{UsuarioBean.validarEliminar}" >
                                 <p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" icon="ui-icon-alert" />
                             </p:commandButton>
@@ -100,7 +123,11 @@
                                     </div>
                                 </f:facet>
                                 <f:facet name="input">
-                                    <p:inputText value="#{c.login}" style="width:100%"/>
+                                    <p:inputText id="login_rowedit" value="#{c.login}" style="width:100%" required="true"
+                                     title="Usuario" label="Usuario">
+                                    	<pe:keyFilter regEx="/[a-z0-9]/i"/>
+                                    	<f:validateLength minimum="5" />
+                                    </p:inputText>
                                 </f:facet>
                             </p:cellEditor>
                         </p:column>
@@ -113,8 +140,11 @@
                                     </div>
                                 </f:facet>
                                 <f:facet name="input">
-                                    <p:inputText value="#{c.password}" type="password"
-                                                 style="width:100%"/>
+                                    <p:inputText id="password_rowedit" value="#{c.password}" type="password"
+                                                 style="width:100%" title="Password" label="Password">
+                                        <pe:keyFilter regEx="/[a-z0-9]/i"/>         
+                                        <f:validateLength minimum="5" maximum="15" />
+                                    </p:inputText>
                                 </f:facet>
                             </p:cellEditor>
                         </p:column>
@@ -123,7 +153,7 @@
                 </div>
 
             </p:panel>
-
+			<p:remoteCommand name="showError" actionListener="#{UsuarioBean.showError}" immediate="true" />
 
             <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
                 <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>

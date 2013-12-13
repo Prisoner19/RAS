@@ -5,6 +5,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 	<h:head>
@@ -36,8 +37,14 @@
 					<div class="form-bg">
 						<h2 class="encabezado">LOGIN</h2>
 									
-						<p><p:inputText id="j_username" placeholder="Username" required="true"/></p>
-						<p><p:password id="j_password" placeholder="Password" required="true" /></p>
+						<p><p:inputText id="j_username" placeholder="Username" required="true">
+							<pe:keyFilter regEx="/[a-z0-9]/i"/>
+						</p:inputText>
+						</p>
+						<p><p:password id="j_password" placeholder="Password" required="true" >
+								<pe:keyFilter regEx="/[a-z0-9]/i"/>
+							</p:password>
+						</p>
 						
 						<h:selectBooleanCheckbox styleClass="checkbox" id="_spring_security_remember_me" />			 		 
 						<h:outputLabel class="recuerda" for="_spring_security_remember_me" value="Recuérdame en esta PC" /> 

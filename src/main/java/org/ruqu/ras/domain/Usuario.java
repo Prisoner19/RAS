@@ -22,6 +22,10 @@ import javax.persistence.Table;
 @Table(name = "Usuario", catalog = "ras")
 public class Usuario implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer idUsuario;
 	private Rol rol;
 	private String login;
@@ -79,7 +83,7 @@ public class Usuario implements java.io.Serializable {
 		this.login = login;
 	}
 
-	@Column(name = "Password", nullable = false, length = 45)
+	@Column(name = "Password", nullable = false, length = 120)
 	public String getPassword() {
 		return this.password;
 	}

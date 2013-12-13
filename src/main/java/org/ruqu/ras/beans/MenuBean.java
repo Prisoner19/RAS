@@ -72,8 +72,7 @@ public class MenuBean implements Serializable {
             System.out.println(e.getMessage());
         }
 		
-		
-		System.out.print(model.getElements().get(0).getId());
+
 		
 		/*
 
@@ -96,8 +95,8 @@ public class MenuBean implements Serializable {
                 model.addElement(submenu);
 
         }
-
-    	 */
+		*/
+    	 
     }
 
 

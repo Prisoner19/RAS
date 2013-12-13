@@ -21,7 +21,7 @@
             <sec:filter-chain pattern="/logout.jsp" filters="none"/>
             <sec:filter-chain pattern="/css/**" filters="none"/>
 
-            <sec:filter-chain pattern="/**"
+           <sec:filter-chain pattern="/**"
                               filters="
             securityContextFilter,
             logoutFilter,
@@ -108,10 +108,13 @@
 
 
     </beans:bean>
-
+	
+	<beans:bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+	
     <beans:bean id="daoAuthenticationProvider"
                 class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
         <beans:property name="userDetailsService" ref="userDetailsService"/>
+        <beans:property name="passwordEncoder" ref="bCryptPasswordEncoder" />
     </beans:bean>
 
 
@@ -124,10 +127,9 @@
             </beans:list>
         </beans:constructor-arg>
     </beans:bean>
-
+    
     <sec:authentication-manager>
-        <sec:authentication-provider user-service-ref="userDetailsService">
-
+        <sec:authentication-provider user-service-ref="userDetailsService">			
         </sec:authentication-provider>
     </sec:authentication-manager>
 

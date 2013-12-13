@@ -9,12 +9,13 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 import org.ruqu.ras.domain.Rol;
 import org.ruqu.ras.domain.Usuario;
+import org.ruqu.ras.helpers.utils.FacesMessageHelper;
+import org.ruqu.ras.security.PasswordUtils;
 import org.ruqu.ras.service.IRolService;
 import org.ruqu.ras.service.IUsuarioService;
 
@@ -26,6 +27,7 @@ public class UsuarioBean implements Serializable{
 	 * Beans' attributes
 	 * =================
 	 */
+	private static final String growlPath = "form:growl";
 	private static final long serialVersionUID = 1L;
 	
 	@ManagedProperty(value="#{UsuarioService}")
@@ -78,9 +80,7 @@ public class UsuarioBean implements Serializable{
 				RequestContext.getCurrentInstance().execute("dialog.show()");
 			}
 			else{
-				FacesMessage msg = null;  
-				msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Seleccione un registro");  
-				FacesContext.getCurrentInstance().addMessage(null, msg);
+				FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_WARN, "Error", "Seleccione un registro", growlPath);
 			}
 		}catch(Exception e){
 			System.out.println("ERROR: "+e.getMessage());
@@ -92,21 +92,21 @@ public class UsuarioBean implements Serializable{
 		if(getUsuarioNuevo()!=null){
 			RequestContext.getCurrentInstance().execute("confirmation.show()");
 		}
-		else{
-			FacesMessage msg = null;  
-			msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Seleccione un registro");  
-			FacesContext.getCurrentInstance().addMessage(null, msg);
+		else{			
+			FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_WARN, "Error", "Seleccione un registro", growlPath);
 		}
 	}
 	
 	//BOTON PROCESAR-DIALOG
 	public void procesarDialog(){
-		if(accionEditar){
-			System.out.println("llegue");
-			validarEditar();
+		if(accionEditar){			
+			editar();
 		}else{
-			validarNuevo();
+			insertar();
 		}
+		limpiarCampos();
+		refrescarUsuarios();
+		RequestContext.getCurrentInstance().execute("dialog.hide();");
 	}
 	
 	/* ACCIONES CRUD
@@ -114,78 +114,34 @@ public class UsuarioBean implements Serializable{
 	*/
 	
 	public void insertar(){
-		getUsuarioService().addUsuario(getUsuario());
-		refrescarUsuarios();
-		limpiarCampos();
+		getUsuario().setPassword(PasswordUtils.encodePassword(getUsuario().getPassword()));
+		getUsuarioService().addUsuario(getUsuario());		
 	}
 	
 	public void editar(){
-		//getUsuario().setIdUsuario(getUsuario().getIdUsuario());
-		getUsuarioService().updateUsuario(getUsuario());
-		refrescarUsuarios();
-		limpiarCampos();
+		
+		getUsuario().setPassword(PasswordUtils.encodePassword(getUsuario().getPassword()));
+		getUsuarioService().updateUsuario(getUsuario());	
 	}
 	
 	public void eliminar(){
-		getUsuarioService().deleteUsuarioLogico(getUsuarioNuevo());
-		refrescarUsuarios();
+		getUsuarioService().deleteUsuarioLogico(getUsuarioNuevo());		
 	}
 	
-	public void validarNuevo(){
-		RequestContext context = RequestContext.getCurrentInstance();  
-        FacesMessage msg = null;  
-        boolean registrado = false;  
-          
-        if(getUsuario().getLogin()!=null && getUsuario().getLogin().length()>=1
-        		&& getUsuario().getPassword()!=null && getUsuario().getPassword().length()>=1){
-        	registrado=true;
-        	msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registrado", getUsuario().getLogin());
-            insertar();
-        } else {  
-        	registrado = false;  
-            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error de registro", "Campo(s) invalido(s)");  
-        }
-        FacesContext.getCurrentInstance().addMessage(null, msg);  
-        context.addCallbackParam("registrado", registrado);
-	}
-	
-	public void validarEditar(){
-		RequestContext context = RequestContext.getCurrentInstance();  
-        FacesMessage msg = null;  
-        boolean editado = false;  
-        
-        if(getUsuario().getLogin()!=null && getUsuario().getLogin().length()>=1
-        		&& getUsuario().getPassword()!=null && getUsuario().getPassword().length()>=1){
-        	editado=true;
-        	msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Editado", getUsuario().getLogin());
-            editar();
-        }else if(getUsuarioNuevo()==null){
-        	editado = false;  
-            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Seleccione un registro");  
-        }else{
-        	editado = false;  
-            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Nombre invalido");  
-        }
-        FacesContext.getCurrentInstance().addMessage(null, msg);  
-        context.addCallbackParam("editado", editado);  
-	}
-	
+		
 	public void validarEliminar(){
-		RequestContext context = RequestContext.getCurrentInstance();  
-        FacesMessage msg = null;  
-        boolean eliminado = false;  
+		
         
         if(getUsuarioNuevo()!=null){
-        	eliminado = true;  
-            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Eliminado", getUsuarioNuevo().getLogin());
-            eliminar();
+        	FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_INFO,"Eliminado", getUsuarioNuevo().getLogin(), growlPath);
+        	eliminar();
         } else {  
-        	eliminado = false;  
-            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Seleccione un registro");  
+        	FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_WARN, "Error", "Seleccione un registro", growlPath);
         }  
-          
-        FacesContext.getCurrentInstance().addMessage(null, msg);  
-        context.addCallbackParam("eliminado", eliminado);  
+        
+        limpiarCampos();
+        refrescarUsuarios();      
+      
 	}
 
     /*
@@ -198,19 +154,14 @@ public class UsuarioBean implements Serializable{
         setUsuario(usuarioService.getUsuarioById(c.getIdUsuario()));
 
         getUsuario().setLogin(c.getLogin());
-        getUsuario().setPassword(c.getPassword());
+        getUsuario().setPassword(c.getPassword());        
+        editar();
+        FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_INFO, "Usuario Editado", ((Usuario) event.getObject()).getLogin(), growlPath);
 
-        System.out.println(c.getLogin());
-        validarEditar();
-
-        FacesMessage msg = new FacesMessage("Usuario Editado", ((Usuario) event.getObject()).getLogin());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public void onCancel(RowEditEvent event) {
-        FacesMessage msg = new FacesMessage("Usuario Cancelado", ((Usuario) event.getObject()).getLogin());
-
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+    	 FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_INFO, "Edicion Cancelado", ((Usuario) event.getObject()).getLogin(), growlPath);
     }
     
     
@@ -219,6 +170,10 @@ public class UsuarioBean implements Serializable{
 	*	===================
     */
 
+    public void showError(){
+		FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_WARN, "Registro","Campos resaltados invalidos", growlPath
+				,"Error");		
+	}
 
 	public void limpiarCampos()
 	{

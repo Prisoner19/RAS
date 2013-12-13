@@ -49,7 +49,7 @@
 				<p:inputText value="#{ProveedorBean.proveedor.telefono}" />
 				<div></div>
 				<p:commandButton value="#{ProveedorBean.etiBotonDialog()}"
-					actionListener="#{ProveedorBean.procesarDialog}"
+					actionListener="#{ProveedorBean.procesarDialog}" process="@this,display"
 					update=":form:datatablecampana, growl, :form:display"  oncomplete="handleComplete(xhr, status, args);"/>
 
 			</h:panelGrid>
@@ -78,7 +78,7 @@
 
 						<p:commandButton id="EliminarRegistro" styleClass="botonPeque"
 							value="Eliminar" icon="ui-icon-closethick"
-							update=":form:display, :form:growl"
+							update=":form:display, :form:growl" process="datatablecampana,@this"
 							actionListener="#{ProveedorBean.eliminarEvent}" />
 
 					</f:facet>
@@ -92,7 +92,8 @@
 						    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonOpcion" update=":form:display" oncomplete="dialog.show()" actionListener="#{ProveedorBean.nuevoEvent}" process="@this">
 						    		<p:resetInput target=":form:display"></p:resetInput>
 						    	</p:commandButton>
-						    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonOpcion" update=":form:display, :form:growl" actionListener="#{ProveedorBean.eliminarEvent}"/>
+						    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonOpcion" update=":form:display, :form:growl" actionListener="#{ProveedorBean.eliminarEvent}"
+						    	process="datatablecampana,@this"/>
 							</h:panelGrid>
 						</f:facet>
 						
@@ -176,7 +177,7 @@
 
 			<p:commandButton id="confirm" value="Si"
 				update=":form:datatablecampana, growl"
-				oncomplete="confirmation.hide()"
+				oncomplete="confirmation.hide()" process="@form:datatablecampana"
 				actionListener="#{ProveedorBean.validarEliminar}" />
 			<p:commandButton id="decline" value="No"
 				onclick="confirmation.hide()" type="button" />

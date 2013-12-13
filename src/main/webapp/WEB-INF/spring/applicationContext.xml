@@ -112,7 +112,7 @@
 		<property name="sessionFactory" ref="SessionFactory" />
 	</bean>
 	
-    <bean id="userDetailsService" class="org.ruqu.ras.service.UserDetailsServiceImpl">
+	<bean id="userDetailsService" class="org.ruqu.ras.service.UserDetailsServiceImpl">
         <property name="usuarioDao" ref="UsuarioDAO" />
         <property name="rolDao" ref="RolDAO" />
     </bean>

@@ -82,7 +82,7 @@ public class CategoriaBean implements Serializable{
 	
 	public void eliminarEvent(){
 		if(getCategoriaNuevo()!=null){
-			RequestContext.getCurrentInstance().execute("confirmation.show()");
+			validarEliminar();
 		}
 		else{
 			FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_WARN, "Error", "Seleccione un registro", growlPath);
