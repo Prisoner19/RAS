@@ -124,7 +124,7 @@ public class ProyectoBean implements Serializable{
 	public void editarEvent(){
 		if(proyectoSelec!=null){
 			accionEditar=true;
-			proyecto=proyectoService.getProyectoById(proyectoSelec.getIdProyecto());
+			proyecto=proyectoService.getProyectoById(proyectoSelec.getIdProyecto());			
 			RequestContext.getCurrentInstance().execute("dialogPresupuesto.show();");
 		}else
 			FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_WARN, 
@@ -194,25 +194,35 @@ public class ProyectoBean implements Serializable{
 	}
 	
 	public void descargarEquipo(){
+		if(equipoAsignado.getEquipo()==null || equipoAsignado.getCantidad()==0){
+			FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_WARN, 
+					"Aviso", "Complete los campos para descargar", growlPath);
+			return;
+		}
+		
 		if(equipoAsignado.getEquipo().getStock()<equipoAsignado.getCantidad()){
 			FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_WARN, 
 					"Aviso", "No hay Stock para descargar Equipo", growlPath);
 		}else{ 
-			equipoAsignado.getEquipo().setStock(equipoAsignado.getEquipo().getStock()-equipoAsignado.getCantidad());
+			
 			equipoAsignado.setId(new EquipoasignadoId(equipoAsignado.getEquipo().getIdEquipo(),
 					proyectoSelec.getIdProyecto()));
-			equipoAsignado.setFecha(new Date());
-			equipoAsignado.setPrecioUnit(equipoAsignado.getEquipo().getCosto());
-			equipoAsignado.setProyecto(proyectoSelec);
-			
+						
 			if(!equiposAsignados.contains(equipoAsignado)){
-				equiposAsignados.add(equipoAsignado);			
-				
+				equipoAsignado.getEquipo().setStock(equipoAsignado.getEquipo().getStock()-equipoAsignado.getCantidad());
+				equipoAsignado.setFecha(new Date());
+				equipoAsignado.setPrecioUnit(equipoAsignado.getEquipo().getCosto());
+				equipoAsignado.setProyecto(proyectoSelec);
+				equiposAsignados.add(equipoAsignado);				
 				FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_INFO, 
 					"Aviso", "Equipo descargado", growlPath);
 			}else{
-				FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_WARN, 
-						"Aviso", "No puede descargar el mismo producto", growlPath);
+				int cant = equipoAsignado.getCantidad();
+				equipoAsignado = equiposAsignados.get(equiposAsignados.indexOf(equipoAsignado));
+				equipoAsignado.getEquipo().setStock(equipoAsignado.getEquipo().getStock()-cant);
+				equipoAsignado.setCantidad(equipoAsignado.getCantidad() + cant);
+				FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_INFO, 
+						"Aviso", "Se ha aumentado la cantidad utilizada del equipo", growlPath);
 			}
 		}
 	}
