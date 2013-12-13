@@ -52,6 +52,7 @@ public class CompraDao implements ICompraDao{
 		for(Compra l:list){
 			Hibernate.initialize(l.getDetallecompras());
 			//Hibernate.initialize(l.getLogconsultas());
+			Hibernate.initialize(l.getProveedor());
 		}
 		return list;
 	}

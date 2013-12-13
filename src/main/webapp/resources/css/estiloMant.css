@@ -22,6 +22,7 @@ body {
 
 .selectMenu{
 	font-family:candara;
+	width:100%;
 }
 
 .ui-selectonemenu .ui-widget .ui-state-default .ui-corner-all .ui-helper-clearfix .selectMenu
@@ -39,7 +40,7 @@ body {
 .labelDialog{
 	float:right;
 	font-family:candara;
-	font-size:12px;
+	font-size:13px;
 }
 .numericos{
 	font-family: verdana;

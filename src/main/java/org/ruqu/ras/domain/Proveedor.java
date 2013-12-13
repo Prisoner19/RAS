@@ -113,4 +113,15 @@ public class Proveedor implements java.io.Serializable {
 		this.compras = compras;
 	}
 
+	@Override
+	public String toString() {
+		return Integer.toString(idProveedor);
+	}
+
+	@Override
+	public int hashCode() {
+		return idProveedor.hashCode();
+	}
+
+
 }

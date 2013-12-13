@@ -60,5 +60,9 @@ public class DetallecompraId implements java.io.Serializable {
 		result = 37 * result + this.getEquipoIdEquipo();
 		return result;
 	}
+	
+	public String obtenerKey() {
+		return Integer.toString(compraIdCompra) + "-" + Integer.toString(equipoIdEquipo);
+	}
 
 }

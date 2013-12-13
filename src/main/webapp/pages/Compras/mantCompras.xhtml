@@ -1,3 +1,4 @@
+
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
@@ -9,13 +10,270 @@
 
 
 
-    <ui:define name="content">
-    <h:form id="form">
+<ui:define name="content">
 
-		<span class="construction">Under construction.</span>
-	</h:form>
+	<script>
+		function handleComplete(xhr, status, args) {  
+		    if(args.validationFailed) { 	    	
+		    	showError();	    	
+		    }	   
+		} 	 
+	 </script>
 
- </ui:define>
+	<h:form id="form">
+		
+				<p:growl id="growl" showDetail="true" life="3000" />
+				
+				<p:dialog id="dialog" header="Nueva compra" widgetVar="dialog"
+				resizable="false" width="400" height="250" showEffect="clip"
+				hideEffect="fold" modal="true">
+
+					<h:panelGrid id="display" columns="2" cellpadding="4" style="width:240px;">
+
+						<h:outputText styleClass="labelDialog"  value="PROVEEDOR" />
+
+						<p:selectOneMenu widgetVar="proveedor" styleClass="selectMenu" value="#{CompraBean.compra.proveedor}" converter="omnifaces.SelectItemsConverter" style="width: 100%;" >
+							<f:selectItem itemLabel="Seleccione uno" itemValue="#{null}" noSelectionOption="true" /> 
+							<f:selectItems styleClass="listaSelectMenu" value="#{CompraBean.proveedores}" var="prov" itemLabel="#{prov.nombre}" itemValue="#{prov}" /> 
+						</p:selectOneMenu>
+						
+					</h:panelGrid>
+
+					<p:panelGrid id="display2" cellpadding="4">
+					
+						<p:row>
+							<p:column>
+								<h:outputText styleClass="labelDialog" value="EQUIPOS"  />
+							</p:column>
+							<p:column>
+							<p:inputText value="#{CompraBean.detCompra.equipo.codigo}" required="true"
+							disabled="true" />
+							<p:commandButton id="btn_overlay" icon="ui-icon-search" type="button"></p:commandButton>
+							<p:overlayPanel id="equipoPanel" for="btn_overlay" hideEffect="fade" dynamic="true"
+							widgetVar="overlay_equipo"> 
+								<p:dataTable id="EquiposTable" widgetVar="equiDt" var="e" 
+								value="#{CompraBean.equipos}" rowIndexVar="rowIndex" rowKey="#{e.idEquipo}">
+									<p:column headerText="Equipo">
+										<p:outputLabel value="#{e.codigo}"></p:outputLabel>									
+									</p:column>
+									<p:column>
+										<p:commandButton id="btn_overlay_process" icon="ui-icon-search" 
+										process="EquiposTable" update="@form:display2" oncomplete="overlay_equipo.hide()">
+											<f:setPropertyActionListener value="#{e}" target="#{CompraBean.detCompra.equipo}" /> 
+										</p:commandButton>
+									</p:column>
+								</p:dataTable>
+							</p:overlayPanel> 
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<h:outputText styleClass="labelDialog" value="CANTIDAD"  />
+							</p:column>
+							<p:column>
+								<pe:inputNumber value="#{CompraBean.detCompra.cantidad}" 
+								decimalPlaces="0" thousandSeparator="" required="true">
+								</pe:inputNumber>
+								<p:commandButton id="btn_comprar" icon="ui-icon-check" 
+										process="display2" update="@form:tabla_equipos, @form:display2, growl" actionListener="#{CompraBean.comprarEquipo()}">
+								</p:commandButton>
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+					
+					<p:dataTable id="tabla_equipos" value="#{CompraBean.detalleCompras}" var="equi"
+					rowKey="#{equi.id.toString()}" rowIndexVar="rowIndex" widgetVar="detalleCompra">
+						<p:column headerText="EQUIPO">
+							<p:outputLabel value="#{equi.equipo.codigo}"></p:outputLabel>						
+						</p:column>
+							
+						<p:column headerText="CANTIDAD">	
+							<p:outputLabel value="#{equi.cantidad}" ></p:outputLabel>					
+						</p:column>
+					
+						<p:column headerText="COSTO">
+							<p:outputLabel value="#{equi.equipo.costo}"></p:outputLabel>						
+						</p:column>
+					</p:dataTable>
+					
+					<p:commandButton value="Registrar" process="@widgetVar(detalleCompra),@this" 
+						actionListener="#{CompraBean.registrarCompra()}" >
+					</p:commandButton>
+					
+				</p:dialog>
+				
+				<p:panel>
+					<span class="mantenimiento">COMPRAS</span>
+					<div id="cuerpo">
+		
+						<p:dataTable id="datatablecampana" var="c" widgetVar="dt"
+							value="#{CompraBean.compras}" rowKey="#{c.idCompra}"
+							selection="#{CompraBean.compraNuevo}" selectionMode="single" rowIndexVar="index"
+							styleClass="datatable_style_general" editable="true" paginator="true" rows="10"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							rowsPerPageTemplate="2,5,10" paginatorPosition="bottom">
+		
+							<f:facet name="header">
+		
+								<p:commandButton id="viewNuevo" styleClass="botonPeque"
+									value="Nuevo" icon="ui-icon-document" update=":form:display"
+									oncomplete="dialog.show()"
+									actionListener="#{CompraBean.nuevoEvent}"  process="@this">
+									<p:resetInput target=":form:display"></p:resetInput>
+							</p:commandButton>
+
+								<p:commandButton id="EliminarRegistro" styleClass="botonPeque"
+									value="Eliminar" icon="ui-icon-closethick"
+									update=":form:display, :form:growl"
+									actionListener="#{CompraBean.eliminarEvent}" />
+		
+							</f:facet>
+							
+							<p:ajax event="rowEdit" listener="#{CompraBean.onEdit}" update=":form:growl" />  
+		        			<p:ajax event="rowEditCancel" listener="#{CompraBean.onCancel}" update=":form:growl" /> 
+							<p:ajax event="rowToggle" listener="#{CompraBean.onRowToggle}" update=":form:growl"/>  
+		
+							<p:column style="width:2%" exportable="false">  
+					            <p:rowToggler/>  
+					        </p:column> 
+							
+							<p:column style="width:6%">
+								<f:facet name="header">
+									<h:panelGrid class="opciones"  columns="2">
+								    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonOpcion" update=":form:display" oncomplete="dialog.show()" actionListener="#{CompraBean.nuevoEvent}"  process="@this">
+											<p:resetInput target=":form:display"></p:resetInput>
+										</p:commandButton>
+								    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonOpcion" update=":form:display, :form:growl" actionListener="#{CompraBean.eliminarEvent}"/>
+									</h:panelGrid>
+								</f:facet>
+								
+								<p:rowEditor />
+							</p:column>
+		
+							<p:column styleClass="columna" headerText="CÓDIGO"
+								filterBy="#{c.idCompra}">
+								<p:cellEditor>
+									<f:facet name="output" >
+										<div onclick="selectCurrentRow_paginator(dt,#{index})">
+											<h:outputText styleClass="numericos" value="#{c.idCompra}" />
+										</div>
+									</f:facet>
+									<f:facet name="input" >
+										<p:inputText styleClass="numericos" value="#{c.idCompra}" style="width:30%; font-family: verdana;font-size: 11px;"/>
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+		
+							<p:column styleClass="columna" headerText="PROVEEDOR"
+								filterBy="#{c.proveedor}">
+								<p:cellEditor>
+									<f:facet name="output">
+										<div onclick="selectCurrentRow_paginator(dt,#{index})">
+											<h:outputText value="#{c.proveedor.nombre}" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:selectOneMenu widgetVar="proveedor" value="#{c.proveedor}" converter="omnifaces.SelectItemsConverter" style="width:100%; text-align:center;" >
+											<f:selectItem itemLabel="Seleccione uno" itemValue="#{null}" noSelectionOption="true" /> 
+											<f:selectItems value="#{CompraBean.proveedores}" var="prov" itemLabel="#{prov.nombre}" itemValue="#{prov}" /> 
+										</p:selectOneMenu>
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+							
+							<p:column styleClass="columna" headerText="MONTO" filterBy="#{c.total}">
+								<p:cellEditor>
+									<f:facet name="output">
+										<div onclick="selectCurrentRow_paginator(dt,#{index})">
+											<h:outputText styleClass="numericos"  value="#{c.total}" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText styleClass="numericos"  value="#{c.total}" style="width:30%; font-family: verdana;font-size: 11px;"/>
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+							
+							<p:column styleClass="columna" headerText="FECHA" filterBy="#{c.fecha}">
+								<p:cellEditor>
+									<f:facet name="output">
+										<div onclick="selectCurrentRow_paginator(dt,#{index})">
+											<h:outputText styleClass="numericos"  value="#{c.fecha}" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText styleClass="numericos"  value="#{c.fecha}" style="width:20%; font-family: verdana;font-size: 11px;"/>
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+									
+							<p:rowExpansion>
+							
+								<p:dataTable id="tablehija" var="d"
+									value="#{CompraBean.detalleCompras}" rowKey="#{d.id.obtenerKey()}"
+									selection="#{CompraBean.detalleSelected}" selectionMode="single"
+									styleClass="datatable_style_general" rowIndexVar="index">
+									
+									<p:column style="width:6%">
+										<f:facet name="header">
+											<h:panelGrid class="opciones"  columns="2">
+										    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonOpcion" update=":form:display" oncomplete="dialog.show()" actionListener="#{CompraBean.nuevoEvent}"  process="@this">
+													<p:resetInput target=":form:display"></p:resetInput>
+												</p:commandButton>
+										    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonOpcion" update=":form:display, :form:growl" actionListener="#{CompraBean.eliminarEvent}"/>
+											</h:panelGrid>
+										</f:facet>
+										
+										<p:rowEditor />
+									</p:column>
+												
+									<p:column styleClass="columna" headerText="EQUIPO" filterBy="#{d.equipo.codigo}">
+										<p:outputLabel value="#{d.equipo.codigo}"></p:outputLabel>						
+									</p:column>
+										
+									<p:column styleClass="columna" headerText="CANTIDAD" filterBy="#{d.cantidad}">	
+										<p:outputLabel value="#{d.cantidad}" ></p:outputLabel>					
+									</p:column>
+								
+									<p:column styleClass="columna" headerText="COSTO" filterBy="#{d.totalDetalle}">
+										<p:outputLabel value="#{d.totalDetalle}"></p:outputLabel>						
+									</p:column>
+		
+								</p:dataTable>
+								
+							</p:rowExpansion> 
+
+						</p:dataTable>
+					</div>
+		
+				</p:panel>
+				
+				<p:remoteCommand name="showError" actionListener="#{CompraBean.showError}" immediate="true" />
+		
+				<p:dialog id="modalDialog" header="CONFIRMACION" widgetVar="dlg2"
+					modal="true" height="150" width="400" closable="false"
+					resizable="false">
+					<p:messages id="messages" showDetail="true" autoUpdate="true"
+						closable="false" />
+					<p:commandButton value="OK" onclick="dlg2.hide()" />
+				</p:dialog>
+		
+				<p:confirmDialog id="confirmDialog"
+					message="¿Esta seguro de esta accion?" header="Eliminar Registro"
+					severity="alert" widgetVar="confirmation">
+		
+					<p:commandButton id="confirm" value="Si"
+						update=":form:datatablecampana, growl"
+						oncomplete="confirmation.hide()"
+						actionListener="#{CompraBean.validarEliminar}" />
+					<p:commandButton id="decline" value="No"
+						onclick="confirmation.hide()" type="button" />
+		
+				</p:confirmDialog>
+		
+			</h:form>
+			
+</ui:define>
 
 
 </ui:composition>

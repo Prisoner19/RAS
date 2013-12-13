@@ -306,6 +306,5 @@ public class EquipoBean implements Serializable{
 	private void refrescarEquipos()
 	{
 		setEquipos(getEquipoService().getEquipos());
-		
 	}
 }

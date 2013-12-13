@@ -38,7 +38,7 @@ public class DetalleCompraDao implements IDetalleCompraDao{
 	public Detallecompra getDetallecompraById(DetallecompraId id) {
 		@SuppressWarnings("unchecked")
 		List<Detallecompra> list=getSessionFactory().getCurrentSession()
-				.createQuery("from Detallecompra where id=? and Vigencia=1")
+				.createQuery("from Detallecompra where id=? ")
 				.setParameter(0, id).list();
 		Hibernate.initialize(list.get(0).getCompra());
 		Hibernate.initialize(list.get(0).getEquipo());
@@ -49,7 +49,7 @@ public class DetalleCompraDao implements IDetalleCompraDao{
 	public List<Detallecompra> getDetallecompras() {
 		@SuppressWarnings("unchecked")
 		List<Detallecompra> list=getSessionFactory().getCurrentSession()
-				.createQuery("from Detallecompra where Vigencia=1").list();
+				.createQuery("from Detallecompra").list();
 		for(Detallecompra l:list){
 			Hibernate.initialize(l.getCompra());
 			Hibernate.initialize(l.getEquipo());
