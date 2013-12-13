@@ -1,5 +1,6 @@
 package org.ruqu.ras.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.ruqu.ras.dao.IPersonalasignadoDao;
@@ -41,5 +42,9 @@ public class PersonalasignadoService implements IPersonalasignadoService{
 
 	public void setPersonalasignadoDAO(IPersonalasignadoDao PersonalasignadoDAO) {
 		this.PersonalasignadoDAO = PersonalasignadoDAO;
+	}
+	
+	public BigDecimal getCostoRealPersonalasignados(int idProyecto){
+		return getPersonalasignadoDAO().getCostoRealPersonalasignados(idProyecto);
 	}
 }

@@ -54,6 +54,10 @@
 	<bean id="PersonalasignadoService" class="org.ruqu.ras.service.PersonalasignadoService">
 		<property name="PersonalasignadoDAO" ref="PersonalasignadoDAO" />
 	</bean>
+	
+	<bean id="EquipoasignadoService" class="org.ruqu.ras.service.EquipoasignadoService">
+		<property name="EquipoasignadoDAO" ref="EquipoasignadoDAO" />
+	</bean>
 				
 	<!-- User DAO Declaration -->
 	
@@ -101,6 +105,10 @@
 	</bean>
 	
 	<bean id="PersonalasignadoDAO" class="org.ruqu.ras.dao.PersonalasignadoDao">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+	
+	<bean id="EquipoasignadoDAO" class="org.ruqu.ras.dao.EquipoasignadoDao">
 		<property name="sessionFactory" ref="SessionFactory" />
 	</bean>
 	

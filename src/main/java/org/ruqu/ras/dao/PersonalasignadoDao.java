@@ -1,5 +1,6 @@
 package org.ruqu.ras.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
@@ -48,5 +49,12 @@ public class PersonalasignadoDao implements IPersonalasignadoDao{
 		List<Personalasignado> list=getSessionFactory().getCurrentSession()
 				.createQuery("from Personalasignado where Vigencia=1").list();
 		return list;
+	}
+	
+	public BigDecimal getCostoRealPersonalasignados(int idProyecto){
+		List<BigDecimal> list=getSessionFactory().getCurrentSession()
+				.createQuery("select sum(pa.pago) from Personalasignado pa where Proyecto_idProyecto=?")
+				.setParameter(0, idProyecto).list();
+		return (BigDecimal)list.get(0);
 	}
 }

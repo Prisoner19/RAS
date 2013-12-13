@@ -315,6 +315,93 @@
 			</h:panelGrid>
 		</p:dialog>
 		
+		<p:dialog id="dialogResumen" header="Resumen General" widgetVar="dialogResumen"
+			resizable="false" width="500" height="300" showEffect="clip"
+			hideEffect="fold" modal="true">
+			
+			<h:panelGrid id="displayResumen">
+				
+				<p:row>
+					<p:column>
+						<h:outputText value="Inicio del Proyecto"  />
+					</p:column>
+					<p:column>
+						<h:outputText value="#{ProyectoBean.proyecto.inicio}"  />
+					</p:column>
+				</p:row>
+				
+				<p:row>
+					<p:column>
+						<h:outputText value="Fin del Proyecto"  />
+					</p:column>
+					<p:column>
+						<h:outputText value="#{ProyectoBean.proyecto.fin}"  />
+					</p:column>
+				</p:row>
+				
+				<p:row>
+					<p:column>
+						<h:outputText icon="ui-icon.note"  />
+					</p:column>
+					<p:column>
+						<h:outputText value="Costo Estimado"  />
+					</p:column>
+					<p:column>
+						<h:outputText value="Costo Real"  />
+					</p:column>
+				</p:row>
+				
+				<p:row>
+					<p:column>
+						<h:outputText value="Equipos"  />
+					</p:column>
+					<p:column>
+						<h:outputText value="#{ProyectoBean.proyecto.costoEquipo}"  />
+					</p:column>
+					<p:column>
+						<h:outputText value="#{ProyectoBean.proyecto.costoMaterialReal}"  />
+					</p:column>
+				</p:row>
+				
+				<p:row>
+					<p:column>
+						<h:outputText value="Personal"  />
+					</p:column>
+					<p:column>
+						<h:outputText value="#{ProyectoBean.proyecto.costoPersonal}"  />
+					</p:column>
+					<p:column>
+						<h:outputText value="#{ProyectoBean.proyecto.costoPersonalReal}"  />
+					</p:column>
+				</p:row>
+				
+				<p:row>
+					<p:column>
+						<h:outputText value="Otros Gastos"  />
+					</p:column>
+					<p:column>
+						<h:outputText value="#{ProyectoBean.proyecto.costoOtros}"  />
+					</p:column>
+					<p:column>
+						<h:outputText value="#{ProyectoBean.proyecto.costoOtrosReal}"  />
+					</p:column>
+				</p:row>
+				
+				<p:row>
+					<p:column>
+						<h:outputText value="TOTAL"  />
+					</p:column>
+					<p:column>
+						<h:outputText value="#{ProyectoBean.gastoTotal}"  />
+					</p:column>
+					<p:column>
+						<h:outputText value="#{ProyectoBean.gastoTotalReal}"  />
+					</p:column>
+				</p:row>
+				
+			</h:panelGrid>
+		</p:dialog>
+		
 		<p:panel>
 
 			<div id="cuerpo">
@@ -337,6 +424,11 @@
 							value="Editar Gastos" icon="ui-icon-search" process="@form:datatablecampana"
 							update=":form:tabsGastos, :form:growl" title="Editar Gastos: Personal/Equipos/Otros"
 							actionListener="#{ProyectoBean.gastoEvent}" />
+							
+						<p:commandButton id="viewResumenProyecto" styleClass="botonPeque"
+							value="Resumen Proyecto" icon="ui-icon-search" process="@form:datatablecampana"
+							update=":form:displayResumen, :form:growl" title="Detalle de Proyecto: Personal/Equipos/Otros"
+							actionListener="#{ProyectoBean.resumenEvent}" />
 
 					</f:facet>
 					

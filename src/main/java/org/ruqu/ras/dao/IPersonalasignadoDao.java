@@ -1,5 +1,6 @@
 package org.ruqu.ras.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.ruqu.ras.domain.Personalasignado;
@@ -16,4 +17,6 @@ public interface IPersonalasignadoDao {
 	public Personalasignado getPersonalasignadoById(PersonalasignadoId id);
 
 	public List<Personalasignado> getPersonalasignados();
+	
+	public BigDecimal getCostoRealPersonalasignados(int idProyecto);
 }
