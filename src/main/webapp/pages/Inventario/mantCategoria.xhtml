@@ -46,11 +46,12 @@
 					<pe:keyFilter regEx="/[a-z0-9 ]/i"/>
 				</p:inputText>
 				<div></div>
-				<p:commandButton value="#{CategoriaBean.etiBotonDialog()}" process="display,@this"
+				<p:commandButton id="btn_procesar" value="#{CategoriaBean.etiBotonDialog()}" process="display,@this"
 					actionListener="#{CategoriaBean.procesarDialog}" oncomplete="handleComplete(xhr, status, args);"
 					update="@form:datatablecampana, growl, @form:display" />
-
+				<p:blockUI block="display" trigger="btn_procesar" />
 			</h:panelGrid>
+			
 		</p:dialog>
 
 		<p:panel styleClass="panel">

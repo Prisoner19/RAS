@@ -20,6 +20,10 @@ import javax.persistence.Table;
 @Table(name = "Categoria", catalog = "ras")
 public class Categoria implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer idCategoria;
 	private String nombre;
 	private String descripcion;
@@ -87,5 +91,38 @@ public class Categoria implements java.io.Serializable {
 	public void setEquipos(Set<Equipo> equipos) {
 		this.equipos = equipos;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((idCategoria == null) ? 0 : idCategoria.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Categoria other = (Categoria) obj;
+		if (idCategoria == null) {
+			if (other.idCategoria != null)
+				return false;
+		} else if (!idCategoria.equals(other.idCategoria))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return idCategoria + "";
+	}
+	
+	
 
 }

@@ -267,9 +267,10 @@
 				</p:tab>
 							
 			</p:tabView>
-				<p:commandButton value="Guardar"
+				<p:commandButton id="btn_procesar" value="Guardar"
 				process="@widgetVar(equiposAsignados),@this"
 				actionListener="#{ProyectoBean.guardarGastos()}"  ></p:commandButton>
+				<p:blockUI block="tabsGastos" trigger="btn_procesar" />
 								
 		</p:dialog>
 		
@@ -313,10 +314,10 @@
 				
 				<div></div>
 			
-				<p:commandButton value="#{ProyectoBean.etiBotonDialog()}"
+				<p:commandButton id="btn_procesar2" value="#{ProyectoBean.etiBotonDialog()}"
 					actionListener="#{ProyectoBean.procesarDialog}" oncomplete="handleComplete(xhr, status, args);"
 					update="@form:datatablecampana,@form:displayPresupuesto" title="Procesar Proyecto"/>			
-						
+				<p:blockUI block="displayPresupuesto" trigger="btn_procesar2" />		
 			</h:panelGrid>
 		</p:dialog>
 		

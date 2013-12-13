@@ -44,7 +44,7 @@
 				</p:inputText>
 				
 				<h:outputText styleClass="labelDialog" value="DISTRITO" />
-					<p:selectOneMenu widgetVar="distrito" styleClass="selectMenu" value="#{ProveedorBean.proveedor.distrito}" converter="omnifaces.SelectItemsConverter" style="width: 100%;" >
+					<p:selectOneMenu widgetVar="distrito" required="true" styleClass="selectMenu" value="#{ProveedorBean.proveedor.distrito}" converter="omnifaces.SelectItemsConverter" style="width: 100%;" >
 							<f:selectItem itemLabel="Seleccione uno" itemValue="#{null}" noSelectionOption="true" /> 
 							<f:selectItems value="#{ProveedorBean.distritos}" var="dist" itemLabel="#{dist.distrito}" itemValue="#{dist}" /> 
 					</p:selectOneMenu>
@@ -55,13 +55,14 @@
 					<pe:keyFilter regEx="/[0-9 ]/i"/> 
 				</p:inputText>
 				<div></div>
-				<p:commandButton value="#{ProveedorBean.etiBotonDialog()}"
+				<p:commandButton id="btn_procesar" value="#{ProveedorBean.etiBotonDialog()}"
 					actionListener="#{ProveedorBean.procesarDialog}" process="@this,display"
 					update=":form:datatablecampana, growl, :form:display"  oncomplete="handleComplete(xhr, status, args);"/>
-
+				<p:blockUI block="display" trigger="btn_procesar" />
 			</h:panelGrid>
+			
 		</p:dialog>
-
+			
 		<p:panel styleClass="panel">
 			<span class="mantenimiento">PROVEEDOR</span>
 			<div id="cuerpo">

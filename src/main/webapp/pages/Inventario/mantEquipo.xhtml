@@ -41,7 +41,7 @@
 						</p:inputText>
 							
 						<h:outputText styleClass="labelDialog"  value="CATEGORÍA" />
-						<p:selectOneMenu widgetVar="categoria" styleClass="selectMenu" value="#{EquipoBean.equipo.categoria}" converter="omnifaces.SelectItemsConverter" style="width: 100%;" >
+						<p:selectOneMenu required="true" widgetVar="categoria" styleClass="selectMenu" value="#{EquipoBean.equipo.categoria}" converter="omnifaces.SelectItemsConverter" style="width: 100%;" >
 							<f:selectItem itemLabel="Seleccione uno" itemValue="#{null}" noSelectionOption="true" /> 
 							<f:selectItems styleClass="listaSelectMenu" value="#{EquipoBean.categorias}" var="cat" itemLabel="#{cat.nombre}" itemValue="#{cat}" /> 
 						</p:selectOneMenu>
@@ -59,11 +59,12 @@
 							<pe:keyFilter regEx="/[0-9_]/i"/> 
 						</p:inputText>
 						<div></div>
-						<p:commandButton value="#{EquipoBean.etiBotonDialog()}"
+						<p:commandButton id="btn_procesar" value="#{EquipoBean.etiBotonDialog()}"
 							actionListener="#{EquipoBean.procesarDialog}" oncomplete="handleComplete(xhr, status, args);"
 					update=":form:datatablecampana, growl, @form:display" />
-		
+						<p:blockUI block="display" trigger="btn_procesar" />
 					</h:panelGrid>
+					
 				</p:dialog>
 				
 				<p:panel>

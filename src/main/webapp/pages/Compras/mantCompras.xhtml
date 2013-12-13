@@ -37,7 +37,7 @@
 				<p:dialog id="dialog" header="Nueva compra" widgetVar="dialog"
 				resizable="false" width="400" height="250" showEffect="clip"
 				hideEffect="fold" modal="true">
-
+					<p:panel id="pnl">
 					<h:panelGrid id="display" columns="2" cellpadding="4" style="width:240px;">
 
 						<h:outputText styleClass="labelDialog"  value="PROVEEDOR" />
@@ -106,11 +106,13 @@
 						</p:column>
 					</p:dataTable>
 					
-					<p:commandButton value="Registrar" process="@widgetVar(detalleCompra),@this, @widgetVar(proveedor)" 
+					<p:commandButton id="btn_procesar" value="Registrar" process="@widgetVar(detalleCompra),@this, @widgetVar(proveedor)" 
 						 update="@form:tabla_equipos, display2, display, growl, @form:datatablecampana" actionListener="#{CompraBean.procesarDialog}"  oncomplete="handleComplete(xhr, status, args);">
 					</p:commandButton>
-					
+					</p:panel>
 				</p:dialog>
+				<p:blockUI block="pnl" trigger="btn_procesar" /> 
+				
 				
 				<p:panel>
 					<span class="mantenimiento">COMPRAS</span>

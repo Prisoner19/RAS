@@ -54,10 +54,10 @@
                         <f:selectItems value="#{UsuarioBean.roles}" var="rol" itemLabel="#{rol.descripcion}" itemValue="#{rol}" />
                     </p:selectOneMenu>
 
-                    <p:commandButton value="#{UsuarioBean.etiBotonDialog()}" process="display,@this"
+                    <p:commandButton id="btn_procesar" value="#{UsuarioBean.etiBotonDialog()}" process="display,@this"
                                      actionListener="#{UsuarioBean.procesarDialog}" oncomplete="handleComplete(xhr, status, args);"
                                      update=":form:datatablecampana, display" />
-
+					<p:blockUI block="display" trigger="btn_procesar" />
                 </h:panelGrid>
             </p:dialog>
 
