@@ -264,7 +264,7 @@
 		
 					<p:commandButton id="confirm" value="Si"
 						update=":form:datatablecampana, growl"
-						oncomplete="confirmation.hide()"
+						oncomplete="confirmation.hide()" process="@form:datatablecampana"
 						actionListener="#{CompraBean.validarEliminar}"  process="@this"/>
 					<p:commandButton id="decline" value="No"
 						onclick="confirmation.hide()" type="button" />

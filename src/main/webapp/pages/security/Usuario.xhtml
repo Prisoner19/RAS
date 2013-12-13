@@ -105,7 +105,8 @@
                             <f:facet name="header">
                                 <h:panelGrid class="opciones" columns="2">
                                     <p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonOpcion" update=":form:display" oncomplete="dialog.show()" actionListener="#{UsuarioBean.nuevoEvent}"/>
-                                    <p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonOpcion" update=":form:display, :form:datatablecampana,:form:growl" actionListener="#{UsuarioBean.validarEliminar}" >
+                                    <p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonOpcion" update=":form:display, :form:datatablecampana,:form:growl" actionListener="#{UsuarioBean.validarEliminar}" 
+                                    process="@this,@form:datatablecampana">
                                         <p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" icon="ui-icon-alert" />
                                     </p:commandButton>
                                 </h:panelGrid>

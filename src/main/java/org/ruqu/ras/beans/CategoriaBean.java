@@ -136,6 +136,7 @@ public class CategoriaBean implements Serializable{
         if(getCategoriaNuevo()!=null){
         	FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_INFO, "Eliminado", getCategoriaNuevo().getNombre(), growlPath);
             eliminar();
+            limpiarCampos();
             refrescarCategorias();
         } else {  
         	FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_WARN, "Error", "Seleccione un registro", growlPath);

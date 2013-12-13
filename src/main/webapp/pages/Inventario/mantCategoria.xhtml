@@ -75,7 +75,7 @@
 
 						<p:commandButton id="EliminarRegistro" styleClass="botonPeque"
 							value="Eliminar" icon="ui-icon-closethick"
-							update=":form:display, :form:growl" process="datatablecampana,@this"
+							update=":form:display,datatablecampana, :form:growl" process="datatablecampana,@this"
 							actionListener="#{CategoriaBean.eliminarEvent}" >
 							<p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" 
 						    		icon="ui-icon-alert" /> 
@@ -93,7 +93,7 @@
 						    		<p:resetInput target=":form:display"></p:resetInput>
 						    	</p:commandButton>
 						    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonOpcion" 
-						    	update=":form:display, :form:growl" actionListener="#{CategoriaBean.eliminarEvent}"
+						    	update=":form:display, :form:growl,datatablecampana" actionListener="#{CategoriaBean.eliminarEvent}"
 						    	process="datatablecampana,@this">
 						    		<p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" 
 						    		icon="ui-icon-alert" /> 
