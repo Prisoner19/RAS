@@ -225,28 +225,16 @@
 									selection="#{CompraBean.detalleSelected}" selectionMode="single"
 									styleClass="datatable_style_general" rowIndexVar="index2">
 									
-									<p:column style="width:6%">
-										<f:facet name="header">
-											<h:panelGrid class="opciones"  columns="2">
-										    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonOpcion" update=":form:display" oncomplete="dialog.show()" actionListener="#{CompraBean.nuevoEvent}"  process="@this">
-													<p:resetInput target=":form:display"></p:resetInput>
-												</p:commandButton>
-										    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonOpcion" update=":form:display, :form:growl" actionListener="#{CompraBean.eliminarEvent}"/>
-											</h:panelGrid>
-										</f:facet>
-										
-										<p:rowEditor />
-									</p:column>
-												
-									<p:column styleClass="columna" headerText="EQUIPO" filterBy="#{d.equipo.codigo}">
+																					
+									<p:column styleClass="columna" headerText="EQUIPO" >
 										<p:outputLabel value="#{d.equipo.codigo}"></p:outputLabel>						
 									</p:column>
 										
-									<p:column styleClass="columna" headerText="CANTIDAD" filterBy="#{d.cantidad}">	
+									<p:column styleClass="columna" headerText="CANTIDAD" >	
 										<p:outputLabel value="#{d.cantidad}" ></p:outputLabel>					
 									</p:column>
 								
-									<p:column styleClass="columna" headerText="COSTO" filterBy="#{d.totalDetalle}">
+									<p:column styleClass="columna" headerText="COSTO" >
 										<p:outputLabel value="#{d.totalDetalle}"></p:outputLabel>						
 									</p:column>
 		

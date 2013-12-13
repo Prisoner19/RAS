@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.ruqu.ras.domain.Compra;
+import org.ruqu.ras.domain.Detallecompra;
 
 public class CompraDao implements ICompraDao{
 
@@ -35,13 +36,19 @@ public class CompraDao implements ICompraDao{
 
 	@Override
 	public Compra getCompraById(int id) {
-		@SuppressWarnings("unchecked")
-		List<Compra> list=getSessionFactory().getCurrentSession()
+		
+		Compra compra=  (Compra)getSessionFactory().getCurrentSession()
 				.createQuery("from Compra where id=? and Vigencia=1")
-				.setParameter(0, id).list();
-		Hibernate.initialize(list.get(0).getDetallecompras());
+				.setParameter(0, id).uniqueResult();
+		if(compra!=null){
+			Hibernate.initialize(compra.getDetallecompras());
+			for(Detallecompra dc :compra.getDetallecompras()){
+				Hibernate.initialize(dc.getEquipo());
+			}
+		}	
+		
 		//Hibernate.initialize(list.get(0).getLogconsultas());
-		return (Compra) list.get(0);
+		return (compra);
 	}
 
 	@Override
