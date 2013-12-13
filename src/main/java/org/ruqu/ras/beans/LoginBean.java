@@ -1,5 +1,6 @@
 package org.ruqu.ras.beans;
 
+import org.ruqu.ras.helpers.utils.FacesMessageHelper;
 import org.ruqu.ras.helpers.utils.HttpRequestUtil;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.web.WebAttributes;
@@ -35,6 +36,12 @@ public class LoginBean {
                     break;
             }
             FacesContext.getCurrentInstance().addMessage(null, message);
+        }
+        String get_error = requestParams.get("error");
+        if(get_error!=null){
+        	int i = Integer.parseInt(get_error);
+        	if(i==1)
+        		FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_ERROR, "Aviso", "Sus credenciales no coinciden");
         }
     }
 

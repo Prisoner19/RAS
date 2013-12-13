@@ -50,7 +50,9 @@ public class UsuarioDao implements IUsuarioDao{
 		@SuppressWarnings("unchecked")
 		List<Usuario> list=getSessionFactory().getCurrentSession()
 				.createQuery("from Usuario where Vigencia=1").list();
-
+		for(Usuario u:list){
+			u.setPassword("");
+		}
 		return list;
 	}
 

@@ -141,7 +141,7 @@
                                     </div>
                                 </f:facet>
                                 <f:facet name="input">
-                                    <p:inputText id="password_rowedit" value="#{c.password}" type="password"
+                                    <p:inputText id="password_rowedit" value="#{c.password}" type="password" required="true"
                                                  style="width:100%" title="Password" label="Password">
                                         <pe:keyFilter regEx="/[a-z0-9]/i"/>         
                                         <f:validateLength minimum="5" maximum="15" />

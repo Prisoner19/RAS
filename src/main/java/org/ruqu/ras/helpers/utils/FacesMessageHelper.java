@@ -24,4 +24,12 @@ public class FacesMessageHelper {
 		RequestContext.getCurrentInstance().update(growlPath);
 		
 	}
+	
+	public static void sendGrowlMessage(Severity s,String title,String message){
+		FacesMessage msg = new FacesMessage(s, title, 
+				message);		
+		FacesContext.getCurrentInstance().addMessage(null, msg); 
+
+		
+	}
 }
