@@ -13,7 +13,7 @@
     <script type="text/javascript" src="#{request.contextPath}/resources/js/calendar-es.js"></script>
 	 
 	 <script>
-	
+	 	initEnterKeyDefault();
 		function handleComplete(xhr, status, args) {  
 		    if(args.validationFailed) { 	    	
 		    	showError();	    	
@@ -62,22 +62,16 @@
 								<h:outputText styleClass="labelDialog"  value="CANTIDAD"  />
 							</p:column>
 							<p:column>
-								<pe:inputNumber value="#{ProyectoBean.equipoAsignado.cantidad}" 
-								decimalPlaces="0" thousandSeparator="" required="true">
-								</pe:inputNumber>
+								<p:inputText value="#{ProyectoBean.equipoAsignado.cantidad}" required="true"
+								onblur="this.value=limpiarString(this.value);">
+										<pe:keyFilter regEx="/[[0-9_]/i"/> 
+								</p:inputText>
+								<p:commandButton icon="ui-icon-check" process="panel_tabEquipo"
+									update="@form:tabsGastos:table_equipos"
+									actionListener="#{ProyectoBean.descargarEquipo()}" />
 							</p:column>
 						</p:row>
-						
-						<f:facet name="footer">
-							<p:row>
-								<p:column>
-									<p:commandButton value="Descargar" process="panel_tabEquipo"
-									update="@form:tabsGastos:table_equipos"
-									actionListener="#{ProyectoBean.descargarEquipo()}"  ></p:commandButton>
-								</p:column>
-							</p:row>
-						</f:facet>
-						
+
 					</p:panelGrid>
 					
 					<p:dataTable id="table_equipos" value="#{ProyectoBean.equiposAsignados}" var="equi"
@@ -138,7 +132,10 @@
 								<h:outputText  styleClass="labelDialog" value="TAREA"  />
 							</p:column>
 							<p:column>
-								 <p:inputText value="#{ProyectoBean.personalAsignado.tarea}" />  
+								 <p:inputText value="#{ProyectoBean.personalAsignado.tarea}" 
+								 onblur="this.value=limpiarString(this.value);">
+									<pe:keyFilter regEx="/[a-z' ']/i"/> 
+								</p:inputText> 
 							</p:column>
 						</p:row>
 						<p:row>
@@ -212,7 +209,10 @@
 								<h:outputText styleClass="labelDialog" value="PARTIDA"  />
 							</p:column>
 							<p:column>
-								 <p:inputText value="#{ProyectoBean.otroGasto.partida}" />  
+								 <p:inputText value="#{ProyectoBean.otroGasto.partida}"  
+								 onblur="this.value=limpiarString(this.value);">
+									<pe:keyFilter regEx="/[a-z' ']/i"/> 
+								</p:inputText>   
 							</p:column>
 						</p:row>
 						<p:row>
@@ -220,7 +220,10 @@
 								<h:outputText styleClass="labelDialog" value="DESCRIPCIÓN"  />
 							</p:column>
 							<p:column>
-								 <p:inputText value="#{ProyectoBean.otroGasto.descripcion}" />  
+								 <p:inputText value="#{ProyectoBean.otroGasto.descripcion}"  
+								 onblur="this.value=limpiarString(this.value);">
+									<pe:keyFilter regEx="/[a-z' ']/i"/> 
+								</p:inputText>   
 							</p:column>
 						</p:row>
 						<p:row>
@@ -272,41 +275,43 @@
 		
 		
 		<p:dialog id="dialogPresupuesto" header="Presupuesto Estimado" widgetVar="dialogPresupuesto"
-			resizable="false" width="350" height="200" showEffect="clip"
+			resizable="false" width="350" height="300" showEffect="clip"
 			hideEffect="fold" modal="true">
 			
 			<h:panelGrid id="displayPresupuesto" columns="2" cellpadding="4">
 				
-			   <h:outputText value="Nombre de Proyecto:" rendered="#{!ProyectoBean.accionEditar}"/>
+			   <h:outputText styleClass="labelDialog" value="NOMBRE" rendered="#{!ProyectoBean.accionEditar}"/>
                <p:inputText value="#{ProyectoBean.proyecto.nombre}" rendered="#{!ProyectoBean.accionEditar}"
                required="true" title="Ingresar 2 a 20 caracteres" >
                 <f:validateLength minimum="2" maximum="20" />
                	<pe:keyFilter regEx="/[a-z0-9 ]/i" /> 
                </p:inputText>
 
-               <h:outputText value="Descripcion:" rendered="#{!ProyectoBean.accionEditar}"/>
+               <h:outputText styleClass="labelDialog" value="DESCRIPCION" rendered="#{!ProyectoBean.accionEditar}"/>
                <p:inputText value="#{ProyectoBean.proyecto.descripcion}" rendered="#{!ProyectoBean.accionEditar}"
-               required="true" title="Ingresar 2 a 20 caracteres">
+ 				title="Ingresar 2 a 20 caracteres">
                 <f:validateLength minimum="2" maximum="20" />
                	<pe:keyFilter regEx="/[a-z0-9 ]/i" /> 
                </p:inputText>
                
-               <h:outputText styleClass="labelDialog" value="Fecha de Inicio:" rendered="#{!ProyectoBean.accionEditar}"/>
+               <h:outputText styleClass="labelDialog" value="FECHA INICIO" rendered="#{!ProyectoBean.accionEditar}"/>
                <p:calendar value="#{ProyectoBean.proyecto.inicio}" id="calendarNuevo" rendered="#{!ProyectoBean.accionEditar}"
                     required="true"   navigator="true" display="inline" effect="slide" yearRange="c-5:c+5"
                     timeZone="#{ProyectoBean.timeZone()}" title="Ingresar fecha valida"/>				
 				
-				<h:outputText styleClass="labelDialog" value="COSTO PERSONAL:" />
+				<h:outputText styleClass="labelDialog" value="COSTO PERSONAL" />
 				<pe:inputNumber styleClass="numericos" value="#{ProyectoBean.proyecto.costoPersonal}" required="true"
 				decimalPlaces="2" thousandSeparator="" title="Costo estimado de pago a personal"/>
 				
-				<h:outputText styleClass="labelDialog" value="COSTO EQUIPOS:" />
+				<h:outputText styleClass="labelDialog" value="COSTO EQUIPOS" />
 				<pe:inputNumber styleClass="numericos" value="#{ProyectoBean.proyecto.costoEquipo}" required="true"
 				decimalPlaces="2" thousandSeparator="" title="Costo estimado de pago por equipos"/>
 				
-				<h:outputText styleClass="labelDialog" value="OTROS GASTOS:" />
+				<h:outputText styleClass="labelDialog" value="OTROS GASTOS" />
 				<pe:inputNumber styleClass="numericos" value="#{ProyectoBean.proyecto.costoOtros}" required="true"
 				decimalPlaces="2" thousandSeparator="" title="Costo estimado de pago por otros conceptos"/>
+				
+				<div></div>
 			
 				<p:commandButton value="#{ProyectoBean.etiBotonDialog()}"
 					actionListener="#{ProyectoBean.procesarDialog}" oncomplete="handleComplete(xhr, status, args);"

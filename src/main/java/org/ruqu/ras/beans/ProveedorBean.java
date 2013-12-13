@@ -179,9 +179,6 @@ public class ProveedorBean {
 		getProveedor().setDistrito(distritoService.getDistritoById(c.getDistrito().getIdDistrito()));
 		
 		validarEditar();
-		
-        FacesMessage msg = new FacesMessage("Proveedor Editado", ((Proveedor) event.getObject()).getNombre());  
-        FacesContext.getCurrentInstance().addMessage(null, msg);
     }  
       
     public void onCancel(RowEditEvent event) {  
@@ -230,7 +227,7 @@ public class ProveedorBean {
           
         if(getProveedor().getNombre()!=null && getProveedor().getNombre().length()>=1){
         	registrado=true;
-        	msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registrado", getProveedor().getNombre());
+        	msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "PROVEEDOR REGISTRADO", getProveedor().getNombre());
             insertar();
         } else {  
         	registrado = false;  
@@ -247,7 +244,7 @@ public class ProveedorBean {
         
         if(getProveedor().getNombre()!=null && getProveedor().getNombre().length()>=1){
         	editado=true;
-        	msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Editado", getProveedor().getNombre());
+        	msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "PROVEEDOR EDITADO", getProveedor().getNombre());
             editar();
         }else if(getProveedorNuevo()==null){
         	editado = false;  
@@ -267,7 +264,7 @@ public class ProveedorBean {
         
         if(getProveedorNuevo()!=null){
         	eliminado = true;  
-            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Eliminado", getProveedorNuevo().getNombre());
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "PROVEEDOR ELIMINADO", getProveedorNuevo().getNombre());
             eliminar();
         } else {  
         	eliminado = false;  

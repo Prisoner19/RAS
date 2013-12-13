@@ -12,6 +12,7 @@
 <ui:define name="content">
 
 	<script>
+		initEnterKeyDefault();
 		function handleComplete(xhr, status, args) {  
 		    if(args.validationFailed) { 	    	
 		    	showError();	    	
@@ -34,7 +35,10 @@
 							rendered="#{EquipoBean.accionEditar}" />
 						
 						<h:outputText styleClass="labelDialog" value="CÓDIGO EQUIPO" />
-						<p:inputText value="#{EquipoBean.equipo.codigo}" rendered="#{!EquipoBean.accionEditar}" required="true"/>
+						<p:inputText value="#{EquipoBean.equipo.codigo}" rendered="#{!EquipoBean.accionEditar}" required="true"
+						onblur="this.value=limpiarString(this.value);">
+							<pe:keyFilter regEx="/[a-z' '0-9_]/i"/> 
+						</p:inputText>
 							
 						<h:outputText styleClass="labelDialog"  value="CATEGORÍA" />
 						<p:selectOneMenu widgetVar="categoria" styleClass="selectMenu" value="#{EquipoBean.equipo.categoria}" converter="omnifaces.SelectItemsConverter" style="width: 100%;" >
@@ -50,7 +54,10 @@
 						decimalPlaces="2" thousandSeparator=""/>
 						
 						<h:outputText styleClass="labelDialog"  value="STOCK" />
-						<pe:inputNumber styleClass="numericos" value="#{EquipoBean.equipo.stock}" rendered="#{!EquipoBean.accionEditar}" required="true" decimalPlaces="0"/>
+						<p:inputText styleClass="numericos" value="#{EquipoBean.equipo.stock}" rendered="#{!EquipoBean.accionEditar}" required="true"
+						onblur="this.value=limpiarString(this.value);">
+							<pe:keyFilter regEx="/[0-9_]/i"/> 
+						</p:inputText>
 						<div></div>
 						<p:commandButton value="#{EquipoBean.etiBotonDialog()}"
 							actionListener="#{EquipoBean.procesarDialog}" oncomplete="handleComplete(xhr, status, args);"
@@ -111,7 +118,10 @@
 										</div>
 									</f:facet>
 									<f:facet name="input" >
-										<p:inputText styleClass="numericos" value="#{c.codigo}" style="width:30%; font-family: verdana;font-size: 11px;"/>
+										<p:inputText styleClass="numericos" value="#{c.codigo}" style="width:30%; font-family: verdana;font-size: 11px;"
+											onblur="this.value=limpiarString(this.value);">
+											<pe:keyFilter regEx="/[a-z' '0-9_]/i"/> 
+										</p:inputText>
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
@@ -125,7 +135,7 @@
 										</div>
 									</f:facet>
 									<f:facet name="input">
-										<h:selectOneMenu widgetVar="categoria" value="#{c.categoria}" converter="omnifaces.SelectItemsConverter" style="width:100%; text-align:center;" >
+										<h:selectOneMenu widgetVar="categoria" value="#{c.categoria}" converter="omnifaces.SelectItemsConverter" style="width:60%; text-align:center;" >
 											<f:selectItems styleClass="columna" value="#{EquipoBean.categorias}" var="cat" itemLabel="#{cat.nombre}" itemValue="#{cat}" /> 
 										</h:selectOneMenu>
 									</f:facet>
@@ -140,7 +150,8 @@
 										</div>
 									</f:facet>
 									<f:facet name="input">
-										<p:inputText styleClass="numericos"  value="#{c.costo}" style="width:30%; font-family: verdana;font-size: 11px;"/>
+										<pe:inputNumber styleClass="numericos"  value="#{c.costo}" style="width:30%; font-family: verdana;font-size: 11px;"
+										decimalPlaces="2" thousandSeparator=""/>
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
@@ -153,7 +164,10 @@
 										</div>
 									</f:facet>
 									<f:facet name="input">
-										<p:inputText styleClass="numericos"  value="#{c.stock}" style="width:20%; font-family: verdana;font-size: 11px;"/>
+										<p:inputText styleClass="numericos"  value="#{c.stock}" style="width:20%; font-family: verdana;font-size: 11px;"
+										onblur="this.value=limpiarString(this.value);">
+											<pe:keyFilter regEx="/[0-9_]/i"/> 
+										</p:inputText>
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
