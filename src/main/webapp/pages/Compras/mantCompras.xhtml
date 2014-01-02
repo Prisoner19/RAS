@@ -85,7 +85,9 @@
 								decimalPlaces="0" thousandSeparator="" required="true">
 								</pe:inputNumber>
 								<p:commandButton id="btn_comprar" icon="ui-icon-check" 
-										process="display2" update="@form:tabla_equipos, @form:display2, growl" actionListener="#{CompraBean.comprarEquipo()}">
+										process="display2" update="@form:tabla_equipos, @form:display2" 
+										actionListener="#{CompraBean.comprarEquipo()}"
+										oncomplete="handleComplete(xhr, status, args);">
 								</p:commandButton>
 							</p:column>
 						</p:row>
@@ -252,27 +254,7 @@
 				
 				<p:remoteCommand name="showError" actionListener="#{CompraBean.showError}" immediate="true" />
 		
-				<p:dialog id="modalDialog" header="CONFIRMACION" widgetVar="dlg2"
-					modal="true" height="150" width="400" closable="false"
-					resizable="false">
-					<p:messages id="messages" showDetail="true" autoUpdate="true"
-						closable="false" />
-					<p:commandButton value="OK" onclick="dlg2.hide()" />
-				</p:dialog>
-		
-				<p:confirmDialog id="confirmDialog"
-					message="¿Esta seguro de esta accion?" header="Eliminar Registro"
-					severity="alert" widgetVar="confirmation">
-		
-					<p:commandButton id="confirm" value="Si"
-						update=":form:datatablecampana, growl"
-						oncomplete="confirmation.hide()" process="@form:datatablecampana,@this"
-						actionListener="#{CompraBean.validarEliminar}" />
-					<p:commandButton id="decline" value="No"
-						onclick="confirmation.hide()" type="button" />
-		
-				</p:confirmDialog>
-		
+			
 			</h:form>
 			
 </ui:define>

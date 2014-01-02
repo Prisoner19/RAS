@@ -2,8 +2,6 @@ package org.ruqu.ras.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -11,7 +9,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
@@ -41,6 +38,127 @@ public class PersonalBean implements Serializable{
 	private boolean accionEditar = true;
 
 
+ 	/* CONSTRUCTOR AND POSTCONSTRUCT 
+	*  ============================
+ 	*/
+	
+	public PersonalBean(){
+		personals=new ArrayList<Personal>();
+	}
+	
+	@PostConstruct
+	public void init(){
+		personals=getPersonalService().getPersonals();
+	}
+	
+	/* AJAX BUTTON EVENTS  
+	*  ==================
+	*/
+
+	
+	public void nuevoEvent(){
+		accionEditar=false;
+		limpiarCampos();
+	}
+	
+	public void editarEvent(){
+		accionEditar=true;
+		try{
+			if(getPersonalNuevo()!=null){
+				setPersonal(getPersonalService().getPersonalById(getPersonalNuevo().getIdPersonal()));
+				RequestContext.getCurrentInstance().execute("dialog.show()");
+			}
+			else{
+				FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_WARN, "Error", "Seleccione un registro",growlPath);
+			}
+		}catch(Exception e){
+			System.out.println("ERROR: "+e.getMessage());
+			accionEditar=false;
+		}
+	}
+	
+	public void eliminarEvent(){
+		if(getPersonalNuevo()!=null){
+			eliminar();
+			FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Registro Eliminado "+personalNuevo.getNombre(),growlPath);
+		}
+		else{
+			FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_WARN, "Error", "Seleccione un registro",growlPath);
+		}
+	}
+	
+	public void onEdit(RowEditEvent event) {
+		Personal c=(Personal)event.getObject();
+		setPersonal(personalService.getPersonalById(c.getIdPersonal()));
+		
+		getPersonal().setNombre(c.getNombre());
+		getPersonal().setProfesion(c.getProfesion());
+		getPersonal().setCelular(c.getCelular());
+		getPersonal().setEmail(c.getEmail());
+		
+		//System.out.println(c.getNombre());
+		editar();
+		FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_INFO , "Edicion Personal Realizada", getPersonal().getNombre(),growlPath);
+    }  
+      
+    public void onCancel(RowEditEvent event) {    
+        FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_INFO , "Edicion Personal Cancelada", ((Personal) event.getObject()).getNombre(),growlPath);
+        
+    }
+	//BOTON PROCESAR-DIALOG
+	public void procesarDialog(){
+		if(accionEditar){			
+			editar();
+			FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Registro Editado "+personal.getNombre(),growlPath);
+		}else{
+			insertar();
+			FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Registro Nuevo "+personal.getNombre(),growlPath);
+		}
+		RequestContext.getCurrentInstance().execute("dialog.hide();");
+		limpiarCampos();
+		refrescarPersonals();
+	}
+	
+	/* ACCIONES CRUD
+	*  =============
+	*/
+	
+	public void insertar(){
+		getPersonalService().addPersonal(getPersonal());	
+	}
+	
+	public void editar(){
+		getPersonalService().updatePersonal(getPersonal());
+	}
+	
+	public void eliminar(){
+		getPersonalService().deletePersonalLogico(getPersonalNuevo());
+		refrescarPersonals();
+	}
+	
+
+	/*
+	*	RUTINAS ADICIONALES
+	*	===================
+    */
+	
+	public void showError(){
+		FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_WARN, "Registro","Campos resaltados invalidos", growlPath
+				,"Error");		
+	}
+
+	public void limpiarCampos()
+	{
+		personal= new Personal();		
+		personalNuevo = new Personal();
+	}
+
+	private void refrescarPersonals()
+	{
+		setPersonals(getPersonalService().getPersonals());
+		
+	}
+	
 	/* SETTER AND GETTERS
 	*  ==================
 	*/
@@ -94,189 +212,6 @@ public class PersonalBean implements Serializable{
 		}else{
 			return "Nuevo";
 		}
-	}
-
-
- 	/* CONSTRUCTOR AND POSTCONSTRUCT 
-	*  ============================
- 	*/
-	
-	public PersonalBean(){
-		personals=new ArrayList<Personal>();
-	}
-	
-	@PostConstruct
-	public void init(){
-		personals=getPersonalService().getPersonals();
-	}
-	
-	/* AJAX BUTTON EVENTS  
-	*  ==================
-	*/
-
-	
-	public void nuevoEvent(){
-		accionEditar=false;
-		limpiarCampos();
-	}
-	
-	public void editarEvent(){
-		accionEditar=true;
-		try{
-			if(getPersonalNuevo()!=null){
-				setPersonal(getPersonalService().getPersonalById(getPersonalNuevo().getIdPersonal()));
-				RequestContext.getCurrentInstance().execute("dialog.show()");
-			}
-			else{
-				FacesMessage msg = null;  
-				msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Seleccione un registro");  
-				FacesContext.getCurrentInstance().addMessage(null, msg);
-			}
-		}catch(Exception e){
-			System.out.println("ERROR: "+e.getMessage());
-			accionEditar=false;
-		}
-	}
-	
-	public void eliminarEvent(){
-		if(getPersonalNuevo()!=null){
-			RequestContext.getCurrentInstance().execute("confirmation.show()");
-		}
-		else{
-			FacesMessage msg = null;  
-			msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Seleccione un registro");  
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-		}
-	}
-	
-	public void onEdit(RowEditEvent event) {
-		Personal c=(Personal)event.getObject();
-		setPersonal(personalService.getPersonalById(c.getIdPersonal()));
-		
-		getPersonal().setNombre(c.getNombre());
-		getPersonal().setProfesion(c.getProfesion());
-		getPersonal().setCelular(c.getCelular());
-		getPersonal().setEmail(c.getEmail());
-		
-		//System.out.println(c.getNombre());
-		validarEditar();
-    }  
-      
-    public void onCancel(RowEditEvent event) {  
-        FacesMessage msg = new FacesMessage("Personal Cancelado", ((Personal) event.getObject()).getNombre());  
-  
-        FacesContext.getCurrentInstance().addMessage(null, msg);  
-    }
-	//BOTON PROCESAR-DIALOG
-	public void procesarDialog(){
-		if(accionEditar){
-			System.out.println("llegue");
-			validarEditar();
-		}else{
-			validarNuevo();
-		}
-		RequestContext.getCurrentInstance().execute("dialog.hide();");
-		refrescarPersonals();
-	}
-	
-	/* ACCIONES CRUD
-	*  =============
-	*/
-	
-	public void insertar(){
-		Calendar fecha=new GregorianCalendar();
-		getPersonal().setRegistro(fecha.getTime());
-		getPersonalService().addPersonal(getPersonal());
-		refrescarPersonals();
-		limpiarCampos();
-	}
-	
-	public void editar(){
-		//getPersonal().setIdPersonal(getPersonal().getIdPersonal());
-		getPersonalService().updatePersonal(getPersonal());
-		refrescarPersonals();
-		limpiarCampos();
-	}
-	
-	public void eliminar(){
-		getPersonalService().deletePersonalLogico(getPersonalNuevo());
-		refrescarPersonals();
-	}
-	
-	public void validarNuevo(){
-		RequestContext context = RequestContext.getCurrentInstance();  
-        FacesMessage msg = null;  
-        boolean registrado = false;  
-          
-        if(getPersonal().getNombre()!=null && getPersonal().getNombre().length()>=1){
-        	registrado=true;
-        	msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "PERSONAL REGISTRADO", getPersonal().getNombre());
-            insertar();
-        } else {  
-        	registrado = false;  
-            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error de registro", "Campo(s) invalido(s)");  
-        }
-        FacesContext.getCurrentInstance().addMessage(null, msg);  
-        context.addCallbackParam("registrado", registrado);
-	}
-	
-	public void validarEditar(){
-		RequestContext context = RequestContext.getCurrentInstance();  
-        FacesMessage msg = null;  
-        boolean editado = false;  
-        
-        if(getPersonal().getNombre()!=null && getPersonal().getNombre().length()>=1){
-        	editado=true;
-        	msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "PERSONAL EDITADO", getPersonal().getNombre());
-            editar();
-        }else if(getPersonalNuevo()==null){
-        	editado = false;  
-            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Seleccione un registro");  
-        }else{
-        	editado = false;  
-            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Nombre invalido");  
-        }
-        FacesContext.getCurrentInstance().addMessage(null, msg);  
-        context.addCallbackParam("editado", editado);  
-	}
-	
-	public void validarEliminar(){
-		RequestContext context = RequestContext.getCurrentInstance();  
-        FacesMessage msg = null;  
-        boolean eliminado = false;  
-        
-        if(getPersonalNuevo()!=null){
-        	eliminado = true;  
-            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "PERSONAL ELIMINADO", getPersonalNuevo().getNombre());
-            eliminar();
-        } else {  
-        	eliminado = false;  
-            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Seleccione un registro");  
-        }  
-          
-        FacesContext.getCurrentInstance().addMessage(null, msg);  
-        context.addCallbackParam("eliminado", eliminado);  
-	}
-	/*
-	*	RUTINAS ADICIONALES
-	*	===================
-    */
-	
-	public void showError(){
-		FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_WARN, "Registro","Campos resaltados invalidos", growlPath
-				,"Error");		
-	}
-
-	public void limpiarCampos()
-	{
-		personal= new Personal();		
-		personalNuevo = new Personal();
-	}
-
-	private void refrescarPersonals()
-	{
-		setPersonals(getPersonalService().getPersonals());
-		
 	}
 
 }

@@ -1,6 +1,7 @@
 package org.ruqu.ras.beans;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,6 +15,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 import org.ruqu.ras.domain.Equipo;
@@ -238,6 +240,7 @@ public class ProyectoBean implements Serializable{
 	//BOTON PROCESAR-DIALOG
 	public void procesarDialog(){
 		if(accionEditar){
+			
 			editar();
 			FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_INFO, 
 					"Aviso", "Presupuesto Estimado actualizado", growlPath);
@@ -253,16 +256,18 @@ public class ProyectoBean implements Serializable{
 		
 	}
 	
-	public void descargarEquipo(){
+	public void descargarEquipo() throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException{
 		if(equipoAsignado.getEquipo()==null || equipoAsignado.getCantidad()==0){
 			FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_WARN, 
 					"Aviso", "Complete los campos para descargar", growlPath);
 			return;
 		}
 		
+				
 		if(equipoAsignado.getEquipo().getStock()<equipoAsignado.getCantidad()){
 			FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_WARN, 
 					"Aviso", "No hay Stock para descargar Equipo", growlPath);
+			return;
 		}else{ 
 			
 			equipoAsignado.setId(new EquipoasignadoId(equipoAsignado.getEquipo().getIdEquipo(),
@@ -273,7 +278,8 @@ public class ProyectoBean implements Serializable{
 				equipoAsignado.setFecha(new Date());
 				equipoAsignado.setPrecioUnit(equipoAsignado.getEquipo().getCosto());
 				equipoAsignado.setProyecto(proyectoSelec);
-				equiposAsignados.add(equipoAsignado);				
+				equiposAsignados.add(equipoAsignado);	
+				equipoAsignado = (Equipoasignado) BeanUtils.cloneBean(equipoAsignado);
 				FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_INFO, 
 					"Aviso", "Equipo descargado", growlPath);
 			}else{
@@ -283,17 +289,17 @@ public class ProyectoBean implements Serializable{
 				equipoAsignado.setCantidad(equipoAsignado.getCantidad() + cant);
 				FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_INFO, 
 						"Aviso", "Se ha aumentado la cantidad utilizada del equipo", growlPath);
+				equipoAsignado = (Equipoasignado) BeanUtils.cloneBean(equipoAsignado);
 			}
 		}
 	}
 	
 	public void descargarPersonal(){
-		personalAsignado.setId(new PersonalasignadoId(personalAsignado.getPersonal().getIdPersonal(),
-				proyectoSelec.getIdProyecto()));
+		personalAsignado.setId(new PersonalasignadoId(proyectoSelec.getIdProyecto(),personalAsignado.getPersonal().getIdPersonal()
+				));
 		personalAsignado.setProyecto(proyectoSelec);
 		if(!personalAsignados.contains(personalAsignado)){
-			personalAsignados.add(personalAsignado);
-			
+			personalAsignados.add(personalAsignado);			
 			FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_INFO, 
 					"Aviso", "Personal asignado", growlPath);
 		}else{

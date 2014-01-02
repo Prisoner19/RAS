@@ -4,6 +4,7 @@ package org.ruqu.ras.domain;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
@@ -23,6 +24,10 @@ import javax.persistence.TemporalType;
 @Table(name = "PersonalAsignado", catalog = "ras")
 public class Personalasignado implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private PersonalasignadoId id;
 	private Personal personal;
 	private Proyecto proyecto;
@@ -55,8 +60,8 @@ public class Personalasignado implements java.io.Serializable {
 
 	@EmbeddedId
 	@AttributeOverrides({
-			@AttributeOverride(name = "proyectoIdProyecto", column = @Column(name = "Proyecto_idProyecto", nullable = false)),
-			@AttributeOverride(name = "personalIdPersonal", column = @Column(name = "Personal_idPersonal", nullable = false)) })
+			@AttributeOverride(name = "personalIdPersonal", column = @Column(name = "Personal_idPersonal", nullable = false)),
+			@AttributeOverride(name = "proyectoIdProyecto", column = @Column(name = "Proyecto_idProyecto", nullable = false))})
 	public PersonalasignadoId getId() {
 		return this.id;
 	}
@@ -122,5 +127,32 @@ public class Personalasignado implements java.io.Serializable {
 	public void setFin(Date fin) {
 		this.fin = fin;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Personalasignado other = (Personalasignado) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+	
+	
 
 }

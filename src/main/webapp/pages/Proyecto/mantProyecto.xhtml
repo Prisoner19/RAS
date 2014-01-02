@@ -268,7 +268,8 @@
 							
 			</p:tabView>
 				<p:commandButton id="btn_procesar" value="Guardar"
-				process="@widgetVar(equiposAsignados),@this"
+				process="@widgetVar(equiposAsignados),@widgetVar(personalAsignados),
+				@widgetVar(otroGastos),@this"
 				actionListener="#{ProyectoBean.guardarGastos()}"  ></p:commandButton>
 				<p:blockUI block="tabsGastos" trigger="btn_procesar" />
 								

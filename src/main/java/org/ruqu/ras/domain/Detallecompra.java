@@ -3,6 +3,7 @@ package org.ruqu.ras.domain;
 // Generated 14-nov-2013 0:10:23 by Hibernate Tools 4.0.0
 
 import java.math.BigDecimal;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
@@ -20,6 +21,10 @@ import javax.persistence.Table;
 @Table(name = "DetalleCompra", catalog = "ras")
 public class Detallecompra implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private DetallecompraId id;
 	private Compra compra;
 	private Equipo equipo;
@@ -93,5 +98,32 @@ public class Detallecompra implements java.io.Serializable {
 	public void setTotalDetalle(BigDecimal totalDetalle) {
 		this.totalDetalle = totalDetalle;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Detallecompra other = (Detallecompra) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+	
+	
 
 }

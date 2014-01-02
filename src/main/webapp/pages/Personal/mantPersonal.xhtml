@@ -85,9 +85,12 @@
 
 
 						<p:commandButton id="EliminarRegistro" styleClass="botonPeque"
-							value="Eliminar" icon="ui-icon-closethick"
-							update=":form:display, :form:growl"
-							actionListener="#{PersonalBean.eliminarEvent}" />
+							value="Eliminar" icon="ui-icon-closethick" process="datatablecampana,@this"
+							update="@form:display, datatablecampana" 
+							actionListener="#{PersonalBean.eliminarEvent}" >
+							<p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" 
+						    		icon="ui-icon-alert" />
+						</p:commandButton>
 
 					</f:facet>
 					
@@ -100,7 +103,10 @@
 						    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonOpcion" update=":form:display" oncomplete="dialog.show()" actionListener="#{PersonalBean.nuevoEvent}" process="@this">
 						    		<p:resetInput target=":form:display"></p:resetInput>
 						    	</p:commandButton>
-						    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonOpcion" update=":form:display, :form:growl" actionListener="#{PersonalBean.eliminarEvent}"/>
+						    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonOpcion" update="@form:display, datatablecampana" actionListener="#{PersonalBean.eliminarEvent}" process="datatablecampana,@this">
+						    		<p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" 
+						    		icon="ui-icon-alert" />
+						    	</p:commandButton>
 							</h:panelGrid>
 						</f:facet>
 						
@@ -180,27 +186,11 @@
 		
 		<p:remoteCommand name="showError" actionListener="#{PersonalBean.showError}" immediate="true" />
 
-		<p:dialog id="modalDialog" header="CONFIRMACION" widgetVar="dlg2"
-			modal="true" height="150" width="400" closable="false"
-			resizable="false">
-			<p:messages id="messages" showDetail="true" autoUpdate="true"
-				closable="false" />
-			<p:commandButton value="OK" onclick="dlg2.hide()" />
-		</p:dialog>
-
-		<p:confirmDialog id="confirmDialog"
-			message="¿Esta seguro de esta accion?" header="Eliminar Registro"
-			severity="alert" widgetVar="confirmation">
-
-			<p:commandButton id="confirm" value="Si"
-				update=":form:datatablecampana, growl"
-				oncomplete="confirmation.hide()" process="@form:datatablecampana"
-				actionListener="#{PersonalBean.validarEliminar}" />
-			<p:commandButton id="decline" value="No"
-				onclick="confirmation.hide()" type="button" />
-
-		</p:confirmDialog>
-
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">  
+	        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>  
+	        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>       
+    	</p:confirmDialog>  
+		
 	</h:form>
 
  </ui:define>

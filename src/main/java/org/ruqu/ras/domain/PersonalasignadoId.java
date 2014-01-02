@@ -11,6 +11,10 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class PersonalasignadoId implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int proyectoIdProyecto;
 	private int personalIdPersonal;
 
@@ -40,27 +44,29 @@ public class PersonalasignadoId implements java.io.Serializable {
 		this.personalIdPersonal = personalIdPersonal;
 	}
 
-	public boolean equals(Object other) {
-		if ((this == other))
-			return true;
-		if ((other == null))
-			return false;
-		if (!(other instanceof PersonalasignadoId))
-			return false;
-		PersonalasignadoId castOther = (PersonalasignadoId) other;
-
-		return (this.getProyectoIdProyecto() == castOther
-				.getProyectoIdProyecto())
-				&& (this.getPersonalIdPersonal() == castOther
-						.getPersonalIdPersonal());
-	}
-
+	@Override
 	public int hashCode() {
-		int result = 17;
-
-		result = 37 * result + this.getProyectoIdProyecto();
-		result = 37 * result + this.getPersonalIdPersonal();
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + personalIdPersonal;
+		result = prime * result + proyectoIdProyecto;
 		return result;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PersonalasignadoId other = (PersonalasignadoId) obj;
+		if (personalIdPersonal != other.personalIdPersonal)
+			return false;
+		if (proyectoIdProyecto != other.proyectoIdProyecto)
+			return false;
+		return true;
+	}
+	
 }

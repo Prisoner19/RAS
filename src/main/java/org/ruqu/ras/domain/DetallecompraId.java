@@ -11,6 +11,10 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class DetallecompraId implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int compraIdCompra;
 	private int equipoIdEquipo;
 
@@ -40,27 +44,31 @@ public class DetallecompraId implements java.io.Serializable {
 		this.equipoIdEquipo = equipoIdEquipo;
 	}
 
-	public boolean equals(Object other) {
-		if ((this == other))
-			return true;
-		if ((other == null))
-			return false;
-		if (!(other instanceof DetallecompraId))
-			return false;
-		DetallecompraId castOther = (DetallecompraId) other;
-
-		return (this.getCompraIdCompra() == castOther.getCompraIdCompra())
-				&& (this.getEquipoIdEquipo() == castOther.getEquipoIdEquipo());
-	}
-
+	@Override
 	public int hashCode() {
-		int result = 17;
-
-		result = 37 * result + this.getCompraIdCompra();
-		result = 37 * result + this.getEquipoIdEquipo();
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + compraIdCompra;
+		result = prime * result + equipoIdEquipo;
 		return result;
 	}
-	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DetallecompraId other = (DetallecompraId) obj;
+		if (compraIdCompra != other.compraIdCompra)
+			return false;
+		if (equipoIdEquipo != other.equipoIdEquipo)
+			return false;
+		return true;
+	}
+
 	public String obtenerKey() {
 		return Integer.toString(compraIdCompra) + "-" + Integer.toString(equipoIdEquipo);
 	}
