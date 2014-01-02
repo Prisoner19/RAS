@@ -56,10 +56,13 @@ CREATE TABLE `compra` (
   `Total` decimal(10,2) DEFAULT NULL,
   `Vigencia` tinyint(1) NOT NULL,
   `Proveedor_idProveedor` int(11) NOT NULL,
+  `Descuento` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `NroGuiaRemision` varchar(20) NOT NULL,
   PRIMARY KEY (`idCompra`),
+  UNIQUE KEY `NroGuiaRemision_UNIQUE` (`NroGuiaRemision`),
   KEY `fk_Compra_Proveedor1_idx` (`Proveedor_idProveedor`),
   CONSTRAINT `fk_Compra_Proveedor1` FOREIGN KEY (`Proveedor_idProveedor`) REFERENCES `proveedor` (`idProveedor`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

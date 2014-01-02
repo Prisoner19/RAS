@@ -35,7 +35,7 @@
 				<p:growl id="growl" showDetail="true" life="3000" />
 				
 				<p:dialog id="dialog" header="Nueva compra" widgetVar="dialog"
-				resizable="false" width="400" height="250" showEffect="clip"
+				resizable="false" width="400" height="400" showEffect="clip"
 				hideEffect="fold" modal="true">
 					<p:panel id="pnl">
 					<h:panelGrid id="display" columns="2" cellpadding="4" style="width:240px;">
@@ -46,6 +46,17 @@
 							<f:selectItem itemLabel="Seleccione uno" itemValue="#{null}" noSelectionOption="true" /> 
 							<f:selectItems styleClass="listaSelectMenu" value="#{CompraBean.proveedores}" var="prov" itemLabel="#{prov.nombre}" itemValue="#{prov}" /> 
 						</p:selectOneMenu>
+						
+						<h:outputText styleClass="labelDialog"  value="Descuento" />
+						
+						<pe:inputNumber value="#{CompraBean.compra.descuento}" 
+								thousandSeparator="" required="true">
+						</pe:inputNumber>
+						
+						<h:outputText styleClass="labelDialog"  value="Nro Guia Remision" />
+						<p:inputMask mask="999-9999999" value="#{CompraBean.compra.nroGuiaRemision}" required="true">
+						</p:inputMask>
+						
 						
 					</h:panelGrid>
 
@@ -108,7 +119,7 @@
 						</p:column>
 					</p:dataTable>
 					
-					<p:commandButton id="btn_procesar" value="Registrar" process="@widgetVar(detalleCompra),@this, @widgetVar(proveedor)" 
+					<p:commandButton id="btn_procesar" value="Registrar" process="@widgetVar(detalleCompra),@this,display" 
 						 update="@form:tabla_equipos, display2, display, growl, @form:datatablecampana" actionListener="#{CompraBean.procesarDialog}"  oncomplete="handleComplete(xhr, status, args);">
 					</p:commandButton>
 					</p:panel>

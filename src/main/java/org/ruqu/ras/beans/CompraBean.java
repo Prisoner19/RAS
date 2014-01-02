@@ -273,8 +273,10 @@ public class CompraBean implements Serializable {
 		
 		if(detCompra.getCantidad() == 0){
 			FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Ingrese cantidad válida", growlPath);
+			return;
 		}
 		else{
+			detCompra.setId(new DetallecompraId(0, detCompra.getEquipo().getIdEquipo()));
 			detCompra.setTotalDetalle(BigDecimal.valueOf(detCompra.getEquipo().getCosto().intValue() * detCompra.getCantidad()));
 			detCompra.setCompra(compra);
 			
