@@ -50,11 +50,11 @@
 						<h:outputText styleClass="labelDialog"  value="Descuento" />
 						
 						<pe:inputNumber value="#{CompraBean.compra.descuento}" 
-								thousandSeparator="" required="true">
+								thousandSeparator="" required="true" style="font-family:verdana; font-size:12px">
 						</pe:inputNumber>
 						
-						<h:outputText styleClass="labelDialog"  value="Nro Guia Remision" />
-						<p:inputMask mask="999-9999999" value="#{CompraBean.compra.nroGuiaRemision}" required="true">
+						<h:outputText styleClass="labelDialog"  value="Nº GUIA REMISIÓN" />
+						<p:inputMask styleClass="numericos" value="#{CompraBean.compra.nroGuiaRemision}" required="true" style="font-family:verdana; font-size:12px">
 						</p:inputMask>
 						
 						
@@ -168,21 +168,21 @@
 								
 								<p:rowEditor />
 							</p:column>
-							<!--  ACA DEBE IR LA ORDEN DE COMPRA 
-							<p:column styleClass="columna" headerText="CÓDIGO"
-								filterBy="#{c.idCompra}">
+							
+							<p:column styleClass="columna" headerText="Nº GUÍA"
+								filterBy="#{c.nroGuiaRemision}">
 								<p:cellEditor>
 									<f:facet name="output" >
 										<div onclick="selectCurrentRow_paginator(dt,#{index})">
-											<h:outputText styleClass="numericos" value="#{c.idCompra}" />
+											<h:outputText styleClass="numericos" value="#{c.nroGuiaRemision}" />
 										</div>
 									</f:facet>
 									<f:facet name="input" >
-										<p:inputText styleClass="numericos" value="#{c.idCompra}" style="width:30%; font-family: verdana;font-size: 11px;"/>
+										<p:inputText styleClass="numericos" value="#{c.nroGuiaRemision}" style="width:30%; font-family: verdana;font-size: 11px;"/>
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
-							-->
+					
 							<p:column styleClass="columna" headerText="PROVEEDOR"
 								filterBy="#{c.proveedor}">
 								<p:cellEditor>
@@ -208,6 +208,23 @@
 									</f:facet>
 									<f:facet name="input">
 										<p:inputText styleClass="numericos"  value="#{c.total}" style="width:30%; font-family: verdana;font-size: 11px;"
+										onblur="this.value=limpiarString(this.value);">
+											<pe:keyFilter regEx="/[0-9 ]/i"/> 
+										</p:inputText>
+
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+							
+							<p:column styleClass="columna" headerText="DESCUENTO" filterBy="#{c.descuento}">
+								<p:cellEditor>
+									<f:facet name="output">
+										<div onclick="selectCurrentRow_paginator(dt,#{index})">
+											<h:outputText styleClass="numericos"  value="#{c.descuento}" />
+										</div>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText styleClass="numericos"  value="#{c.descuento}" style="width:30%; font-family: verdana;font-size: 11px;"
 										onblur="this.value=limpiarString(this.value);">
 											<pe:keyFilter regEx="/[0-9 ]/i"/> 
 										</p:inputText>

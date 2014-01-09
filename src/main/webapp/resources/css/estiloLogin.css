@@ -43,8 +43,8 @@ body {
 .notice p.titulo {
 	text-align: center;
 	line-height: 45px;
-	font-size : 18px;
-	font-family:Happy Monkey;
+	font-size : 14px;
+	font-family:verdana;
 	font-weight:normal;
 }
 
