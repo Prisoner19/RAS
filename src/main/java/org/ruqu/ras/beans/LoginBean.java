@@ -11,6 +11,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.util.Map;
 
@@ -55,6 +57,12 @@ public class LoginBean {
     public void logout() throws IOException, ServletException {
 
         HttpRequestUtil.goToUrl("/j_spring_security_logout");
+    }
+    
+    public void redirectToPerfil() throws ServletException, IOException{
+    	FacesContext context = FacesContext.getCurrentInstance();
+    	HttpServletResponse response = (HttpServletResponse)context.getExternalContext().getResponse();
+    	response.sendRedirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath()+"/pages/editarPerfil.xhtml");
     }
 
     @PostConstruct

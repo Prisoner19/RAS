@@ -1,0 +1,88 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                template="/template/esqueleto.xhtml" >
+
+
+
+    <ui:define name="content">
+    
+	<script>
+		
+		function handleComplete(xhr, status, args) {  
+		    if(args.validationFailed) { 	    	
+		    	showError();	    	
+		    }	   
+		} 	 
+	 </script>
+    
+    <h:form id="form">
+
+		<p:growl id="growl" showDetail="true" life="3000" />
+		
+		<p:fieldset legend="Nueva Contraseña">
+			<p:panelGrid style="width:100%" id="pane_nuevaPass">
+				<p:row>
+					<p:column>
+						<p:outputLabel  value="Contraseña Antigua: " for="previousPassword"></p:outputLabel>
+					</p:column>	
+					<p:column>
+						<p:password   id="previousPassword" required="true" value="#{PerfilBean.previousPass}">
+							<pe:keyFilter regEx="/[a-z0-9]/i"/>
+						</p:password>
+					</p:column>
+				</p:row>
+				
+				<p:row>
+					<p:column>
+						<p:outputLabel  value="Introduzca su Nueva Contraseña: " for="match"></p:outputLabel>
+					</p:column>	
+					<p:column>
+						<p:password   id="match"  required="true" feedback="true" match="match2" 
+						widgetVar="Match" value="#{PerfilBean.matchPass}">
+							<pe:keyFilter regEx="/[a-z0-9]/i"/>
+						</p:password>
+					</p:column>
+				</p:row>
+				
+				<p:row>
+					<p:column>
+						<p:outputLabel  value="Repita su Nueva Contraseña: " for="match2"
+						></p:outputLabel>
+					</p:column>	
+					<p:column>
+						<p:password   id="match2"  widgetVar="Match2" required="true" >
+							<pe:keyFilter regEx="/[a-z0-9]/i"/>
+						</p:password>
+					</p:column>
+				</p:row>
+				
+				<f:facet name="footer">
+					<p:row>
+						<p:column colspan="2">
+							<p:toolbar>
+								<p:toolbarGroup align="right">
+									<p:commandButton value="Guardar" process="pane_nuevaPass,@this"
+									actionListener="#{PerfilBean.cambiarPassword}">									
+									</p:commandButton>
+								</p:toolbarGroup>
+							
+							</p:toolbar>
+						</p:column>
+					
+					</p:row>
+				</f:facet>
+			
+			</p:panelGrid>
+		
+		</p:fieldset>
+		
+	</h:form>
+	
+</ui:define>
+
+</ui:composition>

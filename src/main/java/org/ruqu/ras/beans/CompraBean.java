@@ -35,8 +35,7 @@ import org.ruqu.ras.service.IProveedorService;
 @ViewScoped
 public class CompraBean implements Serializable {
 
-	/**
-	 * 
+	/** 
 	 */
 	private static final long serialVersionUID = 1L;
 	private static final String growlPath ="form:growl";

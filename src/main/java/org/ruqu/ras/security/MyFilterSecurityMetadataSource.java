@@ -48,7 +48,7 @@ public class MyFilterSecurityMetadataSource implements FilterInvocationSecurityM
         }else{
         	List<ConfigAttribute> lista_roles;
         	String[] roles=new String[0];
-            if(nombreVista.compareTo(Opcion.WELCOME_VIEW)==0){
+            if(nombreVista.compareTo(Opcion.WELCOME_VIEW)==0|| nombreVista.compareTo("editarPerfil")==0){
             	roles = new String[1];
             	roles[0] = Rol.HOME;
             	

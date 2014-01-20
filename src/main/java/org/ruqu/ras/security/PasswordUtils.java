@@ -9,4 +9,9 @@ public class PasswordUtils {
 		String encodedPassword = passwordEncoder.encode(s);
 		return encodedPassword;
 	}
+	
+	public static boolean comparar(String s1,String s2){
+		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		return passwordEncoder.matches(s1, s2);
+	}
 }
