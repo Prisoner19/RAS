@@ -34,8 +34,10 @@ public class Proyecto implements java.io.Serializable {
 	private Integer idProyecto;
 	private String nombre;
 	private String descripcion;
+	private String nombreCliente;
 	private Date inicio;
 	private Date fin;
+	private Date finEstimado;
 	private BigDecimal costoPersonal;
 	private BigDecimal costoEquipo;
 	private BigDecimal costoOtros;
@@ -111,6 +113,15 @@ public class Proyecto implements java.io.Serializable {
 		this.descripcion = descripcion;
 	}
 
+	@Column(name = "NombreCliente", length = 70)
+	public String getNombreCliente() {
+		return this.nombreCliente;
+	}
+
+	public void setNombreCliente(String nombre) {
+		this.nombreCliente = nombre;
+	}
+	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "Inicio", length = 10)
 	public Date getInicio() {
@@ -129,6 +140,16 @@ public class Proyecto implements java.io.Serializable {
 
 	public void setFin(Date fin) {
 		this.fin = fin;
+	}
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "FinEstimado", length = 10)
+	public Date getFinEstimado() {
+		return this.finEstimado;
+	}
+
+	public void setFinEstimado(Date finEstimado) {
+		this.finEstimado = finEstimado;
 	}
 
 	@Column(name = "CostoPersonal", precision = 10)

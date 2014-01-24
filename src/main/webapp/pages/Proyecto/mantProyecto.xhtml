@@ -296,10 +296,22 @@
                	<pe:keyFilter regEx="/[a-z0-9 ]/i" /> 
                </p:inputText>
                
+               <h:outputText styleClass="labelDialog" value="CLIENTE" rendered="#{!ProyectoBean.accionEditar}"/>
+               <p:inputText value="#{ProyectoBean.proyecto.nombreCliente}" rendered="#{!ProyectoBean.accionEditar}"
+               required="true" title="Ingresar 2 a 30 caracteres" onblur="this.value=limpiarString(this.value);">
+	                <f:validateLength minimum="2" maximum="30" />
+	               	<pe:keyFilter regEx="/[a-z ]/i" /> 
+               </p:inputText>
+               
                <h:outputText styleClass="labelDialog" value="FECHA INICIO" rendered="#{!ProyectoBean.accionEditar}"/>
                <p:calendar value="#{ProyectoBean.proyecto.inicio}" id="calendarNuevo" rendered="#{!ProyectoBean.accionEditar}"
                     required="true"   navigator="true" display="inline" effect="slide" yearRange="c-5:c+5"
-                    timeZone="#{ProyectoBean.timeZone()}" title="Ingresar fecha valida"/>				
+                    timeZone="#{ProyectoBean.timeZone()}" title="Ingresar fecha valida"/>	
+                    
+               <h:outputText styleClass="labelDialog" value="FECHA FIN ESTIMADA" rendered="#{!ProyectoBean.accionEditar}"/>
+               <p:calendar value="#{ProyectoBean.proyecto.finEstimado}" id="finEstimadoDate" rendered="#{!ProyectoBean.accionEditar}"
+                    required="true"   navigator="true" display="inline" effect="slide" yearRange="c-5:c+5"
+                    timeZone="#{ProyectoBean.timeZone()}" title="Ingresar fecha valida"/>							
 				
 				<h:outputText styleClass="labelDialog" value="COSTO PERSONAL" />
 				<pe:inputNumber styleClass="numericos" value="#{ProyectoBean.proyecto.costoPersonal}" required="true"
@@ -451,7 +463,24 @@
 						</p:cellEditor>
 					</p:column>
 					
-					<p:column styleClass="columna" headerText="FECHA INICIO" filterBy="#{c.inicio}">
+					<p:column styleClass="columna" headerText="CLIENTE"
+						filterBy="#{c.nombreCliente}">
+						<p:cellEditor>
+							<f:facet name="output">	
+								<div onclick="selectCurrentRow_paginator(dt,#{index})">
+									<h:outputText value="#{c.nombreCliente}" />
+								</div>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{c.nombreCliente}" style="width:100%" onblur="this.value=limpiarString(this.value);">
+									<pe:keyFilter regEx="/[a-z ]/i" /> 
+									<f:validateLength minimum="2" maximum="20" />	
+								</p:inputText>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					
+					<p:column styleClass="columna" headerText="INICIO" filterBy="#{c.inicio}">
 						<p:cellEditor>
 							<f:facet name="output">
 								<div onclick="selectCurrentRow_paginator(dt,#{index})">
@@ -463,6 +492,23 @@
 							</f:facet>
 							<f:facet name="input">
 								<p:calendar value="#{c.inicio}" id="calendarEditar" required="true"
+									navigator="true" display="inline" effect="slide" yearRange="c-100:c-0"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					
+					<p:column styleClass="columna" headerText="FIN ESTIMADO" filterBy="#{c.finEstimado}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<div onclick="selectCurrentRow_paginator(dt,#{index})">
+									<h:outputText value="#{c.finEstimado}" >
+										<f:convertDateTime pattern="dd-M-yyyy" locale="es"
+										timeZone="#{ProyectoBean.timeZone()}"/>
+									</h:outputText>
+								</div>
+							</f:facet>
+							<f:facet name="input">
+								<p:calendar value="#{c.finEstimado}" id="calendarEditar2" required="true"
 									navigator="true" display="inline" effect="slide" yearRange="c-100:c-0"/>
 							</f:facet>
 						</p:cellEditor>
