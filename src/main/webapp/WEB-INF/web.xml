@@ -12,6 +12,15 @@
             /WEB-INF/spring/security/security-context.xml
         </param-value>
 	</context-param>
+	
+	<context-param>
+	   <param-name>facelets.REFRESH_PERIOD</param-name>
+	   <param-value>0</param-value>
+	 </context-param>
+	 <context-param>
+	    <param-name>facelets.DEVELOPMENT</param-name>
+	    <param-value>true</param-value>
+	 </context-param>
 
 	<context-param>
 		<param-name>primefaces.THEME</param-name>
