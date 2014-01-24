@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.ruqu.ras.domain.Equipoasignado;
+import org.ruqu.ras.domain.Otrogasto;
 import org.ruqu.ras.domain.Personalasignado;
 import org.ruqu.ras.domain.Proyecto;
 
@@ -50,6 +51,9 @@ public class ProyectoDao implements IProyectoDao{
 				Hibernate.initialize(pa.getPersonal());
 			}
 			Hibernate.initialize(proyecto.getOtrogastos());
+			for(Otrogasto og : proyecto.getOtrogastos()){
+				Hibernate.initialize(og.getPartida());
+			}
 		}
 		return proyecto;
 	}

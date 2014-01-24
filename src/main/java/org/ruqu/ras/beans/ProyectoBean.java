@@ -22,6 +22,7 @@ import org.ruqu.ras.domain.Equipo;
 import org.ruqu.ras.domain.Equipoasignado;
 import org.ruqu.ras.domain.EquipoasignadoId;
 import org.ruqu.ras.domain.Otrogasto;
+import org.ruqu.ras.domain.Partida;
 import org.ruqu.ras.domain.Personal;
 import org.ruqu.ras.domain.Personalasignado;
 import org.ruqu.ras.domain.PersonalasignadoId;
@@ -30,6 +31,7 @@ import org.ruqu.ras.helpers.utils.FacesMessageHelper;
 import org.ruqu.ras.service.IEquipoService;
 import org.ruqu.ras.service.IEquipoasignadoService;
 import org.ruqu.ras.service.IOtrogastoService;
+import org.ruqu.ras.service.IPartidaService;
 import org.ruqu.ras.service.IPersonalService;
 import org.ruqu.ras.service.IPersonalasignadoService;
 import org.ruqu.ras.service.IProyectoService;
@@ -63,13 +65,16 @@ public class ProyectoBean implements Serializable{
 	@ManagedProperty(value="#{OtrogastoService}")
 	IOtrogastoService otrogastoService;
 	
+	@ManagedProperty(value="#{PartidaService}")
+	IPartidaService partidaService;
+	
 	private List<Proyecto> proyectos;
 	private List<Personalasignado> personalAsignados;
 	private List<Equipo> equipos;
 	private List<Personal> personals;
 	private List<Otrogasto> otrogastos;
 	private List<Equipoasignado> equiposAsignados;
-	
+	private List<Partida> partidas;
 	
 	private Proyecto proyecto;
 	private Proyecto proyectoSelec;
@@ -115,6 +120,7 @@ public class ProyectoBean implements Serializable{
 		proyectos=getProyectoService().getProyectos();
 		equipos = equipoService.getEquipos();
 		personals = personalService.getPersonals();
+		partidas = partidaService.getAll();
 	}
 	
 	/* AJAX BUTTON EVENTS  
@@ -209,7 +215,7 @@ public class ProyectoBean implements Serializable{
 				setTextoGastos("GASTOS POR DEBAJO DE LO ESTIMADO");
 			}
 			else{
-				setTextoGastos("ATENCIÓN: GASTOS MAYORES A LO ESTIMADO");
+				setTextoGastos("ATENCIï¿½N: GASTOS MAYORES A LO ESTIMADO");
 			}
 			
 			RequestContext.getCurrentInstance().execute("dialogResumen.show();");
@@ -583,5 +589,27 @@ public class ProyectoBean implements Serializable{
 	public void setTextoGastos(String textoGastos) {
 		this.textoGastos = textoGastos;
 	}
+
+
+	public IPartidaService getPartidaService() {
+		return partidaService;
+	}
+
+
+	public void setPartidaService(IPartidaService partidaService) {
+		this.partidaService = partidaService;
+	}
+
+
+	public List<Partida> getPartidas() {
+		return partidas;
+	}
+
+
+	public void setPartidas(List<Partida> partidas) {
+		this.partidas = partidas;
+	}
+	
+	
 	
 }

@@ -208,11 +208,11 @@
 							<p:column>
 								<h:outputText styleClass="labelDialog" value="PARTIDA"  />
 							</p:column>
-							<p:column>
-								 <p:inputText value="#{ProyectoBean.otroGasto.partida}"  
-								 onblur="this.value=limpiarString(this.value);">
-									<pe:keyFilter regEx="/[a-z' ']/i"/> 
-								</p:inputText>   
+							<p:column>															
+								<p:selectOneMenu styleClass="selectMenu" value="#{ProyectoBean.otroGasto.partida}" converter="omnifaces.SelectItemsConverter" style="width: 100%;" >
+									<f:selectItem itemLabel="Seleccione uno" itemValue="#{null}" noSelectionOption="true" /> 
+									<f:selectItems styleClass="listaSelectMenu" value="#{ProyectoBean.partidas}" var="part" itemLabel="#{part.descripcion}" itemValue="#{part}" /> 
+								</p:selectOneMenu>								  
 							</p:column>
 						</p:row>
 						<p:row>
@@ -252,7 +252,7 @@
 					<p:dataTable id="table_otros" value="#{ProyectoBean.otrogastos}" var="otro"
 					rowKey="#{otro.idOtroGasto}" rowIndexVar="rowIndex" widgetVar="otroGastos">
 						<p:column  headerText="PARTIDA">
-							<p:outputLabel value="#{otro.partida}"></p:outputLabel>						
+							<p:outputLabel value="#{otro.partida.descripcion}"></p:outputLabel>						
 						</p:column>
 						
 						<p:column  headerText="DESCRIPCIÓN">
