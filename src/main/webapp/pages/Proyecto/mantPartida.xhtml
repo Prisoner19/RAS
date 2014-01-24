@@ -1,0 +1,132 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                template="/template/esqueleto.xhtml" >
+
+
+
+    <ui:define name="content">
+ 
+    <script>
+
+    	initEnterKeyDefault();
+		function handleComplete(xhr, status, args) {  
+		    if(args.validationFailed) { 	    	
+		    	showError();	    	
+		    }	   
+		} 	 
+	 </script>
+    
+    <h:form id="form">
+
+		<p:growl id="growl" showDetail="true" life="3000" />
+
+		<!-- CATEGORIA -->
+		<p:dialog id="dialog" header="Nuevo" widgetVar="dialog"
+			resizable="false" width="320" height="140" showEffect="clip"
+			hideEffect="fold" modal="true">
+
+			<h:panelGrid id="display" columns="2" cellpadding="4">
+				<h:outputText value="Id:" rendered="#{PartidaBean.accionEditar}" />
+				<h:outputText value="#{PartidaBean.partida.idPartida}"
+					rendered="#{PartidaBean.accionEditar}"  />
+
+				<h:outputText  styleClass="labelDialog" value="DESCRIPCIÓN" />
+				<p:inputText value="#{PartidaBean.partida.descripcion}" required="true" onblur="this.value=limpiarString(this.value);">
+					<pe:keyFilter regEx="/[a-z0-9 ]/i"/>
+				</p:inputText>
+				<div></div>
+				<p:commandButton id="btn_procesar" value="#{PartidaBean.etiBotonDialog()}" process="display,@this"
+					actionListener="#{PartidaBean.procesarDialog}" oncomplete="handleComplete(xhr, status, args);"
+					update="@form:datatablecampana, growl, @form:display" />
+				<p:blockUI block="display" trigger="btn_procesar" />
+			</h:panelGrid>
+			
+		</p:dialog>
+
+		<p:panel styleClass="panel">
+			<span class="mantenimiento">PARTIDA</span>
+			<div id="cuerpo">
+
+				<p:dataTable id="datatablecampana" var="c" widgetVar="dt"
+					value="#{PartidaBean.partidas}" rowKey="#{c.idPartida}"
+					selection="#{PartidaBean.partidaNuevo}" selectionMode="single" rowIndexVar="index"
+					styleClass="datatable_style_general" editable="true" paginator="true"  rows="10"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="2,5,10" paginatorPosition="bottom">
+
+					<f:facet name="header">
+
+						<p:commandButton id="viewNuevo" styleClass="botonPeque"
+							value="Nuevo" icon="ui-icon-document" update=":form:display"
+							oncomplete="dialog.show()"
+							actionListener="#{PartidaBean.nuevoEvent}" process="@this">
+								<p:resetInput target=":form:display"></p:resetInput>
+						</p:commandButton>
+
+						<p:commandButton id="EliminarRegistro" styleClass="botonPeque"
+							value="Eliminar" icon="ui-icon-closethick"
+							update=":form:display,datatablecampana, :form:growl" process="datatablecampana,@this"
+							actionListener="#{PartidaBean.eliminarEvent}" >
+							<p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" 
+						    		icon="ui-icon-alert" /> 
+						</p:commandButton>
+
+					</f:facet>
+					
+					<p:ajax event="rowEdit" listener="#{PartidaBean.onEdit}" update=":form:growl" />  
+        			<p:ajax event="rowEditCancel" listener="#{PartidaBean.onCancel}" update=":form:growl" /> 
+					
+					<p:column style="width:6%;">
+						<f:facet name="header">
+							<h:panelGrid class="opciones" columns="2">
+						    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonOpcion" update=":form:display" oncomplete="dialog.show()" actionListener="#{PartidaBean.nuevoEvent}" process="@this">
+						    		<p:resetInput target=":form:display"></p:resetInput>
+						    	</p:commandButton>
+						    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonOpcion" 
+						    	update=":form:display, :form:growl,datatablecampana" actionListener="#{PartidaBean.eliminarEvent}"
+						    	process="datatablecampana,@this">
+						    		<p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" 
+						    		icon="ui-icon-alert" /> 
+						    	</p:commandButton>
+							</h:panelGrid>
+						</f:facet>
+						
+						<p:rowEditor />
+					</p:column>
+					
+   				   <p:column styleClass="columna" headerText="DESCRIPCIÓN" filterBy="#{c.descripcion}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<div onclick="selectCurrentRow_paginator(dt,#{index})">
+									<h:outputText value="#{c.descripcion}" />
+								</div>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{c.descripcion}" required="true" style="width:50%; text-align:center;"
+								onblur="this.value=limpiarString(this.value);"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+				</p:dataTable>
+			</div>
+
+		</p:panel>
+		
+		<p:remoteCommand name="showError" actionListener="#{PartidaBean.showError}" immediate="true" />
+
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">  
+	        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>  
+	        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>       
+    	</p:confirmDialog>   
+	</h:form>
+
+ </ui:define>
+
+
+</ui:composition>

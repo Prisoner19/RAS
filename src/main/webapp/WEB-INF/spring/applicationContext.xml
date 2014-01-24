@@ -14,6 +14,9 @@
 	<bean id="EquipoService" class="org.ruqu.ras.service.EquipoService">
 		<property name="EquipoDAO" ref="EquipoDAO" />
 	</bean>
+	<bean id="PartidaService" class="org.ruqu.ras.service.PartidaService">
+		<property name="PartidaDAO" ref="PartidaDAO" />
+	</bean>
 	<bean id="ProyectoService" class="org.ruqu.ras.service.ProyectoService">
 		<property name="ProyectoDAO" ref="ProyectoDAO" />
 	</bean>
@@ -61,6 +64,9 @@
 		<property name="sessionFactory" ref="SessionFactory" />
 	</bean>
 	<bean id="EquipoDAO" class="org.ruqu.ras.dao.EquipoDao">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+	<bean id="PartidaDAO" class="org.ruqu.ras.dao.PartidaDao">
 		<property name="sessionFactory" ref="SessionFactory" />
 	</bean>
 	<bean id="ProyectoDAO" class="org.ruqu.ras.dao.ProyectoDao">
@@ -132,6 +138,7 @@
 				 <value>org.ruqu.ras.domain.Logconsulta</value>
 				 <value>org.ruqu.ras.domain.Opcion</value>
 				 <value>org.ruqu.ras.domain.Otrogasto</value>
+				 <value>org.ruqu.ras.domain.Partida</value>
 				 <value>org.ruqu.ras.domain.Personal</value>
 				 <value>org.ruqu.ras.domain.Personalasignado</value>
 				 <value>org.ruqu.ras.domain.Proveedor</value>

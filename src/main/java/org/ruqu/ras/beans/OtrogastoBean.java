@@ -153,12 +153,12 @@ public class OtrogastoBean {
 		
 		validarEditar();
 		
-        FacesMessage msg = new FacesMessage("Otro Gasto Editado", ((Otrogasto) event.getObject()).getPartida());  
+        FacesMessage msg = new FacesMessage("Otro Gasto Editado", ((Otrogasto) event.getObject()).getPartida().getDescripcion());  
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }  
       
     public void onCancel(RowEditEvent event) {  
-        FacesMessage msg = new FacesMessage("Otrogasto Cancelado", ((Otrogasto) event.getObject()).getPartida());  
+        FacesMessage msg = new FacesMessage("Otrogasto Cancelado", ((Otrogasto) event.getObject()).getPartida().getDescripcion());  
   
         FacesContext.getCurrentInstance().addMessage(null, msg);  
     }
@@ -199,9 +199,9 @@ public class OtrogastoBean {
         FacesMessage msg = null;  
         boolean registrado = false;  
           
-        if(getOtrogasto().getPartida()!=null && getOtrogasto().getPartida().length()>=1){
+        if(getOtrogasto().getPartida()!=null && getOtrogasto().getPartida().getDescripcion().length()>=1){
         	registrado=true;
-        	msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registrado", getOtrogasto().getPartida());
+        	msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registrado", getOtrogasto().getPartida().getDescripcion());
             insertar();
         } else {  
         	registrado = false;  
@@ -216,9 +216,9 @@ public class OtrogastoBean {
         FacesMessage msg = null;  
         boolean editado = false;  
         
-        if(getOtrogasto().getPartida()!=null && getOtrogasto().getPartida().length()>=1){
+        if(getOtrogasto().getPartida()!=null && getOtrogasto().getPartida().getDescripcion().length()>=1){
         	editado=true;
-        	msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Editado", getOtrogasto().getPartida());
+        	msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Editado", getOtrogasto().getPartida().getDescripcion());
             editar();
         }else if(getOtrogastoNuevo()==null){
         	editado = false;  
@@ -238,7 +238,7 @@ public class OtrogastoBean {
         
         if(getOtrogastoNuevo()!=null){
         	eliminado = true;  
-            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Eliminado", getOtrogastoNuevo().getPartida());
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Eliminado", getOtrogastoNuevo().getPartida().getDescripcion());
             eliminar();
         } else {  
         	eliminado = false;  

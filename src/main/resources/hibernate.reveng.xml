@@ -11,6 +11,7 @@
   <table-filter match-catalog="ras" match-name="opcion"/>
   <table-filter match-catalog="ras" match-name="opcionasignadas"/>
   <table-filter match-catalog="ras" match-name="otrogasto"/>
+  <table-filter match-catalog="ras" match-name="partida"/>
   <table-filter match-catalog="ras" match-name="personal"/>
   <table-filter match-catalog="ras" match-name="personalasignado"/>
   <table-filter match-catalog="ras" match-name="proveedor"/>
