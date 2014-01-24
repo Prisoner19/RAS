@@ -41,11 +41,7 @@
 	
 	<bean id="OtrogastoService" class="org.ruqu.ras.service.OtrogastoService">
 		<property name="OtrogastoDAO" ref="OtrogastoDAO" />
-	</bean>
-			
-	<bean id="DistritoService" class="org.ruqu.ras.service.DistritoService">
-		<property name="DistritoDAO" ref="DistritoDAO" />
-	</bean>
+	</bean>	
 	
 	<bean id="ProveedorService" class="org.ruqu.ras.service.ProveedorService">
 		<property name="ProveedorDAO" ref="ProveedorDAO" />
@@ -95,10 +91,6 @@
 	<bean id="OtrogastoDAO" class="org.ruqu.ras.dao.OtrogastoDao">
 		<property name="sessionFactory" ref="SessionFactory" />
 	</bean>
-	
-	<bean id="DistritoDAO" class="org.ruqu.ras.dao.DistritoDao">
-		<property name="sessionFactory" ref="SessionFactory" />
-	</bean>
 
 	<bean id="ProveedorDAO" class="org.ruqu.ras.dao.ProveedorDao">
 		<property name="sessionFactory" ref="SessionFactory" />
@@ -136,8 +128,7 @@
 				 <value>org.ruqu.ras.domain.Compra</value>
 				 <value>org.ruqu.ras.domain.Detallecompra</value>
 				 <value>org.ruqu.ras.domain.Equipoasignado</value>
-				 <value>org.ruqu.ras.domain.Equipo</value>
-				 <value>org.ruqu.ras.domain.Distrito</value>				 
+				 <value>org.ruqu.ras.domain.Equipo</value>		 
 				 <value>org.ruqu.ras.domain.Logconsulta</value>
 				 <value>org.ruqu.ras.domain.Opcion</value>
 				 <value>org.ruqu.ras.domain.Otrogasto</value>

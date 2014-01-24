@@ -12,10 +12,8 @@ import javax.faces.bean.ViewScoped;
 
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
-import org.ruqu.ras.domain.Distrito;
 import org.ruqu.ras.domain.Proveedor;
 import org.ruqu.ras.helpers.utils.FacesMessageHelper;
-import org.ruqu.ras.service.IDistritoService;
 import org.ruqu.ras.service.IProveedorService;
 
 @ManagedBean(name="ProveedorBean")
@@ -30,14 +28,9 @@ public class ProveedorBean implements Serializable{
 	private static final String growlPath ="form:growl";
 	
 	@ManagedProperty(value="#{ProveedorService}")
-	IProveedorService proveedorService;
-	
-	@ManagedProperty(value="#{DistritoService}")
-	IDistritoService distritoService;
+	IProveedorService proveedorService;	
 	
 	List<Proveedor> proveedors;
-	
-	List<Distrito> distritos;
 	
 	Proveedor proveedor=new Proveedor();
 	Proveedor proveedorNuevo=new Proveedor();
@@ -58,7 +51,6 @@ public class ProveedorBean implements Serializable{
 	@PostConstruct
 	public void init(){
 		proveedors=getProveedorService().getProveedors();
-		distritos=getDistritoService().getDistritos();
 	}
 	
 	/* AJAX BUTTON EVENTS  
@@ -106,7 +98,6 @@ public class ProveedorBean implements Serializable{
 		getProveedor().setNombre(c.getNombre());
 		getProveedor().setDireccion(c.getDireccion());
 		getProveedor().setTelefono(c.getTelefono());
-		getProveedor().setDistrito(distritoService.getDistritoById(c.getDistrito().getIdDistrito()));		
 		editar();
 		FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_INFO, "Edicion Proveedor Realizada", getProveedor().getNombre(),growlPath);
     }  
@@ -185,28 +176,12 @@ public class ProveedorBean implements Serializable{
 		this.proveedorService = proveedorService;
 	}
 
-	public IDistritoService getDistritoService() {
-		return distritoService;
-	}
-
-	public void setDistritoService(IDistritoService distritoService) {
-		this.distritoService = distritoService;
-	}
-
 	public List<Proveedor> getProveedors() {
 		return proveedors;
 	}
 
 	public void setProveedors(List<Proveedor> proveedors) {
 		this.proveedors = proveedors;
-	}
-
-	public List<Distrito> getDistritos() {
-		return distritos;
-	}
-
-	public void setDistritos(List<Distrito> distritos) {
-		this.distritos = distritos;
 	}
 
 	public void setProveedor(Proveedor proveedor) {

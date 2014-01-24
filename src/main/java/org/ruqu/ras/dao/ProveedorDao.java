@@ -39,7 +39,6 @@ public class ProveedorDao implements IProveedorDao{
 		List<Proveedor> list=getSessionFactory().getCurrentSession()
 				.createQuery("from Proveedor where id=? and Vigencia=1")
 				.setParameter(0, id).list();
-		Hibernate.initialize(list.get(0).getDistrito());
 		Hibernate.initialize(list.get(0).getCompras());
 		return (Proveedor) list.get(0);
 	}
@@ -50,7 +49,6 @@ public class ProveedorDao implements IProveedorDao{
 		List<Proveedor> list=getSessionFactory().getCurrentSession()
 				.createQuery("from Proveedor where Vigencia=1").list();
 		for(Proveedor l:list){
-			Hibernate.initialize(l.getDistrito());
 			Hibernate.initialize(l.getCompras());
 		}
 		return list;

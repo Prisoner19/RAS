@@ -5,7 +5,6 @@
   <table-filter match-catalog="ras" match-name="categoria"/>
   <table-filter match-catalog="ras" match-name="compra"/>
   <table-filter match-catalog="ras" match-name="detallecompra"/>
-  <table-filter match-catalog="ras" match-name="distrito"/>
   <table-filter match-catalog="ras" match-name="equipo"/>
   <table-filter match-catalog="ras" match-name="equipoasignado"/>
   <table-filter match-catalog="ras" match-name="logconsulta"/>
