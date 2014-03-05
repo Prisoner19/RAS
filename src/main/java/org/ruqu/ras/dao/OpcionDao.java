@@ -66,6 +66,24 @@ public class OpcionDao implements IOpcionDao{
 
         return list;
     }
+    
+    public List<Opcion> getSubOpcionesPrimarias(){
+    	
+    	@SuppressWarnings("unchecked")
+    	 List<Opcion> list = sessionFactory.getCurrentSession()
+                  .createQuery("from Opcion where id_menu_padre is null and idOpcion<4").list();
+
+        return list;
+    } 
+    
+ public List<Opcion> getSubOpcionesSecundarias(){
+    	
+    	@SuppressWarnings("unchecked")
+    	 List<Opcion> list = sessionFactory.getCurrentSession()
+                  .createQuery("from Opcion where id_menu_padre is null and idOpcion>3").list();
+
+        return list;
+    } 
 
     @Override
     public List<Opcion> getSubOpcionsByPadre(List<Rol> roles, int id_padre) {

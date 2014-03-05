@@ -1433,7 +1433,7 @@
     -moz-border-radius: 0;
     border-radius: 0;
     border-right: 1px solid #88A1B5;
-    font-family: Exo;
+    font-family: verdana;
     font-size:13px;
     padding: 0px 1px 0px 1px;
 }
@@ -1551,8 +1551,6 @@
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
     background: #fff;
 	border: 1px solid #95A18F;
-	position: fixed;
-
 }
 
 .ui-menu.ui-menubar .ui-menu-parent .ui-menu-child {

@@ -15,8 +15,15 @@
 	<h:body>
 		<h:form>
 			<div id="header2">
-			 	<p:menubar styleClass="menuBar" model="#{menuBean.model}" widgetVar="menuTree" autoDisplay="FALSE" ></p:menubar> 
+				<div id="menuBarDer">
+			 	<p:menubar styleClass="menuBarDer" model="#{menuBean.modelosecundario}" widgetVar="menuTree" autoDisplay="FALSE" ></p:menubar> 
+			 	</div>
+				<div id="menuBarIzq">
+					<p:menubar styleClass="menuBarIzq" model="#{menuBean.modeloprimario}" widgetVar="menuTree" autoDisplay="FALSE" ></p:menubar> 
+				</div>
+			 	
 			</div>
+
 		 
 		</h:form>
 	

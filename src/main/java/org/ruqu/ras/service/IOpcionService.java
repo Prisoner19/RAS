@@ -20,6 +20,10 @@ public interface IOpcionService {
 	public List<Opcion> getOpcions();
 
     public List<Opcion> getSubOpcions();
+    
+    public List<Opcion> getSubOpcionesPrimarias();
+    
+    public List<Opcion> getSubOpcionesSecundarias();
 
     public List<Opcion> getAllSubOpcionsByPadre(int id_padre);
 

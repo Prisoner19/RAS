@@ -1,6 +1,9 @@
 package org.ruqu.ras.service;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.ruqu.ras.dao.IOpcionDao;
 import org.ruqu.ras.domain.Opcion;
@@ -61,5 +64,15 @@ public class OpcionService implements IOpcionService{
     @Override
     public List<Opcion> getSubOpcions(){
         return this.OpcionDAO.getSubOpcions();
+    }
+    
+    @Override
+    public List<Opcion> getSubOpcionesPrimarias(){
+    	return this.OpcionDAO.getSubOpcionesPrimarias();
+    }
+    
+    @Override
+    public List<Opcion> getSubOpcionesSecundarias(){
+    	return this.OpcionDAO.getSubOpcionesSecundarias();
     }
 }

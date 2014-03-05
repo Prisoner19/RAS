@@ -24,7 +24,8 @@ public class MenuBean implements Serializable {
      *
      */
     private static final long serialVersionUID = 1L;
-    private MenuModel model;
+    private MenuModel modeloprimario;
+    private MenuModel modelosecundario;
 
     @ManagedProperty(value = "#{OpcionService}")
     IOpcionService opcionService;
@@ -40,12 +41,20 @@ public class MenuBean implements Serializable {
     }
 
 
-    public MenuModel getModel() {
-        return model;
+    public MenuModel getModeloprimario() {
+        return modeloprimario;
+    }
+    
+    public MenuModel getModelosecundario() {
+        return modelosecundario;
     }
 
-    public void setModel(MenuModel model) {
-        this.model = model;
+    public void setModel(MenuModel modeloprimario) {
+        this.modeloprimario = modeloprimario;
+    }
+    
+    public void setModel2(MenuModel modelosecundario) {
+        this.modelosecundario = modelosecundario;
     }
 
 
@@ -53,34 +62,53 @@ public class MenuBean implements Serializable {
     	
         CustomUserDetails user = (CustomUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
-		model = new DefaultMenuModel();
+		modeloprimario = new DefaultMenuModel();
+		modelosecundario = new DefaultMenuModel();
+		
 		try{
-            List<Opcion> submenus = opcionService.getSubOpcions();
-            for(Opcion m:submenus){
-                DefaultSubMenu submenu = new DefaultSubMenu(m.getTextoOpcion());
+            List<Opcion> submenus1 = opcionService.getSubOpcionesPrimarias();
+            for(Opcion m:submenus1){
+                DefaultSubMenu submenu1 = new DefaultSubMenu(m.getTextoOpcion());
                 List<Opcion> hijos = opcionService.getSubOpcionsByPadre(user.getRoles(), m.getIdOpcion());
                 for(Opcion hijo:hijos){
                     DefaultMenuItem item = new DefaultMenuItem(hijo.getTextoOpcion());
                     item.setOutcome("/"+hijo.getRuta());
-                    submenu.addElement(item);
+                    submenu1.addElement(item);
                 }
                 if(hijos.size()>0)
-                    model.addElement(submenu);
+                	modeloprimario.addElement(submenu1);
 
             }
+            
+            List<Opcion> submenus2 = opcionService.getSubOpcionesSecundarias();
+            for(Opcion m:submenus2){
+                DefaultSubMenu submenu2 = new DefaultSubMenu(m.getTextoOpcion());
+                List<Opcion> hijos = opcionService.getSubOpcionsByPadre(user.getRoles(), m.getIdOpcion());
+                for(Opcion hijo:hijos){
+                    DefaultMenuItem item = new DefaultMenuItem(hijo.getTextoOpcion());
+                    item.setOutcome("/"+hijo.getRuta());
+                    submenu2.addElement(item);
+                }
+                if(hijos.size()>0)
+                	modelosecundario.addElement(submenu2);
+
+            }
+            
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
 		
 
 		
+		
 		/*
+    	modeloprimario = new DefaultMenuModel();
+    	modelosecundario = new DefaultMenuModel();
+        
+        List<Opcion> submenusPrimarios = opcionService.getSubOpcionesPrimarias();
+        List<Opcion> submenusSecundarios = opcionService.getSubOpcionesSecundarias();
 
-        model = new DefaultMenuModel();
-        List<Opcion> submenus = opcionService.getSubOpcions();
-
-
-        for (Opcion m : submenus) {
+        for (Opcion m : submenusPrimarios) {
             DefaultSubMenu submenu = new DefaultSubMenu(m.getDescripcion());
             List<Opcion> hijos = opcionService.getAllSubOpcionsByPadre(m.getIdOpcion());
 
@@ -92,7 +120,23 @@ public class MenuBean implements Serializable {
                 submenu.addElement(item);
             }
             if (hijos.size() > 0)
-                model.addElement(submenu);
+            	modeloprimario.addElement(submenu);
+
+        }
+        
+        for (Opcion m : submenusSecundarios) {
+            DefaultSubMenu submenu = new DefaultSubMenu(m.getDescripcion());
+            List<Opcion> hijos = opcionService.getAllSubOpcionsByPadre(m.getIdOpcion());
+
+            System.out.println(hijos);
+
+            for (Opcion hijo : hijos) {
+                DefaultMenuItem item = new DefaultMenuItem(hijo.getDescripcion());
+                item.setOutcome("/" + hijo.getRuta());
+                submenu.addElement(item);
+            }
+            if (hijos.size() > 0)
+            	modelosecundario.addElement(submenu);
 
         }
 		*/

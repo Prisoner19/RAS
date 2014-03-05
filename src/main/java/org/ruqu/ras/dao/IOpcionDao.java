@@ -22,4 +22,8 @@ public interface IOpcionDao {
     public List<Opcion> getAllSubOpcionsByPadre(int id_padre);
 
     public List<Opcion> getSubOpcions();
+    
+    public List<Opcion> getSubOpcionesPrimarias();
+    
+    public List<Opcion> getSubOpcionesSecundarias();
 }

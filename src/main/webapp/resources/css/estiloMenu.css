@@ -3,11 +3,21 @@
 #header2{
   	margin-top:70px;
    	height:60px;
-
 }
 
 .menuBar, .ui-menu .ui-menubar .menuBar{
-	width:500px;
+	width:300px;
+	padding:0px;
+}
+
+.menuBarIzq, .ui-menu .ui-menubar .menuBarIzq{
+	width:300px;
+	padding:0px;
+}
+
+.menuBarDer, .ui-menu .ui-menubar .menuBarDer{
+	float:right;
+	width:250px;
 	padding:0px;
 }
 
