@@ -26,7 +26,7 @@
 		
 				<!-- EQUIPO -->
 				<p:dialog id="dialog" header="Nuevo" widgetVar="dialog"
-					resizable="false" width="400" height="250" showEffect="clip"
+					resizable="false" width="400" height="290" showEffect="clip"
 					hideEffect="fold" modal="true">
 		
 					<h:panelGrid id="display" columns="2" cellpadding="4">
@@ -41,11 +41,14 @@
 						</p:inputText>
 							
 						<h:outputText styleClass="labelDialog"  value="CATEGORÍA" />
+						<p:autoComplete id="acCat" dropdown="true" value="#{EquipoBean.equipo.categoria}"   
+                   		completeMethod="#{EquipoBean.listarCategorias()}"/>
+						<!-- 
 						<p:selectOneMenu required="true" widgetVar="categoria" styleClass="selectMenu" value="#{EquipoBean.equipo.categoria}" converter="omnifaces.SelectItemsConverter" style="width: 100%;" >
 							<f:selectItem itemLabel="Seleccione uno" itemValue="#{null}" noSelectionOption="true" /> 
 							<f:selectItems styleClass="listaSelectMenu" value="#{EquipoBean.categorias}" var="cat" itemLabel="#{cat.nombre}" itemValue="#{cat}" /> 
 						</p:selectOneMenu>
-		
+		 				-->
 						<h:outputText styleClass="labelDialog"  value="DESCRIPCIÓN" />
 						<p:inputText value="#{EquipoBean.equipo.descripcion}" />
 						

@@ -59,7 +59,7 @@ public class MenuBean implements Serializable {
 
 
     public void initModel() {
-    	
+    	/*
         CustomUserDetails user = (CustomUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
 		modeloprimario = new DefaultMenuModel();
@@ -98,10 +98,10 @@ public class MenuBean implements Serializable {
             System.out.println(e.getMessage());
         }
 		
-
+		*/
 		
 		
-		/*
+		
     	modeloprimario = new DefaultMenuModel();
     	modelosecundario = new DefaultMenuModel();
         
@@ -139,7 +139,6 @@ public class MenuBean implements Serializable {
             	modelosecundario.addElement(submenu);
 
         }
-		*/
     	 
     }
 

@@ -23,10 +23,7 @@ import org.ruqu.ras.service.IEquipoService;
 @ManagedBean(name="EquipoBean")
 @ViewScoped
 public class EquipoBean implements Serializable{
-	/**
-	 * Beans' attributes
-	 * =================
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private static final String growlPath ="form:growl";
 	
@@ -35,6 +32,8 @@ public class EquipoBean implements Serializable{
 	
 	@ManagedProperty(value = "#{CategoriaService}")
 	ICategoriaService categoriaService; 
+
+	CategoriaBean categoriaBean = new CategoriaBean();
 	
 	List<Equipo> equipos;
 	
@@ -298,5 +297,15 @@ public class EquipoBean implements Serializable{
 	private void refrescarEquipos()
 	{
 		setEquipos(getEquipoService().getEquipos());
+	}
+	
+	public List<String> listarCategorias(){
+		List<String> results = new ArrayList<String>();
+		
+		for (Categoria cat : categorias) {
+			results.add(cat.getNombre());
+		}
+		
+		return results;
 	}
 }

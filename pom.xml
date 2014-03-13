@@ -267,38 +267,40 @@
     </dependencies>
     <build>
         <finalName>RAS</finalName>
-        <plugins>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.0</version>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.3</version>
-            </plugin>
-            
-             <plugin>
-                <groupId>org.zeroturnaround</groupId>
-                <artifactId>jrebel-maven-plugin</artifactId>
-                <executions>
-                  <execution>
-                    <id>generate-rebel-xml</id>
-                    <phase>process-resources</phase>
-                    <goals>
-                      <goal>generate</goal>
-                    </goals>
-                  </execution>
-                </executions>
-              </plugin>
-        </plugins>
+        <pluginManagement>
+	        <plugins>
+	
+	            <plugin>
+	                <groupId>org.apache.maven.plugins</groupId>
+	                <artifactId>maven-compiler-plugin</artifactId>
+	                <version>3.0</version>
+	                <configuration>
+	                    <source>1.7</source>
+	                    <target>1.7</target>
+	                </configuration>
+	            </plugin>
+	
+	            <plugin>
+	                <groupId>org.apache.maven.plugins</groupId>
+	                <artifactId>maven-war-plugin</artifactId>
+	                <version>2.3</version>
+	            </plugin>
+	            
+	             <plugin>
+	                <groupId>org.zeroturnaround</groupId>
+	                <artifactId>jrebel-maven-plugin</artifactId>
+	                <executions>
+	                  <execution>
+	                    <id>generate-rebel-xml</id>
+	                    <phase>process-resources</phase>
+	                    <goals>
+	                      <goal>generate</goal>
+	                    </goals>
+	                  </execution>
+	                </executions>
+	              </plugin>
+	        </plugins>
+	    </pluginManagement>
     </build>
     <properties>
         <java-version>1.7</java-version>
