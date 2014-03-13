@@ -231,6 +231,15 @@ public class EquipoBean implements Serializable{
         boolean registrado = false;  
 
         if(getEquipo().getCodigo()!=null){
+        	
+        	Categoria c = buscarCategoriaListaXNombre(getEquipo().getCategoria().getNombre());
+        	if(c == null){
+        		c = new Categoria();
+        		c.setNombre(getEquipo().getCategoria().getNombre());
+        		categoriaService.addCategoria(c);
+        	}
+        	getEquipo().setCategoria(c);
+        	
         	registrado=true;
         	msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "EQUIPO REGISTRADO", getEquipo().getNombre());
             insertar();
@@ -238,6 +247,7 @@ public class EquipoBean implements Serializable{
         	registrado = false;  
             msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error de registro", "Campo(s) invalido(s)");  
         }
+        System.out.println("\n\n"+getEquipo().getCategoria()+"\n");
         FacesContext.getCurrentInstance().addMessage(null, msg);  
         context.addCallbackParam("registrado", registrado);
 	}
@@ -307,5 +317,18 @@ public class EquipoBean implements Serializable{
 		}
 		
 		return results;
+	}
+	
+	public Categoria buscarCategoriaListaXNombre(String catString){
+		
+		Categoria objCategoria = null;
+		
+		for(Categoria cat: categorias){
+			if(cat.getNombre().equalsIgnoreCase(catString) == true){
+				objCategoria = cat;
+			}
+		}
+		
+		return objCategoria;
 	}
 }

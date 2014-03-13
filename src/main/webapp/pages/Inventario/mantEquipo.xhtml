@@ -41,7 +41,7 @@
 						</p:inputText>
 							
 						<h:outputText styleClass="labelDialog"  value="CATEGORÍA" />
-						<p:autoComplete id="acCat" dropdown="true" value="#{EquipoBean.equipo.categoria}"   
+						<p:autoComplete style="text-align:center;" id="acCat" dropdown="true" value="#{EquipoBean.equipo.categoria}"   
                    		completeMethod="#{EquipoBean.listarCategorias()}"/>
 						<!-- 
 						<p:selectOneMenu required="true" widgetVar="categoria" styleClass="selectMenu" value="#{EquipoBean.equipo.categoria}" converter="omnifaces.SelectItemsConverter" style="width: 100%;" >

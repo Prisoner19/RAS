@@ -219,5 +219,4 @@ public class CategoriaBean implements Serializable{
 		}
 	}
 
-
 }
