@@ -414,9 +414,8 @@ INSERT INTO `ras`.`Opcion` (`idOpcion`, `Descripcion`, `TextoOpcion`, `Ruta`, `V
 INSERT INTO `ras`.`Opcion` (`idOpcion`, `Descripcion`, `TextoOpcion`, `Ruta`, `Vigencia`, `id_menu_padre`) VALUES (10, 'mantEquipo', 'Detalle Equipo', 'pages/Inventario/mantEquipo.xhtml', 1, 4);
 INSERT INTO `ras`.`Opcion` (`idOpcion`, `Descripcion`, `TextoOpcion`, `Ruta`, `Vigencia`, `id_menu_padre`) VALUES (11, 'mantPersonal', 'Detalle', 'pages/Personal/mantPersonal.xhtml', 1, 5);
 INSERT INTO `ras`.`Opcion` (`idOpcion`, `Descripcion`, `TextoOpcion`, `Ruta`, `Vigencia`, `id_menu_padre`) VALUES (13, 'mantProyecto', 'Gestion', 'pages/Proyecto/mantProyecto.xhtml', 1, 2);
-INSERT INTO `ras`.`Opcion` (`idOpcion`, `Descripcion`, `TextoOpcion`, `Ruta`, `Vigencia`, `id_menu_padre`) VALUES (14, 'mantRoles', 'Gestion de Roles', 'pages/security/mantRoles.xhtml', 1, 3);
-INSERT INTO `ras`.`Opcion` (`idOpcion`, `Descripcion`, `TextoOpcion`, `Ruta`, `Vigencia`, `id_menu_padre`) VALUES (15, 'Usuario', 'Usuario', 'pages/security/Usuario.xhtml', 1, 3);
-INSERT INTO `ras`.`Opcion` (`idOpcion`, `Descripcion`, `TextoOpcion`, `Ruta`, `Vigencia`, `id_menu_padre`) VALUES (16, 'mantPartida', 'Partida', 'pages/Proyecto/mantPartida.xhtml', 1, 2);
+INSERT INTO `ras`.`Opcion` (`idOpcion`, `Descripcion`, `TextoOpcion`, `Ruta`, `Vigencia`, `id_menu_padre`) VALUES (14, 'Usuario', 'Usuario', 'pages/security/Usuario.xhtml', 1, 3);
+INSERT INTO `ras`.`Opcion` (`idOpcion`, `Descripcion`, `TextoOpcion`, `Ruta`, `Vigencia`, `id_menu_padre`) VALUES (15, 'mantPartida', 'Partida', 'pages/Proyecto/mantPartida.xhtml', 1, 2);
 
 COMMIT;
 

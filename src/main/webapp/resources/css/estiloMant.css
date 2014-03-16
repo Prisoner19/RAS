@@ -62,9 +62,34 @@ body {
 }
 
 .logout{
-	margin-left:40px;
 	margin-top:5px;
-	display:inline;
+	display:inline-block;
+	float:left;
+	margin-left:20px;
+}
+
+	
+#header p.titulo {
+		text-align: center;
+		line-height: 45px;
+		font-size : 14px;
+		font-family:verdana;
+		font-weight:lighter;
+		margin:auto;
+	}
+	
+.divTitulo{
+		clear: both;
+		margin: 0 auto;
+		width: 30%;
+		display: inline-block;
+}
+
+.reloj{
+	margin-top:13px;
+	margin-right:40px;
+	display:inline-block;
+	float:right;
 }
 
 .opciones{
@@ -118,6 +143,7 @@ body {
 
 #header {
 		width: 100%;
+		text-align:center;
 		background: #fff;
 		border-bottom: 4px solid #95A18F;
 		color: #88A1B5;
@@ -130,16 +156,7 @@ body {
 		-webkit-box-shadow:0px 0px 3px 1px rgba(0,0,0,0.3);
 		box-shadow:0px 0px 3px 1px rgba(0,0,0,0.3);
 	}
-	
-#header p.titulo {
-		text-align: center;
-		line-height: 45px;
-		font-size : 14px;
-		font-family:verdana;
-		font-weight:lighter;
-		display:inline;
-		margin-left:703px;
-	}
+
 
 .mantenimiento{
 	font-family:candara;	
@@ -181,12 +198,7 @@ f:facet div{
 	background-color:red;
 }
 
-.reloj{
-	margin-top:13px;
-	margin-right:40px;
-	display:inline;
-	float:right;
-}
+
 
 .columna{
 	font-family:verdana;

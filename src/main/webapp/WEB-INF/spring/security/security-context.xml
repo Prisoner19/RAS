@@ -20,7 +20,7 @@
             <sec:filter-chain pattern="/accessDenied.jsp" filters="none"/>
             <sec:filter-chain pattern="/logout.jsp" filters="none"/>
             <sec:filter-chain pattern="/css/**" filters="none"/>
-			<!--  
+			  
            <sec:filter-chain pattern="/**"
                               filters="
             securityContextFilter,
@@ -28,7 +28,6 @@
             authenticationProcessingFilter,
             exceptionTranslationFilter,
             filterSecurityInterceptor"/>
-            -->
         </security:filter-chain-map>
     </beans:bean>
 
