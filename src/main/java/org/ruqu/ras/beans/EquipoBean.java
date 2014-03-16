@@ -32,8 +32,6 @@ public class EquipoBean implements Serializable{
 	
 	@ManagedProperty(value = "#{CategoriaService}")
 	ICategoriaService categoriaService; 
-
-	CategoriaBean categoriaBean = new CategoriaBean();
 	
 	List<Equipo> equipos;
 	
@@ -261,6 +259,7 @@ public class EquipoBean implements Serializable{
         System.out.println("\n\n"+getEquipo().getCategoria()+"\n");
         FacesContext.getCurrentInstance().addMessage(null, msg);  
         context.addCallbackParam("registrado", registrado);
+        refrescarCategorias();
 	}
 	
 	public void validarEditar(){

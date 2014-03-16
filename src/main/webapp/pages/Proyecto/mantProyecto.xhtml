@@ -209,11 +209,10 @@
 								<h:outputText styleClass="labelDialog" value="PARTIDA"  />
 							</p:column>
 							<p:column>															
-								<p:selectOneMenu styleClass="selectMenu" value="#{ProyectoBean.otroGasto.partida}" converter="omnifaces.SelectItemsConverter" style="width: 100%;" >
-									<f:selectItem itemLabel="Seleccione uno" itemValue="#{null}" noSelectionOption="true" /> 
-									<f:selectItems styleClass="listaSelectMenu" value="#{ProyectoBean.partidas}" var="part" itemLabel="#{part.descripcion}" itemValue="#{part}" /> 
-								</p:selectOneMenu>								  
+								<p:autoComplete style="text-align:center;" id="acPart" dropdown="true" value="#{ProyectoBean.nombrePartida}"   
+                   				completeMethod="#{ProyectoBean.listarPartidas()}"/>						  
 							</p:column>
+							
 						</p:row>
 						<p:row>
 							<p:column>

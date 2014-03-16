@@ -18,6 +18,7 @@ import javax.faces.bean.ViewScoped;
 import org.apache.commons.beanutils.BeanUtils;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
+import org.ruqu.ras.domain.Categoria;
 import org.ruqu.ras.domain.Equipo;
 import org.ruqu.ras.domain.Equipoasignado;
 import org.ruqu.ras.domain.EquipoasignadoId;
@@ -85,6 +86,7 @@ public class ProyectoBean implements Serializable{
 	private BigDecimal gastoTotalReal;
 	
 	private String textoGastos;
+	String nombrePartida;
 	
 	private boolean accionEditar = false;
 
@@ -215,7 +217,7 @@ public class ProyectoBean implements Serializable{
 				setTextoGastos("GASTOS POR DEBAJO DE LO ESTIMADO");
 			}
 			else{
-				setTextoGastos("ATENCIï¿½N: GASTOS MAYORES A LO ESTIMADO");
+				setTextoGastos("ATENCIÓN: GASTOS MAYORES A LO ESTIMADO");
 			}
 			
 			RequestContext.getCurrentInstance().execute("dialogResumen.show();");
@@ -259,6 +261,7 @@ public class ProyectoBean implements Serializable{
 		}
 		RequestContext.getCurrentInstance().execute("dialogPresupuesto.hide();");
 		refrescarProyectos();
+		refrescarPartidas();
 		
 	}
 	
@@ -317,6 +320,16 @@ public class ProyectoBean implements Serializable{
 	public void descargarOtroGasto(){
 		otroGasto.setRegistro(new Date());
 		otroGasto.setProyecto(proyectoSelec);
+		
+		Partida p = buscarPartidaListaXNombre(nombrePartida);
+		
+		if(p == null){
+    		p = new Partida();
+    		p.setDescripcion(nombrePartida);
+    		partidaService.add(p);
+    	}
+    	getOtroGasto().setPartida(p);
+		
 		//otrogastoService.addOtrogasto(otroGasto);
 		if(!otrogastos.contains(otroGasto)){
 			otrogastos.add(otroGasto);
@@ -327,6 +340,7 @@ public class ProyectoBean implements Serializable{
 			FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_WARN, 
 					"Aviso", "No puede adicionar el mismo gasto", growlPath);
 		}
+		refrescarPartidas();
 	}
 	
 	public void guardarGastos(){
@@ -371,6 +385,7 @@ public class ProyectoBean implements Serializable{
 	{
 		proyecto= new Proyecto();		
 		proyectoSelec = new Proyecto();		
+		nombrePartida = null;
 	}
 	
 	private void limpiarTabs() {
@@ -380,12 +395,16 @@ public class ProyectoBean implements Serializable{
 		personalAsignado = new Personalasignado();
 		otrogastos=new ArrayList<Otrogasto>();
 		otroGasto=new Otrogasto();
+		nombrePartida = null;
 	}	
 
 	private void refrescarProyectos()
 	{
 		setProyectos(getProyectoService().getProyectos());
-		
+	}
+	
+	private void refrescarPartidas(){
+		setPartidas(getPartidaService().getAll());
 	}
 	
 	public void timeZone(){
@@ -604,12 +623,40 @@ public class ProyectoBean implements Serializable{
 	public List<Partida> getPartidas() {
 		return partidas;
 	}
-
+	
+	public void setNombrePartida(String nombrePartida){
+		this.nombrePartida = nombrePartida;
+	}
+	
+	public String getNombrePartida(){
+		return nombrePartida;
+	}
 
 	public void setPartidas(List<Partida> partidas) {
 		this.partidas = partidas;
 	}
 	
+	public List<String> listarPartidas(){
+		List<String> results = new ArrayList<String>();
+		
+		for (Partida part : partidas) {
+			results.add(part.getDescripcion());
+		}
+		
+		return results;
+	}
 	
+	public Partida buscarPartidaListaXNombre(String partString){
+		
+		Partida objPartida = null;
+		
+		for(Partida part : partidas){
+			if(part.getDescripcion().equalsIgnoreCase(partString) == true){
+				objPartida = part;
+			}
+		}
+		
+		return objPartida;
+	}
 	
 }
