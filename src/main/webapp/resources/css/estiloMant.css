@@ -16,8 +16,9 @@ body {
 	background-position: 0px;
 	background-image: linear-gradient(to bottom, #8D9694, #8D9694);
 	opacity:0.8;
-	font-family:candara;
-	text-align: center;
+	font-family:verdana;
+	font-size:11px;
+	text-align: left;
 }
 
 .selectMenu{
@@ -188,9 +189,10 @@ f:facet div{
 }
 
 .columna{
-	font-family:"candara";
+	font-family:verdana;
 	font-weight:lighter;
-	font-size:14px;
+	font-size:11px;
+	text-align:center;
 }
 
 .paneMantenimiento{

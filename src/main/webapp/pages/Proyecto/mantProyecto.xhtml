@@ -48,7 +48,7 @@
 										<p:outputLabel value="#{e.codigo}"></p:outputLabel>									
 									</p:column>
 									<p:column>
-										<p:commandButton id="btn_overlay_process" icon="ui-icon-search" 
+										<p:commandButton id="btn_overlay_process" icon="ui-icon-check" 
 										process="EquiposTable" update="@form:tabsGastos:panel_tabEquipo" oncomplete="overlay_equipo.hide()">
 											<f:setPropertyActionListener value="#{e}" target="#{ProyectoBean.equipoAsignado.equipo}" /> 
 										</p:commandButton>
@@ -108,7 +108,7 @@
 										<p:outputLabel value="#{p.profesion}"></p:outputLabel>									
 									</p:column>
 									<p:column>
-										<p:commandButton id="btn_overlay_Personal_process" icon="ui-icon-search" 
+										<p:commandButton id="btn_overlay_Personal_process" icon="ui-icon-check" 
 										process="PersonalTable" update="@form:tabsGastos:panel_tabPersonal" oncomplete="overlay_personal.hide()">
 											<f:setPropertyActionListener value="#{p}" target="#{ProyectoBean.personalAsignado.personal}" /> 
 										</p:commandButton>

@@ -41,6 +41,7 @@ public class EquipoBean implements Serializable{
 	
 	Equipo equipo=new Equipo();
 	Equipo equipoNuevo=new Equipo();
+	String nombreCategoria;
 	
 	private boolean accionEditar = true;
 
@@ -103,6 +104,14 @@ public class EquipoBean implements Serializable{
 
 	public void setCategorias(List<Categoria> categorias) {
 		this.categorias = categorias;
+	}
+	
+	public void setNombreCategoria(String nombreCategoria){
+		this.nombreCategoria = nombreCategoria;
+	}
+	
+	public String getNombreCategoria(){
+		return nombreCategoria;
 	}
 
 /* CUSTOM LABELS  */
@@ -210,6 +219,7 @@ public class EquipoBean implements Serializable{
 	public void insertar(){
 		getEquipoService().addEquipo(getEquipo());
 		refrescarEquipos();
+		refrescarCategorias();
 		limpiarCampos();
 	}
 	
@@ -217,6 +227,7 @@ public class EquipoBean implements Serializable{
 		//getEquipo().setIdEquipo(getEquipo().getIdEquipo());
 		getEquipoService().updateEquipo(getEquipo());
 		refrescarEquipos();
+		refrescarCategorias();
 		limpiarCampos();
 	}
 	
@@ -232,10 +243,10 @@ public class EquipoBean implements Serializable{
 
         if(getEquipo().getCodigo()!=null){
         	
-        	Categoria c = buscarCategoriaListaXNombre(getEquipo().getCategoria().getNombre());
+        	Categoria c = buscarCategoriaListaXNombre(nombreCategoria);
         	if(c == null){
         		c = new Categoria();
-        		c.setNombre(getEquipo().getCategoria().getNombre());
+        		c.setNombre(nombreCategoria);
         		categoriaService.addCategoria(c);
         	}
         	getEquipo().setCategoria(c);
@@ -302,11 +313,16 @@ public class EquipoBean implements Serializable{
 	{
 		equipo= new Equipo();		
 		equipoNuevo = new Equipo();
+		nombreCategoria = null;
 	}
 
 	private void refrescarEquipos()
 	{
 		setEquipos(getEquipoService().getEquipos());
+	}
+	
+	private void refrescarCategorias(){
+		setCategorias(categoriaService.getCategorias());
 	}
 	
 	public List<String> listarCategorias(){

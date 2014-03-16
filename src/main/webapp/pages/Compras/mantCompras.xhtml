@@ -78,7 +78,7 @@
 										<p:outputLabel value="#{e.codigo}"></p:outputLabel>									
 									</p:column>
 									<p:column>
-										<p:commandButton id="btn_overlay_process" icon="ui-icon-search" 
+										<p:commandButton id="btn_overlay_process" icon="ui-icon-check" 
 										process="EquiposTable" update="@form:display2" oncomplete="overlay_equipo.hide()">
 											<f:setPropertyActionListener value="#{e}" target="#{CompraBean.detCompra.equipo}" /> 
 										</p:commandButton>
