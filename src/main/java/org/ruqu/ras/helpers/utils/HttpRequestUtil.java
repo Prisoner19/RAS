@@ -1,6 +1,7 @@
 package org.ruqu.ras.helpers.utils;
 
 import com.google.common.base.Splitter;
+
 import org.apache.commons.io.FilenameUtils;
 
 import javax.faces.context.ExternalContext;
@@ -10,7 +11,9 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 public class HttpRequestUtil {
@@ -46,11 +49,11 @@ public class HttpRequestUtil {
      * @param s : url
      * @return : Lista de Strings con los folders en cada elemento de esta.
      */
-    public static List<String> splitFolders(String s) {
-        List<String> temp = (List<String>) Splitter.on('/').trimResults().
-                omitEmptyStrings().splitToList(FilenameUtils.removeExtension(s));
-        return temp;
-    }
+    public static List<String> splitFolders(String s){
+		List<String> temp = Arrays.asList(FilenameUtils.removeExtension(s).split("/"));
+		
+		return temp;
+	}
 
     public static void goToUrl(String s) throws ServletException, IOException {
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
