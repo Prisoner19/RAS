@@ -45,6 +45,16 @@ public class LoginBean {
         	if(i==1)
         		FacesMessageHelper.sendGrowlMessage(FacesMessage.SEVERITY_ERROR, "Aviso", "Sus credenciales no coinciden");
         }
+        
+        Exception e = (Exception) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(
+                WebAttributes.AUTHENTICATION_EXCEPTION);
+
+        if (e instanceof BadCredentialsException) {
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(
+                    WebAttributes.AUTHENTICATION_EXCEPTION, null);
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Username or password not valid.", null));
+        }
     }
 
 
@@ -63,19 +73,6 @@ public class LoginBean {
     	FacesContext context = FacesContext.getCurrentInstance();
     	HttpServletResponse response = (HttpServletResponse)context.getExternalContext().getResponse();
     	response.sendRedirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath()+"/pages/editarPerfil.xhtml");
-    }
-
-    @PostConstruct
-    private void handleErrorMessage() {
-        Exception e = (Exception) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(
-                WebAttributes.AUTHENTICATION_EXCEPTION);
-
-        if (e instanceof BadCredentialsException) {
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(
-                    WebAttributes.AUTHENTICATION_EXCEPTION, null);
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Username or password not valid.", null));
-        }
     }
 
     public String getUsername() {
