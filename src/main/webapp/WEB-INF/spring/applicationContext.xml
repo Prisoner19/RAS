@@ -116,14 +116,18 @@
     </bean>
 
 	<!-- Data Source Declaration -->
-	<bean id="dataSource"
+	<!-- <bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/ras" />
 		<property name="username" value="root" />
 		<property name="password" value="root" />
-	</bean>
-
+	</bean> -->
+	
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="java:jboss/datasources/ras"/>
+    </bean> 
+	
 	<!-- Session Factory Declaration -->
 	<bean id="SessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
