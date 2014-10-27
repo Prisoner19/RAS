@@ -87,7 +87,7 @@
 					</p:dataTable>
 					
 				</p:tab>
-				<p:tab id="tabPersonal" title="Personal"> 
+				<p:tab id="tabPersonal" title="Personal" disabled="#{ProyectoBean.worker2}"> 
 					<p:panelGrid id="panel_tabPersonal">
 						<p:row>
 							<p:column>
@@ -393,7 +393,8 @@
 						<p:commandButton id="viewEditarPresupuesto" styleClass="botonPeque"
 							value="Editar Presupuesto" icon="ui-icon-search" process="@form:datatablecampana"
 							update=":form:displayPresupuesto, :form:growl" title="Editar Presupuesto"
-							actionListener="#{ProyectoBean.editarEvent}" />
+							actionListener="#{ProyectoBean.editarEvent}" 
+							disabled="#{ProyectoBean.worker2}"/>
 						
 						<p:commandButton id="viewEditarGastos" styleClass="botonPeque"
 							value="Editar Gastos" icon="ui-icon-search" process="@form:datatablecampana"
@@ -403,7 +404,8 @@
 						<p:commandButton id="viewResumenProyecto" styleClass="botonPeque"
 							value="Resumen Proyecto" icon="ui-icon-search" process="@form:datatablecampana"
 							update=":form:displayResumen, :form:displayResumen2, :form:textoGasto, :form:growl" title="Detalle de Proyecto: Personal/Equipos/Otros"
-							actionListener="#{ProyectoBean.resumenEvent}" />
+							actionListener="#{ProyectoBean.resumenEvent}" 
+							disabled="#{ProyectoBean.worker2}"/>
 
 					</f:facet>
 					

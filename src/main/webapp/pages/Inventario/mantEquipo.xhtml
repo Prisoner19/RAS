@@ -74,20 +74,20 @@
 							selection="#{EquipoBean.equipoNuevo}" selectionMode="single" rowIndexVar="index"
 							styleClass="datatable_style_general" editable="true" paginator="true" rows="10"
 							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-							rowsPerPageTemplate="2,5,10" paginatorPosition="bottom">
+							rowsPerPageTemplate="2,5,10" paginatorPosition="bottom" >
 		
 							<f:facet name="header">
 		
 								<p:commandButton id="viewNuevo" styleClass="botonPeque"
 									value="Nuevo" icon="ui-icon-document" update=":form:display"
-									oncomplete="dialog.show()"
+									oncomplete="dialog.show()" disabled="#{EquipoBean.isWorker2()}"
 									actionListener="#{EquipoBean.nuevoEvent}"  process="@this">
 									<p:resetInput target=":form:display"></p:resetInput>
 							</p:commandButton>
 
 								<p:commandButton id="EliminarRegistro" styleClass="botonPeque"
-									value="Eliminar" icon="ui-icon-closethick"
-									update=":form:display, :form:growl"
+									value="Eliminar" icon="ui-icon-closethick" process="@this,datatablecampana"
+									update=":form:display, :form:growl" disabled="#{EquipoBean.isWorker2()}"
 									actionListener="#{EquipoBean.eliminarEvent}" />
 		
 							</f:facet>
@@ -98,14 +98,14 @@
 							<p:column style="width:6%">
 								<f:facet name="header">
 									<h:panelGrid class="opciones"  columns="2">
-								    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonOpcion" update=":form:display" oncomplete="dialog.show()" actionListener="#{EquipoBean.nuevoEvent}"  process="@this">
+								    	<p:commandButton id="nuevo" icon="ui-icon-plusthick" styleClass="botonOpcion" update=":form:display" oncomplete="dialog.show()" actionListener="#{EquipoBean.nuevoEvent}"  process="@this" disabled="#{EquipoBean.isWorker2()}">
 											<p:resetInput target=":form:display"></p:resetInput>
 										</p:commandButton>
-								    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonOpcion" update=":form:display, :form:growl" actionListener="#{EquipoBean.eliminarEvent}"/>
+								    	<p:commandButton id="eliminar" icon="ui-icon-trash" styleClass="botonOpcion" update=":form:display, :form:growl" actionListener="#{EquipoBean.eliminarEvent}" process="@this,datatablecampana" disabled="#{EquipoBean.isWorker2()}"/>
 									</h:panelGrid>
 								</f:facet>
 								
-								<p:rowEditor />
+								<p:rowEditor rendered="#{EquipoBean.isWorker2()?false:true}" />
 							</p:column>
 		
 							<p:column styleClass="columna" headerText="CÓDIGO"
@@ -192,7 +192,7 @@
 		
 					<p:commandButton id="confirm" value="Si"
 						update=":form:datatablecampana, growl"
-						oncomplete="confirmation.hide()" process="@form:datatablecampana"
+						oncomplete="confirmation.hide()" process="@form:datatablecampana,@this"
 						actionListener="#{EquipoBean.validarEliminar}" />
 					<p:commandButton id="decline" value="No"
 						onclick="confirmation.hide()" type="button" />

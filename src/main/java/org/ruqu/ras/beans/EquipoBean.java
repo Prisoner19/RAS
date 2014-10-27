@@ -14,8 +14,11 @@ import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.TabChangeEvent;
+import org.ruqu.ras.constans.RolReference;
 import org.ruqu.ras.domain.Categoria;
 import org.ruqu.ras.domain.Equipo;
+import org.ruqu.ras.domain.Rol;
+import org.ruqu.ras.helpers.session.LoggedUserInfo;
 import org.ruqu.ras.helpers.utils.FacesMessageHelper;
 import org.ruqu.ras.service.ICategoriaService;
 import org.ruqu.ras.service.IEquipoService;
@@ -42,75 +45,8 @@ public class EquipoBean implements Serializable{
 	String nombreCategoria;
 	
 	private boolean accionEditar = true;
-
-
-	/* SETTER AND GETTERS
-	*  ==================
-	*/
+	private boolean isWorker2 = false;
 	
-	public IEquipoService getEquipoService() {
-		return equipoService;
-	}
-
-	public void setEquipoService(IEquipoService equipoService) {
-		this.equipoService = equipoService;
-	}
-
-	public List<Equipo> getEquipos() {
-		return equipos;
-	}
-
-	public void setEquipos(List<Equipo> equipos) {
-		this.equipos = equipos;
-	}
-
-	public Equipo getEquipo() {
-		return equipo;
-	}
-
-	public void setEquipo(Equipo equipo) {
-		this.equipo = equipo;
-	}
-
-	public Equipo getEquipoNuevo() {
-		return equipoNuevo;
-	}
-
-	public void setEquipoNuevo(Equipo equipoNuevo) {
-		this.equipoNuevo = equipoNuevo;
-	}
-
-	public boolean isAccionEditar() {
-		return accionEditar;
-	}
-
-	public void setAccionEditar(boolean accionEditar) {
-		this.accionEditar = accionEditar;
-	}
-	
-	public ICategoriaService getCategoriaService() {
-		return categoriaService;
-	}
-
-	public void setCategoriaService(ICategoriaService categoriaService) {
-		this.categoriaService = categoriaService;
-	}
-	
-	public List<Categoria> getCategorias() {
-		return categorias;
-	}
-
-	public void setCategorias(List<Categoria> categorias) {
-		this.categorias = categorias;
-	}
-	
-	public void setNombreCategoria(String nombreCategoria){
-		this.nombreCategoria = nombreCategoria;
-	}
-	
-	public String getNombreCategoria(){
-		return nombreCategoria;
-	}
 
 /* CUSTOM LABELS  */
 	
@@ -136,6 +72,14 @@ public class EquipoBean implements Serializable{
 		categorias=getCategoriaService().getCategorias();
 		//System.out.print("\n\n"+equipos.size());
 		System.out.print("\n\n"+categorias.size());
+		System.out.println(LoggedUserInfo.getDetails().getRoles().size());
+		if(obtenerRolActivo() == RolReference.WORKER2_ID){
+			isWorker2 = true;
+		}
+	}
+	
+	private Integer obtenerRolActivo(){
+		return (LoggedUserInfo.getDetails().getIdRol_activo());
 	}
 	
 	/* AJAX BUTTON EVENTS  
@@ -345,5 +289,81 @@ public class EquipoBean implements Serializable{
 		}
 		
 		return objCategoria;
+	}
+	
+	/* SETTER AND GETTERS
+	*  ==================
+	*/
+	
+	public IEquipoService getEquipoService() {
+		return equipoService;
+	}
+
+	public void setEquipoService(IEquipoService equipoService) {
+		this.equipoService = equipoService;
+	}
+
+	public List<Equipo> getEquipos() {
+		return equipos;
+	}
+
+	public void setEquipos(List<Equipo> equipos) {
+		this.equipos = equipos;
+	}
+
+	public Equipo getEquipo() {
+		return equipo;
+	}
+
+	public void setEquipo(Equipo equipo) {
+		this.equipo = equipo;
+	}
+
+	public Equipo getEquipoNuevo() {
+		return equipoNuevo;
+	}
+
+	public void setEquipoNuevo(Equipo equipoNuevo) {
+		this.equipoNuevo = equipoNuevo;
+	}
+
+	public boolean isAccionEditar() {
+		return accionEditar;
+	}
+
+	public void setAccionEditar(boolean accionEditar) {
+		this.accionEditar = accionEditar;
+	}
+	
+	public ICategoriaService getCategoriaService() {
+		return categoriaService;
+	}
+
+	public void setCategoriaService(ICategoriaService categoriaService) {
+		this.categoriaService = categoriaService;
+	}
+	
+	public List<Categoria> getCategorias() {
+		return categorias;
+	}
+
+	public void setCategorias(List<Categoria> categorias) {
+		this.categorias = categorias;
+	}
+	
+	public void setNombreCategoria(String nombreCategoria){
+		this.nombreCategoria = nombreCategoria;
+	}
+	
+	public String getNombreCategoria(){
+		return nombreCategoria;
+	}
+
+	public boolean isWorker2() {
+		return isWorker2;
+	}
+
+	public void setWorker2(boolean isWorker2) {
+		this.isWorker2 = isWorker2;
 	}
 }

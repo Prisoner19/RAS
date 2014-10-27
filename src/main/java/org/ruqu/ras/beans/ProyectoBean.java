@@ -18,6 +18,7 @@ import javax.faces.bean.ViewScoped;
 import org.apache.commons.beanutils.BeanUtils;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
+import org.ruqu.ras.constans.RolReference;
 import org.ruqu.ras.domain.Categoria;
 import org.ruqu.ras.domain.Equipo;
 import org.ruqu.ras.domain.Equipoasignado;
@@ -28,6 +29,7 @@ import org.ruqu.ras.domain.Personal;
 import org.ruqu.ras.domain.Personalasignado;
 import org.ruqu.ras.domain.PersonalasignadoId;
 import org.ruqu.ras.domain.Proyecto;
+import org.ruqu.ras.helpers.session.LoggedUserInfo;
 import org.ruqu.ras.helpers.utils.FacesMessageHelper;
 import org.ruqu.ras.service.IEquipoService;
 import org.ruqu.ras.service.IEquipoasignadoService;
@@ -89,6 +91,7 @@ public class ProyectoBean implements Serializable{
 	String nombrePartida;
 	
 	private boolean accionEditar = false;
+	private boolean worker2 = false;
 
 	
 /* CUSTOM LABELS  */
@@ -123,6 +126,13 @@ public class ProyectoBean implements Serializable{
 		equipos = equipoService.getEquipos();
 		personals = personalService.getPersonals();
 		partidas = partidaService.getAll();
+		if(obtenerRolActivo() == RolReference.WORKER2_ID){
+			worker2 = true;
+		}
+	}
+	
+	private Integer obtenerRolActivo(){
+		return (LoggedUserInfo.getDetails().getIdRol_activo());
 	}
 	
 	/* AJAX BUTTON EVENTS  
@@ -658,5 +668,17 @@ public class ProyectoBean implements Serializable{
 		
 		return objPartida;
 	}
+
+
+	public boolean isWorker2() {
+		return worker2;
+	}
+
+
+	public void setWorker2(boolean worker2) {
+		this.worker2 = worker2;
+	}
+	
+	
 	
 }
